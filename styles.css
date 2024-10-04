@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "Degular Display - Semibold";
+  src: url('https://fonts.zapier.com/Degular/DegularDisplay-Semibold.woff2');
+  font-display: fallback;
+  font-weight: 400;
+}
+
+h1,h2,h3,h4{
+  font-family: "Degular Display - Semibold";
+  letter-spacing: 1px !important  ;
+}

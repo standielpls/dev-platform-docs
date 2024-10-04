@@ -1,0 +1,298 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Zapier",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "api": {
+    "baseUrl": "https://nla.zapier.com"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#FF4F00",
+    "light": "#FE6C2A",
+    "dark": "#FF4F00",
+    "anchors": {
+      "from": "#ff4f00",
+      "to": "#FE6C2A"
+    }
+  },
+  "background": { "style": "gradient" },
+  "topbarCtaButton": {
+    "name": "Sign Up",
+    "url": "https://zapier.com/sign-up",
+    "arrow": false
+  },
+  "anchors": [
+    {
+      "name": "Community",
+      "icon": "users",
+      "url": "https://community.zapier.com/"
+    },
+    {
+      "name": "Blog",
+      "icon": "newspaper",
+      "url": "https://zapier.com/blog/"
+    }
+  ],
+  "topbarLinks": [
+    {
+      "name": "Explore apps",
+      "url": "https://zapier.com/apps"
+    },
+    {
+      "name": "Log In",
+      "url": "https://zapier.com/app/login"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Quick start",
+      "pages": [
+        "quickstart/build-private-integration",
+        {
+          "group": "Developer tools",
+          "pages": [
+            "quickstart/ui-vs-cli",
+            "quickstart/ui-tutorial",
+            "quickstart/cli-tutorial",
+            "quickstart/get-help"
+          ]
+        },
+        {
+          "group": "Glossary",
+          "pages": ["quickstart/glossary"]
+        },
+        {
+          "group": "How it works",
+          "pages": [
+            "quickstart/how-zapier-works",
+            "quickstart/zapier-integration-structure",
+            "quickstart/private-vs-public-integrations"
+          ]
+        },
+        "quickstart/must-have-triggers-and-actions",
+        "quickstart/trusted-developers"
+      ]
+    },
+    {
+      "group": "Build",
+      "pages": [
+        {
+          "group": "Actions",
+          "pages": [
+            "build/action",
+            "build/create",
+            "build/search",
+            "build/reorder-action",
+            "build/search-or-create"
+          ]
+        },
+        {
+          "group": "Advanced features",
+          "pages": [
+            "build/env",
+            "build/errors",
+            "build/bundle",
+            "build/code-mode",
+            "build/hydration-cli",
+            "build/static-ip"
+          ]
+        },
+        {
+          "group": "Authentication",
+          "pages": [
+            "build/auth",
+            "build/apikeyauth",
+            "build/basicauth",
+            "build/digestauth",
+            "build/oauth",
+            "build/sessionauth",
+            "build/connection-label",
+            "build/computed-fields",
+            "build/computed-test-field",
+            "build/requesttemplate",
+            "build/subdomain-validation"
+          ]
+        },
+        {
+          "group": "Fields",
+          "pages": [
+            "build/field-definitions",
+            "build/add-fields",
+            "build/dynamic-field",
+            "build/line-items",
+            "build/sample-data",
+            "build/response-types",
+            "build/dynamic-dropdowns"
+          ]
+        },
+        {
+          "group": "Testing",
+          "pages": [
+            "build/test-auth",
+            "build/test-triggers-actions",
+            "build/test-tools",
+            "build/test-monitoring"
+          ]
+        },
+        {
+          "group": "Triggers",
+          "pages": [
+            "build/trigger",
+            "build/polling-trigger",
+            "build/hook-trigger",
+            "build/reorder-trigger",
+            "build/deduplication",
+            "build/pagination-trigger",
+            "build/cli-hook-trigger"
+          ]
+        },
+        {
+          "group": "Troubleshooting",
+          "pages": [
+            "build/operating-constraints",
+            "build/troubleshoot-trigger-timeouts",
+            "build/troubleshoot-trigger-payload",
+            "build/troubleshoot-action-timeouts",
+            "build/troubleshoot-action-payload",
+            "build/troubleshoot-custom-fields",
+            "build/reduce-api-requests",
+            "build/troubleshoot-throttles",
+            "build/hydration-limits",
+            "build/error-array-expected",
+            "build/error-non-object",
+            "build/error-non-object-array"
+          ]
+        },
+        "build/form-mode"
+      ]
+    },
+    {
+      "group": "Manage",
+      "pages": [
+        {
+          "group": "Account and team",
+          "pages": ["manage/add-team"]
+        },
+        {
+          "group": "integration changes",
+          "pages": [
+            "manage/planning-changes",
+            "manage/auth-scheme",
+            "manage/auth-required",
+            "manage/auth-keys",
+            "manage/change-keys",
+            "manage/required-input",
+            "manage/input-key",
+            "manage/output-key",
+            "manage/output",
+            "manage/change-trigger",
+            "manage/change-perform",
+            "manage/change-api",
+            "manage/export-cli",
+            "manage/export-ui",
+            "manage/essential-tips-iq"
+          ]
+        },
+        {
+          "group": "integration performance",
+          "pages": [
+            "manage/api-outage",
+            "manage/embed-insights",
+            "manage/user-feedback",
+            "manage/error-handling",
+            "manage/active-users",
+            "manage/integration-insights",
+            "manage/zap-activation",
+            "manage/embed-activation"
+          ]
+        },
+        {
+          "group": "Sharing",
+          "pages": ["manage/sharing"]
+        },
+        {
+          "group": "Versions",
+          "pages": [
+            "manage/versions",
+            "manage/clone",
+            "manage/promote",
+            "manage/migrate",
+            "manage/deprecate",
+            "manage/versions-legacy"
+          ]
+        },
+        "manage/branding-cli"
+      ]
+    },
+    {
+      "group": "Publish",
+      "pages": [
+        {
+          "group": "Branding",
+          "pages": [
+            "publish/branding-guidelines",
+            "publish/add-or-modify-branding"
+          ]
+        },
+        {
+          "group": "Launch process",
+          "pages": [
+            "publish/public-integration",
+            "publish/integration-build-guidelines",
+            "publish/integration-publishing-requirements",
+            "publish/zap-templates",
+            "publish/user-help",
+            "publish/zps"
+          ]
+        },
+        {
+          "group": "Partner program",
+          "pages": [
+            "publish/partner-program",
+            "publish/partner-faq",
+            "publish/benefits-guide"
+          ]
+        },
+        {
+          "group": "Validation",
+          "pages": ["publish/integration-checks-reference"]
+        }
+      ]
+    },
+    {
+      "group": "Embed",
+      "pages": ["embed/partner-solutions"]
+    },
+    {
+      "group": "Reference",
+      "pages": [
+        "reference/cli-docs",
+        {
+          "group": "Use cases",
+          "pages": [
+            "reference/forms-app",
+            "reference/crm-app",
+            "reference/project-app",
+            "reference/ai-app"
+          ]
+        },
+        "reference/cli",
+        "reference/transfer",
+        "reference/ai-actions",
+        "reference/custom-actions-api-requests",
+        "reference/legacy-scripting",
+        "reference/changelog",
+        "reference/schema"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "facebook": "http://www.facebook.com/ZapierApp?utm_source=zapier.com&amp;utm_medium=referral&amp;utm_campaign=zapier",
+    "linkedin": "https://www.linkedin.com/company/zapier/?utm_source=zapier.com&amp;utm_medium=referral&amp;utm_campaign=zapier",
+    "x": "https://twitter.com/?utm_source=zapier.com&amp;utm_medium=referral&amp;utm_campaign=zapier#!/zapier",
+    "youtube": "https://www.youtube.com/user/ZapierApp/videos?utm_source=zapier.com&amp;utm_medium=referral&amp;utm_campaign=zapier"
+  }
+}
