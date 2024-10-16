@@ -7,7 +7,7 @@ When your Zapier integration meets these requirements, it will pass the review f
 
 Please review these requirements carefully before submitting to ensure your integration is compliant. Integrations and their associated apps must meet all requirements to be published.
 
-**Important**: integrations for prohibited apps will be removed from the platform. Integrations for restricted apps or that do not meet all requirements will be allowed to remain [private](/quickstart/private-vs-public-integrations).
+**Important**: integrations for prohibited apps will be removed from the platform. Integrations for restricted apps or that do not meet all requirements will be allowed to remain [private](/platform/quickstart/private-vs-public-integrations).
 
 Work through each section and ask the [PublishBot](https://publishbot.zapier.app/) or write in via the [contact form](https://developer.zapier.com/contact) for any questions.
 
@@ -15,7 +15,7 @@ Work through each section and ask the [PublishBot](https://publishbot.zapier.app
 
 *   Because the Zapier Platform is always changing and improving to keep up with the needs of our customers, this is a living document.
 
-*   If you prefer your integration to be accessible to a limited group of users, or if the Zapier integration review requirements do not align with your needs, you might want to consider maintaining your integration as private. Learn more about [private vs public integrations](/quickstart/private-vs-public-integrations).
+*   If you prefer your integration to be accessible to a limited group of users, or if the Zapier integration review requirements do not align with your needs, you might want to consider maintaining your integration as private. Learn more about [private vs public integrations](/platform/quickstart/private-vs-public-integrations).
 
 *   We encourage diversity on the Zapier Platform, provided your integration respects users with varying viewpoints and ensures a high-quality user experience. Any integration found to contain or exhibit behavior deemed inappropriate, discriminatory, or crossing acceptable boundaries will be rejected.
 
@@ -63,11 +63,11 @@ Apps/integrations should not include content that is discriminatory, defamatory,
 
 ## 2\. Restricted integrations
 
-Integrations built for the following apps will not be published but will be allowed to remain [private](/quickstart/private-vs-public-integrations):
+Integrations built for the following apps will not be published but will be allowed to remain [private](/platform/quickstart/private-vs-public-integrations):
 
 ### 2.1 Replacement integrations
 
-The integration should not have an equivalent that has already been published in our [app directory](https://zapier.com/apps). Each published integration should represent a distinct, independent app to ensure the best experience for our mutual customers. If you’re attempting to replace an existing public integration, please refer to the guide on [versions](/manage/versions) and how to [plan changes](/manage/planning-changes). Publishing separate integrations for the same app brand is not permitted.
+The integration should not have an equivalent that has already been published in our [app directory](https://zapier.com/apps). Each published integration should represent a distinct, independent app to ensure the best experience for our mutual customers. If you’re attempting to replace an existing public integration, please refer to the guide on [versions](/platform/manage/versions) and how to [plan changes](/platform/manage/planning-changes). Publishing separate integrations for the same app brand is not permitted.
 
 ### 2.2 Multiple integrations
 
@@ -86,7 +86,7 @@ Scenarios in which integrations are permitted on the Zapier Platform by status, 
 | Private | Public | Not Allowed |
 | --- | --- | --- |
 | Anyone that accepts [Zapier Terms of Service](https://zapier.com/platform/tos) can build a private integration. | Integrations by developers who work for the company owning the API or have been contracted by the API owner can go public. | Integrations by developers who are building on an API they own but for a competing product with Zapier. |
-| Integrations by developers building on a private API with no intention of going public, are permitted to remain private/invite-only indefinitely. | Integrations by developers who work for or third-party developers (preferably a [trusted developer](/quickstart/trusted-developers)) hired by the company owning the API and intended to go public, are permitted as private before going public. | Integrations by developers who do not own the API used in the integration or who have not been given explicit permission by the owners of the API. |
+| Integrations by developers building on a private API with no intention of going public, are permitted to remain private/invite-only indefinitely. | Integrations by developers who work for or third-party developers (preferably a [trusted developer](/platform/quickstart/trusted-developers)) hired by the company owning the API and intended to go public, are permitted as private before going public. | Integrations by developers who do not own the API used in the integration or who have not been given explicit permission by the owners of the API. |
 | Integrations by developers who are building on a public API they do not own, and routing traffic to their own servers. Exceptions apply when building on an approved third-party API. |     |     |
 | Integrations by developers building on a public API they do not own and intend to share with their team (within their company or organization, family and friends, etc.) are only permitted to be private. |     |     |
 | Integrations by developers building on a public API they do not own and intend to sell access to the integration, are only permitted to be private. |     |     |
@@ -110,7 +110,7 @@ For security reasons, all API endpoints used by an integration (including authen
 
 ### 4.3 Integration stores credentials securely
 
-Do not hard code credentials such as API Keys, Client IDs, Client Secrets, etc. into your integration. Use the appropriate section in the Platform UI (e.g. Application Credentials) or use [environment variables](/build/env) instead.
+Do not hard code credentials such as API Keys, Client IDs, Client Secrets, etc. into your integration. Use the appropriate section in the Platform UI (e.g. Application Credentials) or use [environment variables](/platform/build/env) instead.
 
 ## 5\. Quality and functionality
 
@@ -130,7 +130,7 @@ Do not delete these Zaps or Zap runs. We may ask you to share your test Zaps wit
 
 Use the Monitoring page in the Platform UI to check integration events and ensure the integration does not have unexpected or unhandled errors.
 
-For more information and guidance, refer to [Integration Build Guidelines](/publish/integration-build-guidelines) and [Test and monitor your integration in your Zapier account](/build/test-monitoring).
+For more information and guidance, refer to [Integration Build Guidelines](/platform/publish/integration-build-guidelines) and [Test and monitor your integration in your Zapier account](/platform/build/test-monitoring).
 
 ### 5.4 Integration uses production APIs
 
@@ -138,11 +138,11 @@ The integration uses production API endpoints. Integrations using sandbox/test/d
 
 ### 5.5 Integration requests authentication credentials appropriately
 
-Authentication credentials are only requested from users via the [Authentication](/build/auth) configuration. Integrations that request authentication credentials to be entered in other configurations, such as triggers, actions, or searches, will not be published.
+Authentication credentials are only requested from users via the [Authentication](/platform/build/auth) configuration. Integrations that request authentication credentials to be entered in other configurations, such as triggers, actions, or searches, will not be published.
 
 ### 5.6 Integration has a valid connection label
 
-[Connection labels](/build/connection-label) are optional but can help users identify which account each [app connection](https://help.zapier.com/hc/en-us/articles/8496258785421-Connect-your-app-accounts-to-Zapier) uses. Suitable values include account name, email address, and name.
+[Connection labels](/platform/build/connection-label) are optional but can help users identify which account each [app connection](https://help.zapier.com/hc/en-us/articles/8496258785421-Connect-your-app-accounts-to-Zapier) uses. Suitable values include account name, email address, and name.
 
 Sensitive information such as API keys, secrets, and lengthy ID values are not allowed. Do not hard code values such as the application’s name or words like “success”, as these are already communicated in the UI.
 
@@ -152,7 +152,7 @@ Currently, the Zapier Platform supports only English. All user-facing text, such
 
 ### 5.8 Integration follows naming conventions
 
-Triggers, actions, searches, and input fields should be named according to platform conventions. For more information, refer to [Trigger Copy](/publish/integration-build-guidelines#trigger-design-and-copy), [Trigger input fields](/publish/integration-build-guidelines#trigger-input-fields), [Action Copy](/publish/integration-build-guidelines#action-design-and-copy), [Action input fields](/publish/integration-build-guidelines#action-input-fields), [Search Copy](/publish/integration-build-guidelines#search-design-and-copy), and [Search input fields](/publish/integration-build-guidelines#search-input-fields).
+Triggers, actions, searches, and input fields should be named according to platform conventions. For more information, refer to [Trigger Copy](/platform/publish/integration-build-guidelines#trigger-design-and-copy), [Trigger input fields](/platform/publish/integration-build-guidelines#trigger-input-fields), [Action Copy](/platform/publish/integration-build-guidelines#action-design-and-copy), [Action input fields](/platform/publish/integration-build-guidelines#action-input-fields), [Search Copy](/platform/publish/integration-build-guidelines#search-design-and-copy), and [Search input fields](/platform/publish/integration-build-guidelines#search-input-fields).
 
 ## 6\. Integration listing
 
@@ -188,7 +188,7 @@ The submission includes a valid test account created in the application. The tes
 
 ### 7.2 Integration has a qualifying team member
 
-Integrations must have at least one [admin team member](/manage/add-team) with an email address from the application or API’s top-level domain, or the company owning the API used in the integration. Add new team members to an integration by following this guide: [Invite team members to your integration](/manage/add-team).
+Integrations must have at least one [admin team member](/platform/manage/add-team) with an email address from the application or API’s top-level domain, or the company owning the API used in the integration. Add new team members to an integration by following this guide: [Invite team members to your integration](/platform/manage/add-team).
 
 ## 8\. Submission process
 

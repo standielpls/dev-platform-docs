@@ -10,11 +10,11 @@ To add a project management app integration in the Platform UI:
 *   A [Zapier account](https://zapier.com/sign-up).
 *   If you haven’t used Zapier before, you’ll want to learn the basics in our [Zapier Getting Started Guide](https://zapier.com/learn/zapier-quick-start-guide/).
 *   Familiarity with your app’s API documentation and available endpoints.
-*   Review the [Platform UI Tutorial](/quickstart/ui-tutorial).
+*   Review the [Platform UI Tutorial](/platform/quickstart/ui-tutorial).
 
 ## 1\. Add triggers for common record types in each project
 
-*   Check out the [common record types](/quickstart/must-have-triggers-and-actions#project-management) used as triggers by other project management apps.
+*   Check out the [common record types](/platform/quickstart/must-have-triggers-and-actions#project-management) used as triggers by other project management apps.
 
 *   For apps with many record types, consider including a _New Activity_ trigger, with options to let users choose which type of activity should trigger the Zap.
 
@@ -28,7 +28,7 @@ To add a project management app integration in the Platform UI:
 
 *   It is strongly recommended to ensure that any trigger behavior encompasses all updates that are visible to a logged-in user in your app’s user interface, independent of admin/creator permissions for a record type. Users expect to be able to automate off any record that is shared with them, regardless if they’re an admin/creator or not. If this is not possible with your API, make this clear in the Trigger description. For example, for a _New Note_ trigger, add help text such as “Triggers when the **connected** user account adds a note to a project.”
 
-*   Allow users to filter which records they want to trigger on. For example, a _New Task_ trigger could trigger when tasks are added to any project _or_ to one specific project. Include [dynamic dropdowns](/build/field-definitions#dynamic-dropdown) ordered by the most recently added to fetch accounts, projects, lists, and other items users would want to filter.
+*   Allow users to filter which records they want to trigger on. For example, a _New Task_ trigger could trigger when tasks are added to any project _or_ to one specific project. Include [dynamic dropdowns](/platform/build/field-definitions#dynamic-dropdown) ordered by the most recently added to fetch accounts, projects, lists, and other items users would want to filter.
 
 <Frame>
   <img src="/images/fe08bdcbf666e8f2961f0c2b3932b460.png"/>
@@ -58,11 +58,11 @@ To add a project management app integration in the Platform UI:
 
 ## 3\. Include common create actions
 
-*   Check out the [common record types](/quickstart/must-have-triggers-and-actions#project-management) other project management apps have create actions for.
+*   Check out the [common record types](/platform/quickstart/must-have-triggers-and-actions#project-management) other project management apps have create actions for.
 
 *   Add corresponding _Update_ actions with available _Search_ actions to make it easier for users to update the correct project record.
 
-*   Account for linked records in action input fields, so when your app’s UI allows users to create a task and link it to existing projects, the same action is available via a Zap, via a [dynamic dropdown](/build/field-definitions#dynamic-dropdown) to fetch linked record options and let users select them.
+*   Account for linked records in action input fields, so when your app’s UI allows users to create a task and link it to existing projects, the same action is available via a Zap, via a [dynamic dropdown](/platform/build/field-definitions#dynamic-dropdown) to fetch linked record options and let users select them.
 
 *   Do not have a single action create multiple records. When a user creates a new task through Zapier, this should only create new tasks, and should not also create other linked records at the same time. Rather include a separate action to create the other linked record, along with a task update action to link the task after the other record is created. This reduces the chance for errors and record redundancy.
 

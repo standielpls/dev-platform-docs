@@ -35,7 +35,7 @@ Your app integration can use custom code to improve the user experience in Zapie
 
 ## 1\. Custom errors in Platform CLI
 
-Switching to the [Platform CLI](/manage/export-cli), allows you to [make use of HTTP middleware](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#using-http-middleware) to implement any [custom error response handling](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#error-response-handling).
+Switching to the [Platform CLI](/platform/manage/export-cli), allows you to [make use of HTTP middleware](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#using-http-middleware) to implement any [custom error response handling](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#error-response-handling).
 
 This will allow you to write a single script that applies across the entire integration to detect a specific error from the API, and show the relevant message to the user within Zapier.
 
@@ -43,7 +43,7 @@ This will allow you to write a single script that applies across the entire inte
 
 When you build and maintain your app in the UI, custom error handling can still be implemented. The main difference is that you’ll need to add it to each individual element of the integration (triggers, actions, searches, authentication) that could encounter the error.
 
-In the UI, `skipThrowForStatus` is set from the [Advanced tab](/build/errors). This allows for custom error handling for status codes above 400. Note that 401 status codes will throw a `RefreshAuthError` [regardless](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#user-content-error-response-handling).
+In the UI, `skipThrowForStatus` is set from the [Advanced tab](/platform/build/errors). This allows for custom error handling for status codes above 400. Note that 401 status codes will throw a `RefreshAuthError` [regardless](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#user-content-error-response-handling).
 <Frame>
   <img src="/images/8cafa443c6e5844d6881f2690e4f34c5.png"/>
 </Frame>

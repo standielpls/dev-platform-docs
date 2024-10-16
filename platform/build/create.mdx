@@ -22,13 +22,13 @@ title: Add a create action
 
 – **Description**: A plain text sentence that describes what the action does and when it should be used. Shown inside the Zap editor and on Zapier’s app directory marketing pages. Starts with the phrase “Creates a new”.
 
-– **Visibility Options**: An option to select when this action will be shown. _Shown_ is chosen by default. Choose `Hidden` if this action should not be shown to users. `Hidden` is usually selected if you build a _create_ action solely to [pair with a search action](/build/search-or-create) but do not want it used on its own.
+– **Visibility Options**: An option to select when this action will be shown. _Shown_ is chosen by default. Choose `Hidden` if this action should not be shown to users. `Hidden` is usually selected if you build a _create_ action solely to [pair with a search action](/platform/build/search-or-create) but do not want it used on its own.
 
 *   Click on the _Save and Continue_ button.
 
 ## 2\. Complete the Input Designer
 
-On the _Input Designer_ page, add user [input fields](/build/add-fields) for this action. All action steps _must_ include an input form for Zapier to gather the data needed to create or find items in your app. Add at least one input field to your action.
+On the _Input Designer_ page, add user [input fields](/platform/build/add-fields) for this action. All action steps _must_ include an input form for Zapier to gather the data needed to create or find items in your app. Add at least one input field to your action.
 
 Before building your action’s input form, list each piece of data your app needs to create a new item. For example, if building an action to send an email, fields for the email address, subject, and email body would be needed. Your action will likely have several required fields, along with others that are optional, such as for tags or other details.
 
@@ -46,18 +46,18 @@ If your API call expects input data in the core URL, reference any input field�
 
 `{{bundle.inputData.key}}`
 
-The defaults on all other settings work for most basic API calls. If you need to configure more options, click _Show Options_ to add URL Params, HTTP Headers, set your action to omit empty parameters, or customize the request body. Alternately, switch to [Code Mode](/build/code-mode) to write custom JavaScript code for your action.
+The defaults on all other settings work for most basic API calls. If you need to configure more options, click _Show Options_ to add URL Params, HTTP Headers, set your action to omit empty parameters, or customize the request body. Alternately, switch to [Code Mode](/platform/build/code-mode) to write custom JavaScript code for your action.
 <Frame>
   <img src="/images/1b33f697838f7a4e160d4aa8ef3c6d93.png" alt="Zapier action API configuration"/>
 </Frame>
 
 ## 4\. Test your API request
 
-Configure test data to [test the _create_ action](/build/test-triggers-actions). Note that testing a POST or PUT request will create or update the item in your app.
+Configure test data to [test the _create_ action](/platform/build/test-triggers-actions). Note that testing a POST or PUT request will create or update the item in your app.
 
 ## 5\. Define your output
 
-Define sample data and output fields following [the guide](/build/sample-data).
+Define sample data and output fields following [the guide](/platform/build/sample-data).
 
 ---
 

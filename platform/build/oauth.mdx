@@ -12,9 +12,9 @@ The user will see a familar window from your app showing either a login screen o
 
 Zapier implements the “Authorization Code” [grant type](https://tools.ietf.org/html/rfc6749#section-1.3.1) when you choose OAuth v2 in the Platform UI. If your OAuth v2 implementation supports refresh tokens, you can optionally configure a “Refresh Token” [request](https://tools.ietf.org/html/rfc6749#section-1.5).
 
-Platform UI does not currently support other grant types. If your integration requires a different OAuth v2 grant type, you’ll need to use another supported authorization type with Zapier such as [Session](/build/sessionauth) or [API Key](/build/apikeyauth).
+Platform UI does not currently support other grant types. If your integration requires a different OAuth v2 grant type, you’ll need to use another supported authorization type with Zapier such as [Session](/platform/build/sessionauth) or [API Key](/platform/build/apikeyauth).
 
-If your integration requires OAuth v1 authentication, use the [Platform CLI](/quickstart/cli-tutorial) instead of Platform UI.
+If your integration requires OAuth v1 authentication, use the [Platform CLI](/platform/quickstart/cli-tutorial) instead of Platform UI.
 
 ## 1\. Configure the OAuth v2 components
 
@@ -34,7 +34,7 @@ If your integration requires OAuth v1 authentication, use the [Platform CLI](/qu
   <img src="/images/3603f9715129250a93ecfcf78d4b5f17.png"/>
 </Frame>
 
-*   Two types of fields are available when building an OAuth v2 input form. Standard Fields, work much like other form fields with Zapier’s [input form](/build/field-definitions) in triggers and actions. [Computed Fields](/build/computed-fields) make sure specific fields are returned by your app’s authentication API call response.
+*   Two types of fields are available when building an OAuth v2 input form. Standard Fields, work much like other form fields with Zapier’s [input form](/platform/build/field-definitions) in triggers and actions. [Computed Fields](/platform/build/computed-fields) make sure specific fields are returned by your app’s authentication API call response.
 
 *   For standard fields to be input by the user, select the default _Field_ type. Add the most commonly needed fields first, in the order users expect, as you cannot reorder fields once added. Fill in the options as appropriate:
 
@@ -49,7 +49,7 @@ If your integration requires OAuth v1 authentication, use the [Platform CLI](/qu
 
 – **Help Text**: Include details to assist users in authenticating with your app, especially if they may be unsure where to find the data needed within your app. Format text with [Markdown](https://zapier.com/blog/beginner-ultimate-guide-markdown/), and include a hyperlink if needed.
 
-– **Input Format**: (optional) Help users figure out exactly what piece of data you need them to enter. For example, for [a subdomain](/build/subdomain-validation), https://.yourdomain.com/.
+– **Input Format**: (optional) Help users figure out exactly what piece of data you need them to enter. For example, for [a subdomain](/platform/build/subdomain-validation), https://.yourdomain.com/.
 
 – **Default Value**: Include a value for this field to be used as a fallback. For optional fields, the default value is set on initial connection creation and used in the API call instead of missing or null values every time the Zap runs. For required fields, this value is used during connection creation, but not when the Zap runs (Zapier raises an error for missing/null values instead).
 
@@ -61,7 +61,7 @@ If your integration requires OAuth v1 authentication, use the [Platform CLI](/qu
   <img src="/images/573a3eb19a884c44fd67b9fa421c3bf4.png"/>
 </Frame>
 
-*   For computed fields, available in OAuth v2 and Session Auth only, review [computed fields documentation](/build/computed-fields).
+*   For computed fields, available in OAuth v2 and Session Auth only, review [computed fields documentation](/platform/build/computed-fields).
 
 ### OAuth Redirect URL
 
@@ -114,7 +114,7 @@ If your integration requires OAuth v1 authentication, use the [Platform CLI](/qu
 
 *   If your API supports automated token refresh, add your API’s Refresh Token Request URL, and check the _Automatically Refresh Token_ box. This enables users’ Zaps to run in the background without interruptions as long as possible by refreshing expired access tokens automatically.
 
-*   If your Access Token and Refresh Token requests don’t return the tokens at the top level, use [Code Mode](/build/code-mode) to modify the response so that the tokens are available at the top level. It is not possible to store an object with nested keys from the response.
+*   If your Access Token and Refresh Token requests don’t return the tokens at the top level, use [Code Mode](/platform/build/code-mode) to modify the response so that the tokens are available at the top level. It is not possible to store an object with nested keys from the response.
 
 *   Zapier will automatically include the access token in subsequent API requests, but if you need to manually add it, the access token is stored in the `authData` bundle and can be referenced with `{{bundle.authData.access_token}}` or `{{bundle.authData.accessToken}}`, depending on how your API’s response references the access token.
 
@@ -130,15 +130,15 @@ If your integration requires OAuth v1 authentication, use the [Platform CLI](/qu
   <img src="/images/f9d47ff9bd4af168dcb4c4811a1e184d.png"/>
 </Frame>
 
-*   To customize the test API request, select _Switch to Code Mode_ and write custom JavaScript code to handle your test API call and the response parsing as needed. The first time you click the toggle, Zapier will [convert your API call to code](/build/code-mode). If you switch back to Form Mode though, Zapier will not convert your code changes to the Form Mode, nor will any subsequent changes in the form be added to your code.
+*   To customize the test API request, select _Switch to Code Mode_ and write custom JavaScript code to handle your test API call and the response parsing as needed. The first time you click the toggle, Zapier will [convert your API call to code](/platform/build/code-mode). If you switch back to Form Mode though, Zapier will not convert your code changes to the Form Mode, nor will any subsequent changes in the form be added to your code.
 
 ## 3\. Configure a Connection Label
 
-Review [connection label documentation](/build/connection-label) to optionally differentiate the app accounts users connect.
+Review [connection label documentation](/platform/build/connection-label) to optionally differentiate the app accounts users connect.
 
 ## 4\. Test your authentication
 
-Connect a valid user account to [test authentication](/build/test-auth).
+Connect a valid user account to [test authentication](/platform/build/test-auth).
 
 - - -
 

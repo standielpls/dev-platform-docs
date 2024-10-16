@@ -4,7 +4,7 @@ description: REST Hooks are an alternative to polling. The main differences are 
 ---
 REST Hook triggers are marked as _Instant_ [in the Zap editor](https://cdn.zappy.app/f510859bf90c0e341bc94997a75f9626.png).
 
-When building in the [Platform CLI](/quickstart/ui-vs-cli), use the [example implementation](https://github.com/zapier/zapier-platform/tree/main/example-apps/rest-hooks) for guidance.
+When building in the [Platform CLI](/platform/quickstart/ui-vs-cli), use the [example implementation](https://github.com/zapier/zapier-platform/tree/main/example-apps/rest-hooks) for guidance.
 
 With a REST Hook trigger, Zapier subscribes to your server using a unique URL per activated Zap and your app sends a payload of data back to the unique URL to trigger that particular Zap whenever that trigger event occurs in your app.
 
@@ -94,7 +94,7 @@ module.exports = {
 };
 ```
 
-A REST Hook trigger missing a Subscribe or Unsubscribe function, is presented to users as a [Static Webhook](https://cdn.zappy.app/3b35908a6a0c232087b5da807cf9d6fb.png). Static hooks are [not supported in public integrations](/publish/integration-checks-reference#d017---static-hook-is-discouraged), but they could be used if the integration intends to remain private.
+A REST Hook trigger missing a Subscribe or Unsubscribe function, is presented to users as a [Static Webhook](https://cdn.zappy.app/3b35908a6a0c232087b5da807cf9d6fb.png). Static hooks are [not supported in public integrations](/platform/publish/integration-checks-reference#d017---static-hook-is-discouraged), but they could be used if the integration intends to remain private.
 
 ## 3\. Write the `perform` Function
 
@@ -128,7 +128,7 @@ module.exports = {
 
 ## 4\. Write the `performList` Function
 
-The final function to implement is the `performList` function, used when testing the Trigger to collect sample data in the Zap editor. Though optional, not defining a performList is a sub-optimal experience for users and is [required for public apps](/quickstart/private-vs-public-integrations).
+The final function to implement is the `performList` function, used when testing the Trigger to collect sample data in the Zap editor. Though optional, not defining a performList is a sub-optimal experience for users and is [required for public apps](/platform/quickstart/private-vs-public-integrations).
 
 Most commonly this is a GET request to an endpoint of your API which will provide a response from the user’s account with the exact same schema as the data delivered via webhook when a trigger event happens.
 
@@ -161,7 +161,7 @@ module.exports = {
 
 ## 5\. Test your API Request
 
-To test the REST Hook trigger, [build a Zap in the editor](/build/test-triggers-actions).
+To test the REST Hook trigger, [build a Zap in the editor](/platform/build/test-triggers-actions).
 
 ## 6\. Define sample and outputFields
 

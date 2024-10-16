@@ -5,12 +5,12 @@ description: "This guide provides instructions on editing and maintaining existi
 ## Introduction
 
 
-> **Note**: This guide isn’t for new integrations built in Platform CLI or Platform UI. For new integrations, use the [Platform UI](/quickstart/ui-tutorial) or the [Platform CLI](/reference/cli-docs) to build an integration in code.
+> **Note**: This guide isn’t for new integrations built in Platform CLI or Platform UI. For new integrations, use the [Platform UI](/platform/quickstart/ui-tutorial) or the [Platform CLI](/platform/reference/cli-docs) to build an integration in code.
 
 
 If you are creating new functionality, check maintaining your converted integration for the best way forward.
 
-Much like [Code Mode](/build/code-mode), Zapier’s Web Builder Scripting was the previous way to allow you to directly manipulate the requests and responses that are exchanged between your app’s API and Zapier. It continues to be supported using both the Platform UI and CLI.
+Much like [Code Mode](/platform/build/code-mode), Zapier’s Web Builder Scripting was the previous way to allow you to directly manipulate the requests and responses that are exchanged between your app’s API and Zapier. It continues to be supported using both the Platform UI and CLI.
 
 ## Access and edit scripting
 
@@ -27,7 +27,7 @@ For integrations converted to Platform UI, you can access and edit these scripti
 
 For integrations converted to Platform CLI, you can access and edit these scripting methods in the **Scripting.js** file. Its default location in the root directory of your CLI integration.
 
-Every converted Web Builder integration will have a root module `Zap` defined in this Scripting.js file. By default, it is a blank JavaScript object. You add to it by specifying one or more of the [available methods](/reference/legacy-scripting#available-methods). Each method accepts a single variable called `bundle`, which is a JSON serializable object. The content of the bundle varies depending on the method you are implementing. The output of your method must also be a serializable object.
+Every converted Web Builder integration will have a root module `Zap` defined in this Scripting.js file. By default, it is a blank JavaScript object. You add to it by specifying one or more of the [available methods](/platform/reference/legacy-scripting#available-methods). Each method accepts a single variable called `bundle`, which is a JSON serializable object. The content of the bundle varies depending on the method you are implementing. The output of your method must also be a serializable object.
 
 Below is an example of implementing a method to be a pass-through:
 
@@ -88,13 +88,13 @@ data: bundle.request.data
 }
 ```
 
-See [bundle.request](/reference/legacy-scripting#prepared-request-via-bundlerequest).
+See [bundle.request](/platform/reference/legacy-scripting#prepared-request-via-bundlerequest).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
 #### `KEY_post_poll`
 
-It runs after Zapier receives a response from the polling URL. Can parse the response to format the data that enters Zapier or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will automatically throw for status codes 4xx and 5xx after the method runs.
+It runs after Zapier receives a response from the polling URL. Can parse the response to format the data that enters Zapier or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will automatically throw for status codes 4xx and 5xx after the method runs.
 
 ```javascript
 var Zap = {
@@ -128,7 +128,7 @@ return [];
 
 #### `KEY_poll`
 
-It runs in place of pre\_poll and post\_poll. When you get a bundle, you are expected to make the request and return a list of results or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will **not** throw for status codes like 4xx and 5xx automatically!
+It runs in place of pre\_poll and post\_poll. When you get a bundle, you are expected to make the request and return a list of results or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will **not** throw for status codes like 4xx and 5xx automatically!
 
 ```javascript
 var Zap = {
@@ -162,7 +162,7 @@ return []; // or callback(null, [])
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
@@ -245,7 +245,7 @@ data: bundle.request.data
 }
 ```
 
-Learn more in [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more in [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s legacy web builder, and is mostly incompatible with Platform CLI and Platform UI).
 
@@ -322,7 +322,7 @@ data: bundle.request.data
 }
 ```
 
-Learn more in [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more in [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
@@ -361,13 +361,13 @@ data: bundle.request.data
 }
 ```
 
-Learn more in [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more in [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
 #### `KEY_post_hook`
 
-It runs after Zapier receive a response from the consuming call and can parse the response to format the data that enters Zapier or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will automatically throw for status codes 4xx and 5xx after the method runs.
+It runs after Zapier receive a response from the consuming call and can parse the response to format the data that enters Zapier or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will automatically throw for status codes 4xx and 5xx after the method runs.
 
 ```javascript
 var Zap = {
@@ -437,13 +437,13 @@ data: bundle.request.data
 }
 ```
 
-Learn more in [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more in [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
 #### `KEY_post_custom_trigger_fields`
 
-Runs after the response for custom fields is received. Can parse the response to format the data that enters Zapier or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically.
+Runs after the response for custom fields is received. Can parse the response to format the data that enters Zapier or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically.
 
 > Note: Although this method does not end with `result_fields` like there are for [actions](#key_pre_custom_action_fields) and [searches](#key_pre_custom_search_fields) it does in fact define custom fields and labels for the **result** (sample) of the trigger and not for its **Edit Template** step in the Zap Editor.
 
@@ -526,13 +526,13 @@ data: bundle.request.data
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
 ### `KEY_post_write`
 
-Runs after Zapier receive a response from the action endpoint, can modify the response or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically. _Note:_ If the action occurs as part of a search-or-create Zap, the output of this method is _not_ exactly what the user sees. In that case, the action will be followed up with a request to fetch the written record, and Zapier will present the user with the output from that follow-up request. If you need to modify the returned data in that scenario, use `_post_read_resource`.
+Runs after Zapier receive a response from the action endpoint, can modify the response or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically. _Note:_ If the action occurs as part of a search-or-create Zap, the output of this method is _not_ exactly what the user sees. In that case, the action will be followed up with a request to fetch the written record, and Zapier will present the user with the output from that follow-up request. If you need to modify the returned data in that scenario, use `_post_read_resource`.
 
 ```javascript
 var Zap = {
@@ -565,7 +565,7 @@ return <object>;
 
 ### `KEY_write`
 
-Runs in place of pre_write and post\_write. You get a bundle and are expected to make the request and return the appropriate response or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will **not** throw for status codes like 4xx and 5xx automatically! \_Note:_ If the action occurs as part of a search-or-create Zap, the output of this method is _not_ exactly what the user sees. In that case, the action will be followed up with a request to fetch the written record, and Zapier will present the user with the output from that follow-up request. If you need to modify the returned data in that scenario, use `_post_read_resource`.
+Runs in place of pre_write and post\_write. You get a bundle and are expected to make the request and return the appropriate response or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will **not** throw for status codes like 4xx and 5xx automatically! \_Note:_ If the action occurs as part of a search-or-create Zap, the output of this method is _not_ exactly what the user sees. In that case, the action will be followed up with a request to fetch the written record, and Zapier will present the user with the output from that follow-up request. If you need to modify the returned data in that scenario, use `_post_read_resource`.
 
 ```javascript
 var Zap = {
@@ -604,7 +604,7 @@ return z.JSON.parse(response.content);
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
@@ -643,13 +643,13 @@ data: bundle.request.data
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
 ### `KEY_post_custom_action_fields`
 
-Runs after the response for custom fields is received. Can parse the response to format the data that enters Zapier or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically.
+Runs after the response for custom fields is received. Can parse the response to format the data that enters Zapier or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically.
 
 ```javascript
 var Zap = {
@@ -728,7 +728,7 @@ The response should be JSON serializable:
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
@@ -806,13 +806,13 @@ data: bundle.request.data
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
 ### `KEY_post_custom_action_result_fields`
 
-Runs after the response for custom response fields is received. Can parse the response to format the data that enters Zapier or throw an exception [exception](/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically.
+Runs after the response for custom response fields is received. Can parse the response to format the data that enters Zapier or throw an exception [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically.
 
 ```javascript
 var Zap = {
@@ -887,13 +887,13 @@ data: bundle.request.data
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
 ### `KEY_post_search`
 
-Runs after Zapier receive a response from the search endpoint, can modify the response or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically. _Note:_ The output of the method is _not_ exactly what the user sees. Zapier follow searches up with requests for the individual resources and present the user with the output from those follow-up requests. If you wish to modify the number (or ordering) of the search results, use `_post_search`. If you wish to modify the data the user sees, use `_post_read_resource`. One other thing to be aware of is that searches must return an _array_ of objects, so if your search endpoint returns a single object, you can use this method to wrap your object in an array.
+Runs after Zapier receive a response from the search endpoint, can modify the response or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically. _Note:_ The output of the method is _not_ exactly what the user sees. Zapier follow searches up with requests for the individual resources and present the user with the output from those follow-up requests. If you wish to modify the number (or ordering) of the search results, use `_post_search`. If you wish to modify the data the user sees, use `_post_read_resource`. One other thing to be aware of is that searches must return an _array_ of objects, so if your search endpoint returns a single object, you can use this method to wrap your object in an array.
 
 > Note we’ll only use the first object in the array for now, so if you can add optional fields to help narrow the search down, it’s a great idea.
 
@@ -932,7 +932,7 @@ return [ { ... }, { ... }, ... ]; // several matches, with "best match" first
 
 ### `KEY_search`
 
-Runs in place of pre\_search and post\_search. You get a bundle and are expected to make the request and return the appropriate response or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will **not** throw for status codes like 4xx and 5xx automatically! Note: The output of the method is not exactly what the user sees. Zapier follow searches up with requests for the individual resources and present the user with the output from those follow-up requests. If you wish to modify the number (or ordering) of the search results, you can do that inside `_search`. If you wish to modify the data the user sees, use `_post_read_resource`.
+Runs in place of pre\_search and post\_search. You get a bundle and are expected to make the request and return the appropriate response or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will **not** throw for status codes like 4xx and 5xx automatically! Note: The output of the method is not exactly what the user sees. Zapier follow searches up with requests for the individual resources and present the user with the output from those follow-up requests. If you wish to modify the number (or ordering) of the search results, you can do that inside `_search`. If you wish to modify the data the user sees, use `_post_read_resource`.
 
 > Note we’ll only use the first object in the array for now, so if you can add optional fields to help narrow the search down, it’s a great idea.
 
@@ -967,7 +967,7 @@ return {...}; // or callback(null, {...})
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
@@ -1007,13 +1007,13 @@ data: bundle.request.data
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
 ### `KEY_post_custom_search_fields`
 
-Runs after the response for custom fields is received. Can parse the response to format the data that enters Zapier or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically.
+Runs after the response for custom fields is received. Can parse the response to format the data that enters Zapier or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically.
 
 ```javascript
 var Zap = {
@@ -1086,7 +1086,7 @@ return []; // return fields in the order you want them displayed in the UI. They
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
@@ -1160,13 +1160,13 @@ data: bundle.request.data
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
 ### `KEY_post_custom_result_search_fields`
 
-Runs after the response for custom search result fields is received. Can parse the response to format the data that enters Zapier or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically.
+Runs after the response for custom search result fields is received. Can parse the response to format the data that enters Zapier or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically.
 
 ```javascript
 var Zap = {
@@ -1239,13 +1239,13 @@ data: bundle.request.data
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
 ### `KEY_post_read_resource`
 
-Runs after Zapier do the request to read an individual resource. Use to modify the data returned or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically.
+Runs after Zapier do the request to read an individual resource. Use to modify the data returned or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically.
 
 ```javascript
 var Zap = {
@@ -1280,7 +1280,7 @@ return {...};
 
 ### `KEY_read_resource`
 
-Runs in place of pre\_read\_resource and post\_read\_resource. You get a bundle and are expected to make the request and return the appropriate response or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will **not** throw for status codes like 4xx and 5xx automatically!
+Runs in place of pre\_read\_resource and post\_read\_resource. You get a bundle and are expected to make the request and return the appropriate response or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will **not** throw for status codes like 4xx and 5xx automatically!
 
 ```javascript
 var Zap = {
@@ -1313,7 +1313,7 @@ return {...}; // or callback(null, {...})
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
@@ -1359,13 +1359,13 @@ data: bundle.request.data
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
 ### `post_oauthv2_token`
 
-Modify the response from the access token endpoint or throw an [exception](/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx **before** the method runs automatically.
+Modify the response from the access token endpoint or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx **before** the method runs automatically.
 
 ```javascript
 var Zap = {
@@ -1430,7 +1430,7 @@ data: bundle.request.data
 }
 ```
 
-Learn more about [bundle.request](/reference/legacy-scripting#bundle-details).
+Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
 > **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
 
@@ -1704,7 +1704,7 @@ length: 123
 );
 ```
 
-> Please note that request will be done via the [requests library for Python](http://docs.python-requests.org/en/master/user/quickstart/#make-a-request) which is different from [z.request()](/reference/legacy-scripting#making-outbound-requests-zrequest). You cannot set an `auth` property (e.g. for Basic Auth). Instead provide the exact `params` and `headers`.
+> Please note that request will be done via the [requests library for Python](http://docs.python-requests.org/en/master/user/quickstart/#make-a-request) which is different from [z.request()](/platform/reference/legacy-scripting#making-outbound-requests-zrequest). You cannot set an `auth` property (e.g. for Basic Auth). Instead provide the exact `params` and `headers`.
 
 #### Hydrating Files
 
@@ -1845,7 +1845,7 @@ return bundle.request;
 
 ## Available exceptions
 
-> **Note**: This guide is for Zapier’s legacy web builder. If you use Platform UI, Zapier expects [standard HTTP errors](/build/auth#common-authentication-error-messages) to be thrown. If you use Platform CLI, learn more in our [CLI error handling docs](https://zapier.github.io/zapier-platform-cli/#error-handling).
+> **Note**: This guide is for Zapier’s legacy web builder. If you use Platform UI, Zapier expects [standard HTTP errors](/platform/build/auth#common-authentication-error-messages) to be thrown. If you use Platform CLI, learn more in our [CLI error handling docs](https://zapier.github.io/zapier-platform-cli/#error-handling).
 
 In scripting, you have several exception classes at your disposal:
 
@@ -2189,7 +2189,7 @@ return response.search_results;
 
 ### REST hook subscription xamples
 
-> Heads up! This code is only valid for the v2 platform, and is incompatible with today’s [Platform CLI and Platform UI](/quickstart/ui-vs-cli).
+> Heads up! This code is only valid for the v2 platform, and is incompatible with today’s [Platform CLI and Platform UI](/platform/quickstart/ui-vs-cli).
 
 ```javascript
 var Zap = {
@@ -2299,7 +2299,7 @@ For Platform CLI: /reference/cli-docs#logging
 
 - - -
 
-[Previous: Custom Actions and API Requests Actions](/reference/custom-actions-api-requests) [Next: Changelog](/reference/changelog)
+[Previous: Custom Actions and API Requests Actions](/platform/reference/custom-actions-api-requests) [Next: Changelog](/platform/reference/changelog)
 
 - - -
 

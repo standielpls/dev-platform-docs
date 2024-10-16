@@ -18,9 +18,9 @@ However, if your integration meets the following conditions, you can use the [co
 
 **Creating a New Version**
 
-*   [Clone](/manage/clone) your app, generating a new version.
-*   [Remove](/build/auth#how-to-remove-or-change-zapier-integration-authentication-scheme) the existing authentication method and incorporate the new one.
-*   Once configured, [promote](/manage/promote) this version, making it available for new users to select during the connection of your integration to Zapier.
+*   [Clone](/platform/manage/clone) your app, generating a new version.
+*   [Remove](/platform/build/auth#how-to-remove-or-change-zapier-integration-authentication-scheme) the existing authentication method and incorporate the new one.
+*   Once configured, [promote](/platform/manage/promote) this version, making it available for new users to select during the connection of your integration to Zapier.
 
 **Managing Existing Users**
 
@@ -29,7 +29,7 @@ However, if your integration meets the following conditions, you can use the [co
 
 **Deprecating legacy authentication scheme**
 
-*   If existing authentications are set to be non-functional in the future, then [Deprecation](/manage/deprecate) is required.
+*   If existing authentications are set to be non-functional in the future, then [Deprecation](/platform/manage/deprecate) is required.
 *   Be mindful that this can be notably disruptive for our mutual users and thus should be considered carefully.
 
 > NOTE: this method is not possible with apps built in the legacy web builder. To update the authentication, you would need to update all triggers/actions/searches as well; as deleting the authentication method and re-adding it in the new builder would not be compatible with existing triggers/actions/searches built in the legacy web builder.

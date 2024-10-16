@@ -1,6 +1,6 @@
 ---
 title: Use pagination in triggers
-description: "By default, Zapier triggers fetch new or recently updated data to start Zaps, and only need to find the most recently added items. Triggers can also be used to populate [dynamic dropdown fields](/build/add-fields#dynamic-dropdown), and there they need to find all possible items to populate the field."
+description: "By default, Zapier triggers fetch new or recently updated data to start Zaps, and only need to find the most recently added items. Triggers can also be used to populate [dynamic dropdown fields](/platform/build/add-fields#dynamic-dropdown), and there they need to find all possible items to populate the field."
 ---
 These triggers used for populating dynamic dropdown fields will often find dozens or hundreds of items. Many APIs let you split the results into pages. The first API call will return the first set of results — often 20 to 100. The items from this result would be seen as options in the dynamic dropdown field. If you want additional entries, you can make a new API call requesting page 2 and get the next set of results, iterating through the pages until the API has sent every possible option.
 
@@ -19,7 +19,7 @@ These triggers used for populating dynamic dropdown fields will often find dozen
 *   In the API Endpoint section, click _Show Options_ to include `bundle.meta.page` in your API call as Zapier does not include that automatically, then add a new URL Param for your API’s paging option (or optionally add it to your HTTP Headers if your API expects the paging value there). Use the page request field name from your API on the left, and `{{bundle.meta.page}}` on the right to have Zapier pull in the correct page value.
 <Frame> <img src="/images/2492cb37ec953861cceaf243c0625285.png" /> </Frame>
 
-Note that Zapier’s `bundle.meta.page` value uses zero-based numbering. The first time Zapier fetches data from your API, it uses a page value of 0, followed by 1 the second time, and so on. If your API expects the first API call to request page 1, with 2 for the second page and so on, you’ll need to [switch to code mode](/build/code-mode) and add `+ 1` to `bundle.meta.page`. So pagination in the code would look like the below (substituting `page` with the correct field name your API uses for pagination):
+Note that Zapier’s `bundle.meta.page` value uses zero-based numbering. The first time Zapier fetches data from your API, it uses a page value of 0, followed by 1 the second time, and so on. If your API expects the first API call to request page 1, with 2 for the second page and so on, you’ll need to [switch to code mode](/platform/build/code-mode) and add `+ 1` to `bundle.meta.page`. So pagination in the code would look like the below (substituting `page` with the correct field name your API uses for pagination):
 
 `'page': bundle.meta.page + 1`
 

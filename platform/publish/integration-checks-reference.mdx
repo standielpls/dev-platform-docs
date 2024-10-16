@@ -3,9 +3,9 @@ title: Integration check reference
 description: "Before you can submit your integration for publishing, it runs through a set of automated checks to ensure it’s working properly and giving our users (and yours) the best possible experience."
 ---
 
-To [publish your integration](/publish/public-integration), all Errors and Publishing Tasks must be validated. Warnings are non-blocking and not strictly required to proceed as they would not prevent you from promoting a version, though we do recommend you review them for usability of your integration.
+To [publish your integration](/platform/publish/public-integration), all Errors and Publishing Tasks must be validated. Warnings are non-blocking and not strictly required to proceed as they would not prevent you from promoting a version, though we do recommend you review them for usability of your integration.
 
-If your integration will remain private, it isn’t _necessary_ to pass the validation checks. You will be able to [share it with users](/manage/sharing) as is. However, you can still select `Run Validation` from the _Version Overview_ tab in the Platform UI or run the `zapier validate` command [in the Platform CLI](https://github.com/zapier/zapier-platform/blob/main/packages/cli/docs/cli.md#validate) to be notified of any issues and recommendations to better the user experience.
+If your integration will remain private, it isn’t _necessary_ to pass the validation checks. You will be able to [share it with users](/platform/manage/sharing) as is. However, you can still select `Run Validation` from the _Version Overview_ tab in the Platform UI or run the `zapier validate` command [in the Platform CLI](https://github.com/zapier/zapier-platform/blob/main/packages/cli/docs/cli.md#validate) to be notified of any issues and recommendations to better the user experience.
 
 To help better address a check in communication, each check is given a unique ID, consisting of a capital letter and three digits, such as `D001`.
 
@@ -86,7 +86,7 @@ Website Dashboard to find your API Key.
 
 A Connection Label helps a customer remember which account they connected. It should be short and easily identifiable.
 
-For both [Platform UI](/build/connection-label) and [CLI](/reference/cli-docs#connection-label), the connection label is a string. You can use any data returned by your test function.
+For both [Platform UI](/platform/build/connection-label) and [CLI](/platform/reference/cli-docs#connection-label), the connection label is a string. You can use any data returned by your test function.
 
 For instance, if a successful run of the auth test returns the following data:
 
@@ -122,18 +122,18 @@ The most important role of the label is to uniquely identify the connection.
 
 ## D004 - ID Fields Should Have Dynamic Dropdowns
 
-We’ve found that instead of instructing users to paste an item `id` into Zapier, providing them with a [dynamic dropdown](/reference/cli-docs#dynamic-dropdowns) greatly increases the likelihood of the user setting up Zaps correctly. Users will still be able to map custom fields, but this gets them started on the right foot.
+We’ve found that instead of instructing users to paste an item `id` into Zapier, providing them with a [dynamic dropdown](/platform/reference/cli-docs#dynamic-dropdowns) greatly increases the likelihood of the user setting up Zaps correctly. Users will still be able to map custom fields, but this gets them started on the right foot.
 
 Read more about implementing dynamic dropdowns below:
 
-*   [Platform UI](/build/add-fields#dynamic-dropdown)
+*   [Platform UI](/platform/build/add-fields#dynamic-dropdown)
 *   [Platform CLI](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#dynamic-dropdowns)
 
 - - -
 
 ## D005 - Dynamic Dropdown Connects to a Non-Existing Trigger
 
-[Dynamic dropdowns](/reference/cli-docs#dynamic-dropdowns) allow you to connect an input field to an existing trigger. The dropdown won’t work if the trigger key you specify doesn’t exist.
+[Dynamic dropdowns](/platform/reference/cli-docs#dynamic-dropdowns) allow you to connect an input field to an existing trigger. The dropdown won’t work if the trigger key you specify doesn’t exist.
 
 - - -
 
@@ -183,7 +183,7 @@ To match the polling result to the hook result, you would modify this response t
 
 The polling result is not used when a user skips testing the Zap step. In that case, Zapier uses the sample data.
 
-See [Sample Data](/build/sample-data) for more details on this.
+See [Sample Data](/platform/build/sample-data) for more details on this.
 
 - - -
 
@@ -351,13 +351,13 @@ When a user sets up a trigger or action (create or search), they need sample dat
 
 It’s very important that the data structure of the response from the actual trigger/action request and in the sample data are identical. Otherwise, users could map fields that don’t exist in the live results, which results in a broken Zap.
 
-See [Sample Data](/build/sample-data) for more details on this.
+See [Sample Data](/platform/build/sample-data) for more details on this.
 
 - - -
 
 ## D013 - Connects to a Non-Existing Search
 
-[Search-Powered Fields](/reference/cli-docs#search-powered-fields) prompt users to set up a search step to populate the value of the field. It won’t work if the search key you specify doesn’t exist.
+[Search-Powered Fields](/platform/reference/cli-docs#search-powered-fields) prompt users to set up a search step to populate the value of the field. It won’t work if the search key you specify doesn’t exist.
 
 - - -
 
@@ -394,7 +394,7 @@ The search or create key you specify in `searchOrCreates` must reference to an e
 
 ## D016 - Consists Only a Static Webhook
 
-A REST Hook trigger missing a Subscribe or Unsubscribe endpoint, is presented to users as a [Static Webhook](https://cdn.zappy.app/3b35908a6a0c232087b5da807cf9d6fb.png). Static hooks are [not supported in public integrations](/publish/integration-checks-reference#D017), but they could be used if the integration intends to remain private. However, Zapier doesn’t allow integrations that are a single static hook with the availability of [Webhooks by Zapier](https://zapier.com/apps/webhook/integrations). To fix this, add more triggers/searches/actions.
+A REST Hook trigger missing a Subscribe or Unsubscribe endpoint, is presented to users as a [Static Webhook](https://cdn.zappy.app/3b35908a6a0c232087b5da807cf9d6fb.png). Static hooks are [not supported in public integrations](/platform/publish/integration-checks-reference#D017), but they could be used if the integration intends to remain private. However, Zapier doesn’t allow integrations that are a single static hook with the availability of [Webhooks by Zapier](https://zapier.com/apps/webhook/integrations). To fix this, add more triggers/searches/actions.
 
 - - -
 
@@ -537,7 +537,7 @@ https://example.com
 
 ## D026 - Manual domain validation recommended if using “inputFormat” or domain-related authentication fields
 
-When utilizing authentication fields which allow a user to input their own domain or subdomain, we strongly recommend performing [manual validation](/build/subdomain-validation) on the input data to ensure that it matches your expectations and filters out values which could be used to redirect users into unexpected domains.
+When utilizing authentication fields which allow a user to input their own domain or subdomain, we strongly recommend performing [manual validation](/platform/build/subdomain-validation) on the input data to ensure that it matches your expectations and filters out values which could be used to redirect users into unexpected domains.
 
 <Icon icon="xmark"/> an example of an **incorrect** implementation:
 
@@ -660,7 +660,7 @@ We only allow one public integration in our app directory for a given app. If a 
 
 To verify user demand, there should be at least 3 users who have a live Zap using this integration. “Live” means the Zaps are switched on with at least one successful [Zap run in recent history](https://help.zapier.com/hc/en-us/articles/8496291148685).
 
-You can [invite others to test your integration](/manage/sharing) before publication.
+You can [invite others to test your integration](/platform/manage/sharing) before publication.
 
 - - -
 
@@ -668,7 +668,7 @@ You can [invite others to test your integration](/manage/sharing) before publica
 
 To ensure any show-stopping bugs are worked out, every visible trigger/search/action of your integration should have a live Zap that demonstrates it works. “Live” means the Zaps are switched on with at least one successful [Zap run in recent history](https://help.zapier.com/hc/en-us/articles/8496291148685).
 
-You can create a [new Zapier account](https://help.zapier.com/hc/en-us/articles/8496197192461) and [invite it to your integration](/manage/sharing) if you need extra Zaps.
+You can create a [new Zapier account](https://help.zapier.com/hc/en-us/articles/8496197192461) and [invite it to your integration](/platform/manage/sharing) if you need extra Zaps.
 
 You can also [contact us](https://developer.zapier.com/contact) if you need a trial extension.
 
@@ -834,7 +834,7 @@ static: {"id": 1, "name": "John"}
 live: {"id": 2, "name": "Alice", "email": "alice@example.com"}
 ```
 
-See [Sample Data](/build/sample-data) for more details on this.
+See [Sample Data](/platform/build/sample-data) for more details on this.
 
 - - -
 
@@ -867,7 +867,7 @@ output fields: [
 ]
 ```
 
-See [Sample Data](/build/sample-data) for more details on this.
+See [Sample Data](/platform/build/sample-data) for more details on this.
 
 - - -
 
@@ -900,7 +900,7 @@ polling sample: {"id": 1, "name": "John"}
 live: {"id": 2, "name": "Alice", "email": "alice@example.com"}
 ```
 
-See [Sample Data](/build/sample-data) for more details on this.
+See [Sample Data](/platform/build/sample-data) for more details on this.
 
 - - -
 

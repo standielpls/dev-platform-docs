@@ -3,7 +3,7 @@ title: Export integration to Platform UI
 description: "The Zapier Platform UI is the easiest way for anyone with API experience to build Zapier integrations. It is for users more comfortable with a visual form editor."
 ---
 
-Some advanced calls and response parsing can still be performed in the Platform UI when using [Code Mode](/build/code-mode).
+Some advanced calls and response parsing can still be performed in the Platform UI when using [Code Mode](/platform/build/code-mode).
 
 The Platform UI has the following advantages over the CLI:
 
@@ -20,13 +20,13 @@ To export your existing Platform CLI integration to Platform UI:
 
 ## 1\. Contact Developer Support to create an empty version of your integration
 
-Hiding an app and replacing it with a new app ID built in the preferred tool is [not supported](/publish/integration-publishing-requirements#23-replacement-integration). To export your Platform CLI integration to the Platform UI, contact the [Developer Support](https://developer.zapier.com/contact) team to create an empty version associated with the same app ID.
+Hiding an app and replacing it with a new app ID built in the preferred tool is [not supported](/platform/publish/integration-publishing-requirements#23-replacement-integration). To export your Platform CLI integration to the Platform UI, contact the [Developer Support](https://developer.zapier.com/contact) team to create an empty version associated with the same app ID.
 
 ## 2\. Rebuild the integration from scratch
 
-Rebuild the integration from scratch on this newly created empty version in the Platform UI and ensure that this new version has feature parity to the previous CLI version. This new version can then be maintained in the Platform UI by your team. For [Public apps](/quickstart/private-vs-public-integrations), this avoids a repeat of the app review process; as well as retaining previous versions, associated bug reports and feature requests.
+Rebuild the integration from scratch on this newly created empty version in the Platform UI and ensure that this new version has feature parity to the previous CLI version. This new version can then be maintained in the Platform UI by your team. For [Public apps](/platform/quickstart/private-vs-public-integrations), this avoids a repeat of the app review process; as well as retaining previous versions, associated bug reports and feature requests.
 
-> Allow users to remain on the (now legacy) CLI version until they switch over manually, as long as the endpoints are functional. If [Deprecation](/manage/deprecate) is necessary, please note this is significantly more disruptive to our mutual users and should be considered carefully.
+> Allow users to remain on the (now legacy) CLI version until they switch over manually, as long as the endpoints are functional. If [Deprecation](/platform/manage/deprecate) is necessary, please note this is significantly more disruptive to our mutual users and should be considered carefully.
 
 When the conversion has been completed, you will be able to see this version and the previous CLI versions in the Platform UI’s **Manage > Versions** section.
 

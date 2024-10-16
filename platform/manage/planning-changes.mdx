@@ -30,24 +30,24 @@ Change scenarios marked as _Depends_ with no linked best practice can vary widel
 | Integration Change | Add | Update | Replace | Delete/Deprecate | Validated by platform? |
 | --- | --- | --- | --- | --- | --- |
 | **AUTHENTICATION CHANGES** |     |     |     |     |     |
-| **Authentication schemes** | [BREAKING CHANGE](/manage/auth-scheme) | \-  | [BREAKING CHANGE](/manage/auth-scheme) | \-  | <Icon icon="check"/>   |
-| **Authentication fields - required** | [BREAKING CHANGE](/manage/auth-required) | [Depends](/manage/auth-required) | \-  | <Icon icon="check"/>   | \-  |
+| **Authentication schemes** | [BREAKING CHANGE](/platform/manage/auth-scheme) | \-  | [BREAKING CHANGE](/platform/manage/auth-scheme) | \-  | <Icon icon="check"/>   |
+| **Authentication fields - required** | [BREAKING CHANGE](/platform/manage/auth-required) | [Depends](/platform/manage/auth-required) | \-  | <Icon icon="check"/>   | \-  |
 | **Authentication fields - optional** | <Icon icon="check"/>   | <Icon icon="check"/>   | \-  | <Icon icon="check"/>   | \-  |
-| **Authentication field key(s)** | \-  | [BREAKING CHANGE](/manage/auth-keys) | \-  | \-  | \-  |
+| **Authentication field key(s)** | \-  | [BREAKING CHANGE](/platform/manage/auth-keys) | \-  | \-  | \-  |
 | **Authentication - token request** | \-  | <Icon icon="check"/>   | \-  | \-  | \-  |
 | **Authentication - test function** | \-  | <Icon icon="check"/>   | <Icon icon="check"/>   | \-  | \-  |
 | **TRIGGER/ACTION CHANGES** |     |     |     |     |     |
 | **Trigger/Action - meta info (e.g.: label, description)** | \-  | <Icon icon="check"/>   | <Icon icon="check"/>   | \-  | \-  |
-| **Trigger/Action - key** | \-  | [BREAKING CHANGE](/manage/change-keys) | [BREAKING CHANGE](/manage/change-keys) | \-  | <Icon icon="check"/>   |
-| **Trigger/Action - input field(s) - required** | [Depends](/manage/required-input) | [Depends](/manage/required-input) | [Depends](/manage/required-input) | <Icon icon="check"/>   | \-  |
+| **Trigger/Action - key** | \-  | [BREAKING CHANGE](/platform/manage/change-keys) | [BREAKING CHANGE](/platform/manage/change-keys) | \-  | <Icon icon="check"/>   |
+| **Trigger/Action - input field(s) - required** | [Depends](/platform/manage/required-input) | [Depends](/platform/manage/required-input) | [Depends](/platform/manage/required-input) | <Icon icon="check"/>   | \-  |
 | **Trigger/Action - input field(s) - optional** | <Icon icon="check"/>   | <Icon icon="check"/>   | <Icon icon="check"/>   | <Icon icon="check"/>   | \-  |
-| **Trigger/Action - input field(s) - key** | \-  | [BREAKING CHANGE](/manage/input-key) | [BREAKING CHANGE](/manage/input-key) | \-  | \-  |
+| **Trigger/Action - input field(s) - key** | \-  | [BREAKING CHANGE](/platform/manage/input-key) | [BREAKING CHANGE](/platform/manage/input-key) | \-  | \-  |
 | **Trigger/Action - input field(s) - field type** | \-  | Depends | Depends | \-  | \-  |
-| **Trigger/Action - output data - key(s)** | <Icon icon="check"/>   | [BREAKING CHANGE](/manage/output-key) | [BREAKING CHANGE](/manage/output-key) | [BREAKING CHANGE](/manage/output-key) | \-  |
-| **Trigger/Action - output data - response structure** | \-  | [BREAKING CHANGE](/manage/output) | [BREAKING CHANGE](/manage/output) | \-  | \-  |
+| **Trigger/Action - output data - key(s)** | <Icon icon="check"/>   | [BREAKING CHANGE](/platform/manage/output-key) | [BREAKING CHANGE](/platform/manage/output-key) | [BREAKING CHANGE](/platform/manage/output-key) | \-  |
+| **Trigger/Action - output data - response structure** | \-  | [BREAKING CHANGE](/platform/manage/output) | [BREAKING CHANGE](/platform/manage/output) | \-  | \-  |
 | **Trigger/Action - perform function** | \-  | Depends | Depends | \-  | \-  |
-| **Trigger type - polling to hook type** | \-  | [BREAKING CHANGE](/manage/change-trigger) | \-  | \-  | <Icon icon="check"/>   |
-| **Trigger (polling) - perform function** | \-  | [Depends](/manage/change-perform) | [Depends](/manage/change-perform) | \-  | \-  |
+| **Trigger type - polling to hook type** | \-  | [BREAKING CHANGE](/platform/manage/change-trigger) | \-  | \-  | <Icon icon="check"/>   |
+| **Trigger (polling) - perform function** | \-  | [Depends](/platform/manage/change-perform) | [Depends](/platform/manage/change-perform) | \-  | \-  |
 | **Trigger (hook) - perform list** | \-  | Depends | Depends | \-  | \-  |
 | **Trigger (hook) - performSubscribe** | \-  | <Icon icon="check"/>   | <Icon icon="check"/>   | \-  | \-  |
 | **Trigger (hook) - performUnsubscribe** | \-  | <Icon icon="check"/>   | <Icon icon="check"/>   | \-  | \-  |
@@ -56,9 +56,9 @@ Change scenarios marked as _Depends_ with no linked best practice can vary widel
 | **Partner’s API (overall)** | \-  | Depends | Depends | Depends | \-  |
 | **Product feature** | <Icon icon="check"/>   | \-  | \-  | \-  | \-  |
 | **Rebrand - (e.g. logo, app name)** | \-  | <Icon icon="check"/>   | \-  | \-  | \-  |
-| **Export UI to CLI** | \-  | [Depends](/manage/export-cli) | <Icon icon="check"/>   | \-  | \-  |
-| **Export CLI to UI** | \-  | [Depends](/manage/export-ui) | \-  | \-  | \-  |
-| **Edit Legacy Web Builder integration** | \-  | [Depends](/manage/versions-legacy) | [Depends](/manage/versions-legacy) | \-  | \-  |
+| **Export UI to CLI** | \-  | [Depends](/platform/manage/export-cli) | <Icon icon="check"/>   | \-  | \-  |
+| **Export CLI to UI** | \-  | [Depends](/platform/manage/export-ui) | \-  | \-  | \-  |
+| **Edit Legacy Web Builder integration** | \-  | [Depends](/platform/manage/versions-legacy) | [Depends](/platform/manage/versions-legacy) | \-  | \-  |
 
 If your change is not listed, make sure to still consider whether it changes keys, requires users to provide _new_ info, or revokes functionality.
 

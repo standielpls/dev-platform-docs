@@ -45,7 +45,7 @@ If those Zaps exceed the error ratio **and** users have not [overridden related 
 
 *   If you’d like to add custom errors within Zapier for the hidden trigger/action/search at the time of the endpoint sunset, you could consider the following:
 
-Create a new version of the integration that immediately throws a `z.errors.Error` exception in the `perform` method of the impacted trigger/action/search. Learn more for apps maintained in the [UI](/manage/planning-changes#custom-error-handling-in-the-ui) or the [CLI](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#zerrors).
+Create a new version of the integration that immediately throws a `z.errors.Error` exception in the `perform` method of the impacted trigger/action/search. Learn more for apps maintained in the [UI](/platform/manage/planning-changes#custom-error-handling-in-the-ui) or the [CLI](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#zerrors).
 
 _Promote_ and then _migrate_ users to this new version as close to the sunset date as possible.
 

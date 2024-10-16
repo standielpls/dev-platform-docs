@@ -22,7 +22,7 @@ Another example is a user’s Zap configured with a search that always returns a
 ## Best practices
 
 *   Use custom code to add your newly formatted data to the existing output data. By doing this, you ensure that users who have already set up their Zaps with the previous data structure will not experience issues due to the changes.
-*   _For example:_ Add a `created_date_ISO` field with the ISO-8601 formatted created date to the output data, instead of updating the current `created_date` value to be in ISO-8601 format. Define clear [output field labels](/build/sample-data) to help users differentiate the fields; updates to field labels are non-breaking.
+*   _For example:_ Add a `created_date_ISO` field with the ISO-8601 formatted created date to the output data, instead of updating the current `created_date` value to be in ISO-8601 format. Define clear [output field labels](/platform/build/sample-data) to help users differentiate the fields; updates to field labels are non-breaking.
 *   Add an optional, boolean input field that users can toggle to choose between returning old and the new data structure. This way, users can decide which data structure best suits their needs for existing and new Zaps. Make sure to set a default value for the input field to automatically return data as your previous version did.
 *   If you’re looking to update a search to return multiple or all search results, instead of the default one result, create a new, separate search for the purpose. This way, users can choose which one to use without encountering issues in their existing Zaps. Differentiate the searches by pluralizing the search: “Find Lead” vs “Find Lead(s)”.
 

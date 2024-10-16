@@ -9,7 +9,7 @@ The computed field option only supports session and OAuth v2 authentication.
 
 ## Prerequisites
 
-*   Understanding of [Platform UI authentication configuration](/build/auth)
+*   Understanding of [Platform UI authentication configuration](/platform/build/auth)
 *   Familiarity with your API’s authentication
 
 ## Steps
@@ -21,9 +21,9 @@ The computed field option only supports session and OAuth v2 authentication.
 5.  Click **Add Fields**.
 6.  Under _Field Type_, select **Computed Fields**.
 7.  Select the **Is this field required? Check if yes** checkbox. Zapier use your computed fields in the response data. This means that any omission of the fields marked as computed fields in the authentication response would cause Zapier to display an error.
-8.  Complete the rest of the relevant fields. Learn more in [Input Designer](/build/field-definitions).
+8.  Complete the rest of the relevant fields. Learn more in [Input Designer](/platform/build/field-definitions).
 9.  Click **Save**.
-10.  You can then reference the field in any subsequent API call from the input bundle. In [Code Mode](/build/code-mode), you replace `field` with your field key in this text `{{bundle.authData.field}}`
+10.  You can then reference the field in any subsequent API call from the input bundle. In [Code Mode](/platform/build/code-mode), you replace `field` with your field key in this text `{{bundle.authData.field}}`
 
 <Frame>
   <img src="https://cdn.zappy.app/9ac5ede3a88928989a3f91590a611282.png" alt="Code example shows how a computed field appears in the Zapier Platform"/>

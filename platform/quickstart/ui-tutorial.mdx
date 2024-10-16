@@ -20,16 +20,16 @@ To add an integration:
 *   Next, you will be ask to provide information about your integration:
     *   **Name**: Add the name of your integration.
     *   **Description**: Add a description the app in 140 characters or less.
-    *   **Homepage URL**: Add the homepage URL of your app. The domain will be used as the email domain to allow team members to [join your integration as a collaborator](/manage/add-team).
-    *   **Logo**: Upload a square, transparent PNG image of your app logo. The image must be at least 256x256px in size, and doesn’t include the app name. Learn more in [branding guidelines](/publish/branding-guidelines).
-    *   **Intended Audience**: From the dropdown menu, select if you are building a [public or private integration](/quickstart/private-vs-public-integrations).
+    *   **Homepage URL**: Add the homepage URL of your app. The domain will be used as the email domain to allow team members to [join your integration as a collaborator](/platform/manage/add-team).
+    *   **Logo**: Upload a square, transparent PNG image of your app logo. The image must be at least 256x256px in size, and doesn’t include the app name. Learn more in [branding guidelines](/platform/publish/branding-guidelines).
+    *   **Intended Audience**: From the dropdown menu, select if you are building a [public or private integration](/platform/quickstart/private-vs-public-integrations).
     *   **Role**: Select your relationship with the app you’re integrating with Zapier from the dropdown menu.
     *   **Category**: Select how you would categorize your app from the dropdown menu.
 *   Once you have completed adding details your integration, click **Create**.
 
 ## 2\. Add authentication
 
-[Authentication](/build/auth) defines how Zapier’s platform authenticates with the app’s API you’re connecting to, collecting and storing user data to allow access to their accounts. Zapier supports the following authentication schemes:
+[Authentication](/platform/build/auth) defines how Zapier’s platform authenticates with the app’s API you’re connecting to, collecting and storing user data to allow access to their accounts. Zapier supports the following authentication schemes:
 
 <CardGroup cols={3}>
 <Card title="API Key" icon="key" href="/build/apikeyauth" horizontal/>
@@ -45,7 +45,7 @@ Move through each configuration step of your chosen authentication scheme, addin
 
 ## 3\. Add a trigger
 
-[Triggers](/build/trigger) allow users to start Zapier workflows when something is added or updated in the app.
+[Triggers](/platform/build/trigger) allow users to start Zapier workflows when something is added or updated in the app.
 
 Add settings for how your trigger displays to users, any optional input fields, and connect the app’s API in the API Configuration tab.
 
@@ -55,11 +55,11 @@ Alternatively, configure a polling trigger that automatically polls the URL you�
 
 The default _Form Mode_ allows you to add API endpoint URLs, choose the API call type, and include any authentication details and input form data with the API call.
 
-The optional toggle into [_Code Mode_](/build/code-mode) converts everything entered in the API request form to JavaScript code and is an advanced feature beyond the scope of this tutorial.
+The optional toggle into [_Code Mode_](/platform/build/code-mode) converts everything entered in the API request form to JavaScript code and is an advanced feature beyond the scope of this tutorial.
 
 ## 4\. Add an action
 
-[Actions](/build/action) allow users to create, search, or update records in your app through your API. In general, delete actions are not recommended for integrations.
+[Actions](/platform/build/action) allow users to create, search, or update records in your app through your API. In general, delete actions are not recommended for integrations.
 
 Add settings for how your action displays to users, and at least one input field and connect the app’s API in the API Configuration tab.
 
@@ -69,11 +69,11 @@ Refer to the API documentation for your app to choose a frequently used record w
 
 When building an integration, it’s important to test the functionality of your authentication, triggers, and actions in the Platform UI and also in the [Zap editor](https://zapier.com/editor/). In the Zap editor, you’ll see how users of your integration will create Zaps using your triggers, and actions.
 
-Learn more about [testing your integration](/build/test-auth).
+Learn more about [testing your integration](/platform/build/test-auth).
 
 ## 6\. (Optional) Validate your integration
 
-[Run automated checks](/publish/integration-checks-reference) to identify errors and recommendations on how to improve the user experience of your integration.
+[Run automated checks](/platform/publish/integration-checks-reference) to identify errors and recommendations on how to improve the user experience of your integration.
 
 These checks are only required to pass if you are building a public integration, but they are also useful to identify suggestions for future updates to any integration.
 
@@ -81,27 +81,27 @@ These checks are only required to pass if you are building a public integration,
 
 Integrations are not owned by individuals, but rather by teams. You can invite team members to collaborate with in the Platform UI as either an admin or a collaborator.
 
-Learn more about [adding team members](/manage/add-team) to your integration.
+Learn more about [adding team members](/platform/manage/add-team) to your integration.
 
 ## 8\. (Optional) Share your integration
 
 Once you have at least one trigger or action, you’ll want to share your integration with some users. Early feedback helps make sure you’re building functionality that will be used.
 
-You can [share your integration with users](/manage/sharing) by a public link or by email.
+You can [share your integration with users](/platform/manage/sharing) by a public link or by email.
 
-Note: [Public integrations](/quickstart/private-vs-public-integrations) can be accessed by any Zapier user and doesn’t require users to be specially invited.
+Note: [Public integrations](/platform/quickstart/private-vs-public-integrations) can be accessed by any Zapier user and doesn’t require users to be specially invited.
 
 ## 9\. Modify your integration
 
-If you need to make any changes to your integrations, you can do so by creating [a new version](/manage/versions). Versions helps to track and manage changes to your integration over time.
+If you need to make any changes to your integrations, you can do so by creating [a new version](/platform/manage/versions). Versions helps to track and manage changes to your integration over time.
 
-Public integrations or private integrations with more than 5 users **must have** a new version to make any edits. It is still recommended to make changes for private integrations with fewer than 5 users in a new version as well and [consider Zapier’s best practices](/manage/planning-changes) when doing so.
+Public integrations or private integrations with more than 5 users **must have** a new version to make any edits. It is still recommended to make changes for private integrations with fewer than 5 users in a new version as well and [consider Zapier’s best practices](/platform/manage/planning-changes) when doing so.
 
 ## Learn more
 
-*   Recommended features for your integration [by app category](/quickstart/must-have-triggers-and-actions).
+*   Recommended features for your integration [by app category](/platform/quickstart/must-have-triggers-and-actions).
 *   [Step-by-step tutorial](https://community.zapier.com/featured-articles-65/zapier-platform-ui-a-complete-guide-on-how-to-integrate-with-github-26298#post108889) that uses the GitHub API.
-*   About [different types of support](/quickstart/get-help) available to help you build your integration.
+*   About [different types of support](/platform/quickstart/get-help) available to help you build your integration.
 
 - - -
 

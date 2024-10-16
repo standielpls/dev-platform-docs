@@ -9,15 +9,15 @@ To add a CRM app integration in the Platform UI:
 *   A [Zapier account](https://zapier.com/sign-up).
 *   If you haven’t used Zapier before, you’ll want to learn the basics in our [Zapier Getting Started Guide](https://zapier.com/learn/zapier-quick-start-guide/).
 *   Familiarity with your app’s API documentation and available endpoints.
-*   Review the [Platform UI Tutorial](/quickstart/ui-tutorial).
+*   Review the [Platform UI Tutorial](/platform/quickstart/ui-tutorial).
 
 ## 1\. Add triggers for common record types in the CRM
 
-*   Check out the [common record types](/quickstart/must-have-triggers-and-actions#crm-customer-relationship-management) used as triggers by other CRM apps.
+*   Check out the [common record types](/platform/quickstart/must-have-triggers-and-actions#crm-customer-relationship-management) used as triggers by other CRM apps.
 
 *   Build separate triggers for new and updated records. _Updated_ triggers for CRMs are most useful when users are able to specify which field(s) to watch for updates on, instead of triggering on any and all updates.
 
-*   Include filter options if your app lets users add custom filters or views. Displaying an optional [dynamic dropdown](/build/field-definitions#dynamic-dropdown) of the user’s filters and ordering them by the most recently added is best practice.
+*   Include filter options if your app lets users add custom filters or views. Displaying an optional [dynamic dropdown](/platform/build/field-definitions#dynamic-dropdown) of the user’s filters and ordering them by the most recently added is best practice.
 
 <Frame>
   <img src="/images/6bb177088b4a484c7b72842a05177d5b.png"/>
@@ -27,7 +27,7 @@ To add a CRM app integration in the Platform UI:
 
 ### REST Hook trigger
 
-*   If your app supports webhook subscriptions that can be manipulated through a REST API, use [REST hooks](/build/trigger#rest-hook-trigger) for your trigger to send new records to Zapier as soon as they are added to the CRM.
+*   If your app supports webhook subscriptions that can be manipulated through a REST API, use [REST hooks](/platform/build/trigger#rest-hook-trigger) for your trigger to send new records to Zapier as soon as they are added to the CRM.
 
 *   Webhook triggers are marked as _Instant_ [in the Zap Editor](https://cdn.zappy.app/6b696dfaf34664b181b6df651067cfd3.png).
 
@@ -49,7 +49,7 @@ To add a CRM app integration in the Platform UI:
 
 *   For REST hook triggers, ensure that when relational data is reapplied to a record, your app sends Zapier that updated record.
 
-*   For polling triggers, to account for [deduplication](/build/deduplication), you will need to customize your API call’s code to ensure each record has a unique primary key (usually an `id` field). This could mean [copying a unqiue timestamp](/build/deduplication#custom-primary-keys) to the `id` field or [setting `primary` to true](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#how-does-deduplication-work) for some output fields.
+*   For polling triggers, to account for [deduplication](/platform/build/deduplication), you will need to customize your API call’s code to ensure each record has a unique primary key (usually an `id` field). This could mean [copying a unqiue timestamp](/platform/build/deduplication#custom-primary-keys) to the `id` field or [setting `primary` to true](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#how-does-deduplication-work) for some output fields.
 
 
 ### Include linked information in trigger response
@@ -63,7 +63,7 @@ To add a CRM app integration in the Platform UI:
 
 ### Handle custom fields
 
-*   Use \[pagination\]((/build/trigger#how-to-use-pagination) to retrieve custom fields a user might expect.
+*   Use \[pagination\]((/platform/build/trigger#how-to-use-pagination) to retrieve custom fields a user might expect.
 
 ### Handle tags
 
@@ -89,23 +89,23 @@ To add a CRM app integration in the Platform UI:
   <img src="/images/5e0bd80c41a78719f140e2382454cf99.gif"/>
 </Frame>
 
-\_ Read more about pairing [searches and creates](/build/search-or-create).
+\_ Read more about pairing [searches and creates](/platform/build/search-or-create).
 
 ## 5\. Include common create actions
 
-*   Check out the [common record types](/quickstart/must-have-triggers-and-actions#crm-customer-relationship-management) other CRM apps have create actions for.
+*   Check out the [common record types](/platform/quickstart/must-have-triggers-and-actions#crm-customer-relationship-management) other CRM apps have create actions for.
 
 *   Use the standard _Create_ or _Add_ naming pattern to show users that this action creates a new record in your app
 
 *   Add corresponding _Update_ actions with available _Search_ actions to make it easier for users to update the correct record.
 
-*   Account for linked records in action input fields, so when your app’s UI allows users to create a contact and link it to existing companies or stages, the same action is available through Zapier, via a [dynamic dropdown](/build/field-definitions#dynamic-dropdown) to fetch linked record options and let users select them.
+*   Account for linked records in action input fields, so when your app’s UI allows users to create a contact and link it to existing companies or stages, the same action is available through Zapier, via a [dynamic dropdown](/platform/build/field-definitions#dynamic-dropdown) to fetch linked record options and let users select them.
 
 *   Optionally link a [search connector](https://cdn.zappy.app/103626b1313602fa33c33711ed44ff56.png) to linked record input fields if users need to have the Zap find the correct related record, and map the found ID to the input field. To add that user prompt you’ll need to work in the [Platform CLI](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#search-powered-fields).
 
 *   Do not have a single action create multiple records. When a user creates a new contact through Zapier, this should only create new contacts, and should not also create other linked records at the same time. Rather include a separate action to create the other linked record, along with a contact update action to link the contact after the other record is created. This reduces the chance for errors and record redundancy.
 
-*   Account for [custom fields in action input fields](/build/dynamic-field), displaying the human-readable label instead of the internal ID.
+*   Account for [custom fields in action input fields](/platform/build/dynamic-field), displaying the human-readable label instead of the internal ID.
 
 *   The first version of your integration doesn’t need to have every possible action available, but add compatible functionality users expect or request in future updates.
 
@@ -114,7 +114,7 @@ To add a CRM app integration in the Platform UI:
 
 *   If new records created in your app get automatically added to in-app workflows, sequences, follow-ups, or campaigns, make sure records created via the API by Zaps will also get automatically added to workflows.
 
-*   Optionally add a boolean field to your action input fields to let users select if they want this contact added to a workflow, or include a [dynamic dropdown](/build/field-definitions#dynamic-dropdown) to select the workflow they want.
+*   Optionally add a boolean field to your action input fields to let users select if they want this contact added to a workflow, or include a [dynamic dropdown](/platform/build/field-definitions#dynamic-dropdown) to select the workflow they want.
 
 
 ## 7\. Test your triggers and actions

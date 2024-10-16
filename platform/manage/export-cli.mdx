@@ -7,7 +7,7 @@ Platform UI is the way for users with API experience that are more comfortable w
 
 The CLI is, on the other hand, the most powerful tool for professional developers and teams. Some of the advantages:
 
-*   Access to all [features](/quickstart/ui-vs-cli) of the Zapier Platform
+*   Access to all [features](/platform/quickstart/ui-vs-cli) of the Zapier Platform
 *   Ability to better optimize your code. Move shared logic into modules. Leverage middleware to centralize request & response processing.
 *   Easier team collaboration. You’ll be able to check all the code for your Zapier integration into your team’s source control repo.
 *   Set up automated regression tests, to catch errors each time you push a change.
@@ -16,7 +16,7 @@ To export your existing Platform UI integration to Platform CLI:
 
 ## 1\. Install and configure the Zapier CLI on your development environment
 
-Follow the steps in the setup section in our [quickstart guide](/reference/cli-docs#quick-setup-guide)
+Follow the steps in the setup section in our [quickstart guide](/platform/reference/cli-docs#quick-setup-guide)
 
 ## 2\. Run the `convert` command to create a CLI version of your project locally
 
@@ -40,7 +40,7 @@ Using this example, to create our project in the current directory our command w
 
 ## 3\. Explore your new CLI project and get familiar with the tool
 
-Check out the resources available in the [CLI section](/reference/cli-docs) of the docs to learn all about the Zapier CLI.
+Check out the resources available in the [CLI section](/platform/reference/cli-docs) of the docs to learn all about the Zapier CLI.
 
 If you need a refresher on JavaScript, it’s well worth the time to check out some of the many great resources available [online](https://javascript.info/). The Zapier Platform uses promises pretty heavily, so this is a good JavaScript topic to get familiar with.
 
@@ -50,7 +50,7 @@ When you ran convert and created your new local CLI project, it was automaticall
 
 A couple of important notes before deploying:
 
-*   When you push the CLI project to the server it will create a _new version_ of your integration. If you haven’t gotten familiar with how versions work you might take a moment and learn about those [here](/manage/versions).
+*   When you push the CLI project to the server it will create a _new version_ of your integration. If you haven’t gotten familiar with how versions work you might take a moment and learn about those [here](/platform/manage/versions).
 *   Take a look at the version number in your `package.json` file. When you created your project with the `convert` tool we automatically incremented the version you converted. You can change this to a different version number depending on your needs, but make sure a version with that number doesn’t already exist in your integration. Run `zapier versions` from your project directory to see what’s already been created.
 *   Integrations converted with the `zapier convert` command will include `convertedByCLIVersion` in the `package.json` for informational purposes.
 

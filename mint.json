@@ -48,7 +48,11 @@
   ],
   "navigation": [
     {
-      "group": "",
+      "group": "home",
+      "pages": ["home"]
+    },
+    {
+      "group": "Platform",
       "pages": ["platform/home"]
     },
     {

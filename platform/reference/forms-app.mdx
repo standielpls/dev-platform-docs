@@ -10,7 +10,7 @@ To add a form or survey app integration in the Platform UI:
 *   A [Zapier account](https://zapier.com/sign-up).
 *   If you haven’t used Zapier before, you’ll want to learn the basics in our [Zapier Getting Started Guide](https://zapier.com/learn/zapier-quick-start-guide/).
 *   Familiarity with your app’s API documentation and available endpoints.
-*   Review the [Platform UI Tutorial](/quickstart/ui-tutorial).
+*   Review the [Platform UI Tutorial](/platform/quickstart/ui-tutorial).
 
 ## 1\. Add a new entry/response trigger
 
@@ -23,7 +23,7 @@ To add a form or survey app integration in the Platform UI:
 
 ## 2\. Configure selection of a specific form
 
-*   Add a [dynamic dropdown](/build/field-definitions#how-to-add-dynamic-and-custom-fields) to retrieve form names exactly as they are listed in your app.
+*   Add a [dynamic dropdown](/platform/build/field-definitions#how-to-add-dynamic-and-custom-fields) to retrieve form names exactly as they are listed in your app.
 *   If the endpoint the dropdown uses allows for sorting, you can `sort_by` the create date to order the dropdown list by the most recently added form to make it easier for users to select the form they need.
 *   Make the selection of a form required so the trigger only watches for results from this one form
 *   If you keep the form field optional, it can be used for responses to any form; and you’ll need to add help text to let users know what to expect if they do not select a form.
@@ -79,7 +79,7 @@ To add a form or survey app integration in the Platform UI:
 
 ### Date fields
 
-*   Return the timestamp when the response was completed in [ISO 8601 format](/publish/branding-guidelines#output-data). Also return any dates users can select in the form or survey in ISO 8601 format.
+*   Return the timestamp when the response was completed in [ISO 8601 format](/platform/publish/branding-guidelines#output-data). Also return any dates users can select in the form or survey in ISO 8601 format.
 
 *   When possible, also include a human-friendly date for the response completion and any other selected dates in the response.
 
@@ -91,14 +91,14 @@ To add a form or survey app integration in the Platform UI:
 
 *   When users can attach files to form responses, include those in the response data as a publicly accessible URL for the file.
 
-*   You could configure Zapier to request the full file via [file dehydration](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#file-dehydration) but you’ll need to then work in the [Platform CLI](/quickstart/cli-tutorial).
+*   You could configure Zapier to request the full file via [file dehydration](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#file-dehydration) but you’ll need to then work in the [Platform CLI](/platform/quickstart/cli-tutorial).
 
 
 ## 4\. Choose trigger type under API Configuration
 
 ### REST Hook trigger
 
-*   If your app supports webhook subscriptions that can be manipulated through a REST API, use [REST hooks](/build/trigger#rest-hook-trigger) for your trigger to send new form entries to Zapier as soon as the form is filled out.
+*   If your app supports webhook subscriptions that can be manipulated through a REST API, use [REST hooks](/platform/build/trigger#rest-hook-trigger) for your trigger to send new form entries to Zapier as soon as the form is filled out.
 
 *   Webhook triggers are marked as _Instant_ [in the Zap Editor](https://cdn.zappy.app/6b696dfaf34664b181b6df651067cfd3.png).
 

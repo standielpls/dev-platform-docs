@@ -7,7 +7,7 @@ description: 'With every API call, Zapier expects the response data to be return
 | --- | --- | --- |
 | **Authentication** | Object | Single JSON-formatted object with any specific fields for auth scheme. |
 | **Authentication testing** | Object | Object |
-| **Trigger** | Array | JSON-formatted array with the results in reverse chronological order. Results are parsed and passed through [deduplication](/build/deduplication). Empty arrays will not trigger. |
+| **Trigger** | Array | JSON-formatted array with the results in reverse chronological order. Results are parsed and passed through [deduplication](/platform/build/deduplication). Empty arrays will not trigger. |
 | **Create action** | Object | Individual fields within object are parsed for mapping into subsequent Zap steps. |
 | **Search action** | Array | JSON-formatted array sorted with the best match first. Only the first item will be returned. For no match found, return a `200` with an empty array. |
 

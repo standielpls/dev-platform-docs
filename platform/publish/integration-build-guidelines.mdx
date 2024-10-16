@@ -11,12 +11,12 @@ If new to Zapier, start by signing up for a free account and experimenting with 
 
 ### Identify key use cases
 
-Focus on the primary functionalities of your application. Review similar integrations in [Zapier’s App Directory](https://zapier.com/apps) and [recommended features](/quickstart/must-have-triggers-and-actions) by app category for ideas on which items to include in your integration. Also, get feedback from your current customer base on their needs and wants from automation with your application.
+Focus on the primary functionalities of your application. Review similar integrations in [Zapier’s App Directory](https://zapier.com/apps) and [recommended features](/platform/quickstart/must-have-triggers-and-actions) by app category for ideas on which items to include in your integration. Also, get feedback from your current customer base on their needs and wants from automation with your application.
 
 ### Thorough integration testing
 
 *   **Internal Testing**: Develop and test Zaps using your integration’s triggers, actions, and searches in your Zapier account. Ensure these are error-free and have successful runs in the Zap History. This gives you firsthand experience of the Zap setup process our mutual users will go through.
-*   **External Testing**: [Share your integration](/manage/sharing) with external users before submitting it for review to gather early feedback from them and make changes to the integration when necessary.
+*   **External Testing**: [Share your integration](/platform/manage/sharing) with external users before submitting it for review to gather early feedback from them and make changes to the integration when necessary.
 
 ### Provision of demo accounts and resources
 
@@ -24,13 +24,13 @@ Provide access to a fully functional demo account and any necessary resources to
 
 ### Automatic validation checks
 
-Review the [integration check reference documentation](/publish/integration-checks-reference) while building your integration to pass the automatic validation when submitting for publishing. To publish your integration, all Errors and Publishing Tasks must be validated. Warnings are non-blocking and not strictly required to proceed as they would not prevent you from promoting a version, though we do recommend you review them for the usability of your integration.
+Review the [integration check reference documentation](/platform/publish/integration-checks-reference) while building your integration to pass the automatic validation when submitting for publishing. To publish your integration, all Errors and Publishing Tasks must be validated. Warnings are non-blocking and not strictly required to proceed as they would not prevent you from promoting a version, though we do recommend you review them for the usability of your integration.
 
 ## Integration information
 
 ### Comprehensive documentation and metadata
 
-All integration information, including the name, logo, description, and category, should be complete, accurate, and adhere to [Zapier’s branding standards](/publish/branding-guidelines). If your app includes features from multiple categories, choose the category that best describes your app’s primary use case today.
+All integration information, including the name, logo, description, and category, should be complete, accurate, and adhere to [Zapier’s branding standards](/platform/publish/branding-guidelines). If your app includes features from multiple categories, choose the category that best describes your app’s primary use case today.
 
 ### Clarify non-obvious features
 
@@ -44,7 +44,7 @@ The terminology and features in your Zapier integration should be consistent wit
 
 ### Ease of connecting accounts
 
-Simplify the authentication process, preferably using [OAuth v2](/build/oauth). For non-OAuth v2 authentication schemes, users must be able to easily generate and retrieve API keys and/or other required credentials themselves without needing assistance from your support team.
+Simplify the authentication process, preferably using [OAuth v2](/platform/build/oauth). For non-OAuth v2 authentication schemes, users must be able to easily generate and retrieve API keys and/or other required credentials themselves without needing assistance from your support team.
 
 ### Help texts
 
@@ -77,7 +77,7 @@ Additionally, each trigger must have:
 
 ### Trigger input fields
 
-[Trigger input fields](/build/add-fields), if they exist, should be named appropriately and include help text if their purpose is ambiguous. Use appropriate naming, ordering, and field types. Avoid unnecessary complexity in ID fields and include helpful tooltips where necessary.
+[Trigger input fields](/platform/build/add-fields), if they exist, should be named appropriately and include help text if their purpose is ambiguous. Use appropriate naming, ordering, and field types. Avoid unnecessary complexity in ID fields and include helpful tooltips where necessary.
 
 *   **ID fields**: Users should never be expected to type in an ID as this is error prone. Your integration should not have any trigger fields labeled ‘ ID’, such as ‘Customer ID’. Instead, use Zapier’s dropdown functionality to provide users with a user-friendly list of options.
 
@@ -85,7 +85,7 @@ Additionally, each trigger must have:
 
 *   **Optional trigger fields**: If a trigger field is optional, confirm the request does not throw an error in a null case where the user does not select an option.
 
-*   **Field types**: Use the most appropriate [input field type](/build/add-fields) for each of the input fields to show users what type of data to include. Note the Zap editor does not validate the data to ensure users added the correct item for that field type. If the field can accept multiple values, use our built in [‘List’ property](https://github.com/zapier/zapier-platform/blob/main/packages/schema/docs/build/schema.md#fieldschema) or ‘[Allow Multiples](/build/add-fields#allows-multiples)’ functionality rather than asking users to provide a comma-separated value in a text field.
+*   **Field types**: Use the most appropriate [input field type](/platform/build/add-fields) for each of the input fields to show users what type of data to include. Note the Zap editor does not validate the data to ensure users added the correct item for that field type. If the field can accept multiple values, use our built in [‘List’ property](https://github.com/zapier/zapier-platform/blob/main/packages/schema/docs/build/schema.md#fieldschema) or ‘[Allow Multiples](/platform/build/add-fields#allows-multiples)’ functionality rather than asking users to provide a comma-separated value in a text field.
 
 *   **Ordering**: Put required trigger input fields at the top of the form with optional fields towards the bottom by importance.
 
@@ -96,20 +96,20 @@ Triggers using static webhooks are not allowed in public Zapier integrations. Us
 
 ### Polling triggers
 
-Live Zaps with [polling triggers](/build/trigger) automatically poll the request URL for new data every 1 to 15 minutes, depending on the user’s [Zapier plan](https://zapier.com/pricing). For an effective polling trigger, the following should be done:
+Live Zaps with [polling triggers](/platform/build/trigger) automatically poll the request URL for new data every 1 to 15 minutes, depending on the user’s [Zapier plan](https://zapier.com/pricing). For an effective polling trigger, the following should be done:
 
 *   Return results from the polling URL in reverse chronological order by created date, so the most recently created or updated object is returned first.
 
-*   Return a sufficient amount of items from the polling endpoint. Generally, 100 items is plenty for most integrations, but there are cases where it’s common for users to perform an action in your app that would trigger more than 100+ records at once. Note that a trigger with more than 100 new items returned in a poll will run into the [polling trigger throttle](/build/operating-constraints#polling-trigger-throttle-zapier).
+*   Return a sufficient amount of items from the polling endpoint. Generally, 100 items is plenty for most integrations, but there are cases where it’s common for users to perform an action in your app that would trigger more than 100+ records at once. Note that a trigger with more than 100 new items returned in a poll will run into the [polling trigger throttle](/platform/build/operating-constraints#polling-trigger-throttle-zapier).
 
-*   Use [pagination](/build/pagination-trigger) on trigger results when being used to populate a dynamic dropdown, if large amounts of data will be returned.
+*   Use [pagination](/platform/build/pagination-trigger) on trigger results when being used to populate a dynamic dropdown, if large amounts of data will be returned.
 
-*   Each result should contain a unique primary key (usually an id field) for [deduplication](/build/deduplication) from the polling endpoint.
+*   Each result should contain a unique primary key (usually an id field) for [deduplication](/platform/build/deduplication) from the polling endpoint.
 
 
 ### REST hook
 
-[REST hook-based triggers](/build/trigger) are Zapier’s preferred implementation of triggers since they fire immediately after the triggering action is performed.Our mutual users prefer REST hook triggers over polling triggers in their Zaps. They are labelled as [Instant triggers](https://help.zapier.com/hc/en-us/articles/8496244568589-Types-of-triggers-in-Zaps) to users For an effective REST hook trigger, the following should be done:
+[REST hook-based triggers](/platform/build/trigger) are Zapier’s preferred implementation of triggers since they fire immediately after the triggering action is performed.Our mutual users prefer REST hook triggers over polling triggers in their Zaps. They are labelled as [Instant triggers](https://help.zapier.com/hc/en-us/articles/8496244568589-Types-of-triggers-in-Zaps) to users For an effective REST hook trigger, the following should be done:
 
 *   Hook-based triggers must allow multiple subscriptions without overwriting subscriptions. You can test this by setting up 2 Zaps with the same trigger, turning them On, and confirming both Zaps fire successfully when the triggering event is performed in your app.
 
@@ -139,7 +139,7 @@ The response content is what is returned to Zapier by the trigger. The response 
 
 ### Sample data
 
-Each trigger requires [sample data](/build/sample-data) for instances where no result is returned during Zap setup or the user chooses to skip testing. This could be because the API is temporarily down, or because the user has no existing data in their account to return. The sample data must:
+Each trigger requires [sample data](/platform/build/sample-data) for instances where no result is returned during Zap setup or the user chooses to skip testing. This could be because the API is temporarily down, or because the user has no existing data in their account to return. The sample data must:
 
 *   Only represent one item, and not the entire response of the request if there are multiple items returned as a set. For example, \{“key”: “value”} instead of \[\{“key”: “value”}, \{“key”: “value2”}, … \].
 
@@ -150,7 +150,7 @@ Each trigger requires [sample data](/build/sample-data) for instances where no r
 
 ### Output fields
 
-[Output fields](/build/sample-data) add user-friendly labels to your API’s response to facilitate mapping fields during Zap setup for users. By default, Zapier will try to make a friendly version of the response by capitalizing words and replacing underscores with spaces, but this can be customized. Add a custom output field label when:
+[Output fields](/platform/build/sample-data) add user-friendly labels to your API’s response to facilitate mapping fields during Zap setup for users. By default, Zapier will try to make a friendly version of the response by capitalizing words and replacing underscores with spaces, but this can be customized. Add a custom output field label when:
 
 *   a field is abbreviated. For example, ‘LTV’ should be labeled ‘Lifetime Value’.
 *   a field has an ambiguous unit of measure. For example, ‘Duration’ should be labeled ‘Duration (in seconds)’.
@@ -184,19 +184,19 @@ Additionally, each action must have:
 
 ### Action input fields
 
-All action steps must include [input fields](/build/add-fields) to gather the data needed to create, update, or perform the intended action. These fields should be named appropriately and include help text if their purpose is ambiguous. Use appropriate naming, ordering, and field types. Avoid unnecessary complexity in ID fields and include helpful tooltips where necessary.
+All action steps must include [input fields](/platform/build/add-fields) to gather the data needed to create, update, or perform the intended action. These fields should be named appropriately and include help text if their purpose is ambiguous. Use appropriate naming, ordering, and field types. Avoid unnecessary complexity in ID fields and include helpful tooltips where necessary.
 
-*   **ID fields**: Users should never be expected to manually type or map an internal ID to an action field. Your integration should not have input fields labeled ‘XXX ID’. Generally, trigger and action steps of other integrations do not return internal IDs for your specific platform to be used in an action field from your Zapier integration. Use Zapier’s [dynamic dropdown](/build/add-fields#dynamic-dropdown) and [Search Connector](/build/add-fields#dynamic-dropdown:~:text=**%203.Add%20search%20to%20a%20dynamic%20field%20(optional)**)/[search-powered field](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#how-do-search-powered-fields-relate-to-dynamic-dropdowns-and-why-are-they-both-required-together) functionalities to provide users with an easier way to select or search for the appropriate resource by a more readily available value such as ‘name’, ‘email address’, ‘title’, etc.
+*   **ID fields**: Users should never be expected to manually type or map an internal ID to an action field. Your integration should not have input fields labeled ‘XXX ID’. Generally, trigger and action steps of other integrations do not return internal IDs for your specific platform to be used in an action field from your Zapier integration. Use Zapier’s [dynamic dropdown](/platform/build/add-fields#dynamic-dropdown) and [Search Connector](/platform/build/add-fields#dynamic-dropdown:~:text=**%203.Add%20search%20to%20a%20dynamic%20field%20(optional)**)/[search-powered field](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#how-do-search-powered-fields-relate-to-dynamic-dropdowns-and-why-are-they-both-required-together) functionalities to provide users with an easier way to select or search for the appropriate resource by a more readily available value such as ‘name’, ‘email address’, ‘title’, etc.
 
-*   **Ordering**: Order action fields logically. If you are unsure, look at how the respective fields are ordered in your platform and mimic that since users will be familiar with that ordering. Required action fields should generally be listed first at the top of the Zap editor while all optional, lesser-used fields towards the bottom. Group related fields together. For example, first name and last name fields, as well as individual address component fields should be ordered consecutively. Do NOT use [line-item groups](/build/line-items) or the ‘[children](https://github.com/zapier/zapier-platform/blob/main/packages/schema/docs/build/schema.md#fieldschema)’ field schema key to visually group fields; these are solely intended for line-item or array functionality.
+*   **Ordering**: Order action fields logically. If you are unsure, look at how the respective fields are ordered in your platform and mimic that since users will be familiar with that ordering. Required action fields should generally be listed first at the top of the Zap editor while all optional, lesser-used fields towards the bottom. Group related fields together. For example, first name and last name fields, as well as individual address component fields should be ordered consecutively. Do NOT use [line-item groups](/platform/build/line-items) or the ‘[children](https://github.com/zapier/zapier-platform/blob/main/packages/schema/docs/build/schema.md#fieldschema)’ field schema key to visually group fields; these are solely intended for line-item or array functionality.
 
 *   **Required fields**: If a field is not required by your API, don’t make it required in the Zap action. Parallel the required fields from your integration as closely as possible. For example, if ‘Email Address’ is not required to create a lead in the platform, do not make the ‘Email Address’ field required in the Zap editor. If the API specifies a non-important field as required, hard-code a default value so the field is not empty if one is not provided by the user. If the action step has a case where one field OR another field is required, set both fields as optional, add help text to both fields stating that one or the other is required, and throw a user-friendly error message if neither field is filled.
 
 *   **Help texts**: Don’t be redundant with help text, and only include it if you have something different to say from the field name such as the expected format of the value or additional instructions. For example, help text for an ‘Email Address’ field stating ‘Contact’s email address’ is not necessary. Redundant help text teaches users not to read any help text at all, so important information can be missed. Use [Markdown](https://www.markdownguide.org/) to [format text](https://www.markdownguide.org/basic-syntax/#emphasis) and include [links](https://www.markdownguide.org/basic-syntax/#links) to more detailed help documentation created on your site where applicable.
 
-*   **Default values**: Set [default values](/build/add-fields) for input fields sparingly. If the API specifies an unimportant field as required, set a default value in case one is not provided by the user. If the field in the application is set to or shows a default value, set the same default value for the action field in the Zapier integration.
+*   **Default values**: Set [default values](/platform/build/add-fields) for input fields sparingly. If the API specifies an unimportant field as required, set a default value in case one is not provided by the user. If the field in the application is set to or shows a default value, set the same default value for the action field in the Zapier integration.
 
-*   **Field types**: Use the most appropriate [input field type](/build/add-fields) for each of the input fields to show users what type of data to include — note Zapier does not validate the data to ensure users added the correct item for that field type. If the field can accept multiple values, use our built-in [‘List’ property](https://github.com/zapier/zapier-platform/blob/main/packages/schema/docs/build/schema.md#fieldschema) or ‘[Allow Multiples](/build/add-fields#allows-multiples)’ functionality rather than asking users to provide a comma-separated list of values in a text field.
+*   **Field types**: Use the most appropriate [input field type](/platform/build/add-fields) for each of the input fields to show users what type of data to include — note Zapier does not validate the data to ensure users added the correct item for that field type. If the field can accept multiple values, use our built-in [‘List’ property](https://github.com/zapier/zapier-platform/blob/main/packages/schema/docs/build/schema.md#fieldschema) or ‘[Allow Multiples](/platform/build/add-fields#allows-multiples)’ functionality rather than asking users to provide a comma-separated list of values in a text field.
 
 
 ### Response content
@@ -220,7 +220,7 @@ Return information about the resource that was created, updated, or affected by 
 
 ### Sample data
 
-The ‘Test’ step on actions sends a real request on behalf of the connected account. Therefore, each action requires [sample data](/build/sample-data) for instances when the user does not wish to actually run the action in their account to finish setting up the Zap. The sample data must:
+The ‘Test’ step on actions sends a real request on behalf of the connected account. Therefore, each action requires [sample data](/platform/build/sample-data) for instances when the user does not wish to actually run the action in their account to finish setting up the Zap. The sample data must:
 
 *   Represent the expected return from the request when a record is successfully created or found.
 
@@ -231,7 +231,7 @@ The ‘Test’ step on actions sends a real request on behalf of the connected a
 
 ### Output fields
 
-[Output Fields](/build/sample-data) add user-friendly labels to your API’s response data to facilitate mapping fields during Zap setup for users. By default, Zapier will try to make a friendly version of your API’s response, capitalizing words, and replacing underscores with spaces, but they can also be customized. Add a custom output field label when:
+[Output Fields](/platform/build/sample-data) add user-friendly labels to your API’s response data to facilitate mapping fields during Zap setup for users. By default, Zapier will try to make a friendly version of your API’s response, capitalizing words, and replacing underscores with spaces, but they can also be customized. Add a custom output field label when:
 
 *   a field is abbreviated. For example, ‘LTV’ should be labeled ‘Lifetime Value’.
 *   a field has an ambiguous unit of measure. For example, ‘Duration’ should be labeled ‘Duration (in seconds)’.
@@ -277,7 +277,7 @@ Additionally, each search must have:
 
 ### Search input fields
 
-[Search input fields](/build/add-fields) should be named appropriately and include help text if their purpose is ambiguous.
+[Search input fields](/platform/build/add-fields) should be named appropriately and include help text if their purpose is ambiguous.
 
 *   **ID fields**: Users should never be expected to manually type or map an internal ID to a search field. Your integration should not have search fields labeled ‘XXX ID’. Trigger and action steps of other integrations do not return internal IDs for your specific app that could be used in an action field for your Zapier integration. If the user is using a trigger from your Zapier integration, the trigger should return all necessary information about the resource without the Zap needing a search step to retrieve additional, necessary information. Instead, provide search field options for more general information such as ‘name’, ‘email address’, ‘phone number’, ‘title’, etc. that is more readily available from all triggers.
 
@@ -287,14 +287,14 @@ Additionally, each search must have:
 
 *   **Help texts**: Don’t be redundant with help text, and only include it if you have something different to say from the field name such as the expected format of the value or additional instructions. Redundant help text teaches users not to read any help text at all, so important information can be missed. Use [Markdown](https://www.markdownguide.org/) to [format text](https://www.markdownguide.org/basic-syntax/#emphasis) and include [links](https://www.markdownguide.org/basic-syntax/#links) to more detailed help documentation created on your site where applicable.
 
-*   **Field types**: Use the most appropriate [input field type](/build/add-fields) for each of the input fields to show users what type of data to include — note Zapier does not validate the data to ensure users added the correct item for that field type. If the field can accept multiple values, use our built-in [‘List’ property](https://github.com/zapier/zapier-platform/blob/main/packages/schema/docs/build/schema.md#fieldschema) or ‘[Allow Multiples](/build/add-fields#allows-multiples)’ functionality rather than asking users to provide a comma-separated list of values in a text field.
+*   **Field types**: Use the most appropriate [input field type](/platform/build/add-fields) for each of the input fields to show users what type of data to include — note Zapier does not validate the data to ensure users added the correct item for that field type. If the field can accept multiple values, use our built-in [‘List’ property](https://github.com/zapier/zapier-platform/blob/main/packages/schema/docs/build/schema.md#fieldschema) or ‘[Allow Multiples](/platform/build/add-fields#allows-multiples)’ functionality rather than asking users to provide a comma-separated list of values in a text field.
 
 
 ### Response content
 
 While “create” actions return a single object to Zapier; searches must return an array of objects. Each search must follow these requirements:
 
-*   **No Result**: Do not raise an error if there are no search results to return. If your API returns a 404 for search misses, use custom code to [return a 200 with an empty array as the response](/build/response-types).
+*   **No Result**: Do not raise an error if there are no search results to return. If your API returns a 404 for search misses, use custom code to [return a 200 with an empty array as the response](/platform/build/response-types).
 
 *   **Names**: Many actions in Zapier require names to be split into two fields - first/last or given/surname. This conflicts with some naming schemes around the world, but without a separated name field, your action may not be compatible with certain integrations in subsequent steps of a user’s Zap. Always provide separated name fields if applicable, though feel free to return the full name as well if the response already includes this.
 
@@ -315,7 +315,7 @@ While “create” actions return a single object to Zapier; searches must retur
 
 ### Sample data
 
-Each search requires [sample data](/build/sample-data) for instances where no result is returned during Zap setup. This could be because the API is temporarily down, or because no result is returned for the specific search the user tests. The sample data must:
+Each search requires [sample data](/platform/build/sample-data) for instances where no result is returned during Zap setup. This could be because the API is temporarily down, or because no result is returned for the specific search the user tests. The sample data must:
 
 *   Only represent one record, and not the entire return from the request if there are multiple records returned as a set. For example, \{“key”: “value”} instead of \[\{“key”: “value”}, \{“key”: “value2”}, … \].
 
@@ -326,7 +326,7 @@ Each search requires [sample data](/build/sample-data) for instances where no re
 
 ### Output fields
 
-[Output fields](/build/sample-data) add user-friendly labels to your API’s response data to facilitate mapping fields during Zap setup for users. By default, Zapier will try to make a friendly version of your API’s response, capitalizing words, and replacing underscores with spaces, but they can also be customized. Add a custom output field label when:
+[Output fields](/platform/build/sample-data) add user-friendly labels to your API’s response data to facilitate mapping fields during Zap setup for users. By default, Zapier will try to make a friendly version of your API’s response, capitalizing words, and replacing underscores with spaces, but they can also be customized. Add a custom output field label when:
 
 *   a field is abbreviated. For example, ‘LTV’ should be labeled ‘Lifetime Value’.
 *   a field has an ambiguous unit of measure. For example, ‘Duration’ should be labeled ‘Duration (in seconds)’.
@@ -364,7 +364,7 @@ For integrations using OAuth2 with automatic refresh requests or Session Auth, u
 
 ### Environment variables
 
-Do not hard code credentials such as API Keys, Client IDs, Client Secrets, etc. into your integration. Use [environment variables](/build/env) instead.
+Do not hard code credentials such as API Keys, Client IDs, Client Secrets, etc. into your integration. Use [environment variables](/platform/build/env) instead.
 
 ### Structure
 
@@ -372,13 +372,13 @@ If you are using the [Zapier CLI](https://github.com/zapier/zapier-platform/blob
 
 ### Dependencies
 
-If you are using the [Zapier CLI](/reference/cli-docs), keep dependencies up to date. When notified that a dependency must be updated—for example, `zapier-platform-legacy-scripting-runner`, `zapier-platform-core`, or `zapier-platform-cli` —complete the update promptly or by the stated deadline. If requested updates are not completed by the stated deadline, Zapier reserves the right to make necessary updates on your behalf.
+If you are using the [Zapier CLI](/platform/reference/cli-docs), keep dependencies up to date. When notified that a dependency must be updated—for example, `zapier-platform-legacy-scripting-runner`, `zapier-platform-core`, or `zapier-platform-cli` —complete the update promptly or by the stated deadline. If requested updates are not completed by the stated deadline, Zapier reserves the right to make necessary updates on your behalf.
 
 ## Conclusion
 
 While these guidelines are not exhaustive, they provide a robust framework to prepare your integration for a successful launch on Zapier.
 
-Note that while not implementing these guidelines would not prevent your integration from being published, there are certain [requirements](/publish/integration-publishing-requirements) that **must** be met before your integration can be approved for publishing.
+Note that while not implementing these guidelines would not prevent your integration from being published, there are certain [requirements](/platform/publish/integration-publishing-requirements) that **must** be met before your integration can be approved for publishing.
 
 For any specific questions or additional support, feel free to contact the Developer Support team at Zapier via the [contact form](https://developer.zapier.com/contact).
 

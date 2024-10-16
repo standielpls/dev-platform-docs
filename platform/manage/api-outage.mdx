@@ -37,7 +37,7 @@ const yourAfterResponse = (resp) => {
 
 ### Platform UI
 
-When building in the [UI](https://developer.zapier.com/), custom error handling needs to be added to each individual element of the integration (authentication, triggers, actions) using [Code Mode](/build/code-mode).
+When building in the [UI](https://developer.zapier.com/), custom error handling needs to be added to each individual element of the integration (authentication, triggers, actions) using [Code Mode](/platform/build/code-mode).
 
 For example:
 
@@ -67,7 +67,7 @@ return z.request(options)
   <img src="/images/f9f04386f19f0e9f7f107ea8d0d6e3b7.png"/>
 </Frame>
 
-> **Note:** Integrations built with the Zapier Platform UI can enable the _skipThrowForStatus_ toggle under [Advanced/Settings](/build/errors) to On to use [`skipThrowForStatus:true`](https://cdn.zappy.app/8ac6af91f6b27c4a473d566f1534b27e.png) on every request
+> **Note:** Integrations built with the Zapier Platform UI can enable the _skipThrowForStatus_ toggle under [Advanced/Settings](/platform/build/errors) to On to use [`skipThrowForStatus:true`](https://cdn.zappy.app/8ac6af91f6b27c4a473d566f1534b27e.png) on every request
 
 ## 3\. Specify how long Zapier should wait before retrying
 
@@ -99,7 +99,7 @@ During a set maintenance window, Zaps impacted by the downtime will be affected 
 
 **Triggers:** _most_ Zaps with affected (polling) triggers won’t run and so (for the most part) there will be no Zap runs in [Zap History](https://help.zapier.com/hc/en-us/articles/8496291148685-View-and-manage-your-Zap-history).
 
-In more detail, Zapier will “skip” 90% of polls, allowing 10% through, so typically _some_ runs will occur for _some_ Zaps. After 15 minutes, all polling is re-enabled to check if the API is healthy again. If not, Zapier will again “skip” 90% of polls. This will be repeated until the API is healthy. Once the API is healthy, Zaps will be triggered and “catch up” on missed data, subject to normal polling limitations such as [pagination](/build/trigger#how-to-use-pagination).
+In more detail, Zapier will “skip” 90% of polls, allowing 10% through, so typically _some_ runs will occur for _some_ Zaps. After 15 minutes, all polling is re-enabled to check if the API is healthy again. If not, Zapier will again “skip” 90% of polls. This will be repeated until the API is healthy. Once the API is healthy, Zaps will be triggered and “catch up” on missed data, subject to normal polling limitations such as [pagination](/platform/build/trigger#how-to-use-pagination).
 
 If Zap runs error users will be notified via email based on their [notification settings](https://help.zapier.com/hc/en-us/articles/8496289225229-Manage-notifications-when-errors-occur-in-Zaps).
 

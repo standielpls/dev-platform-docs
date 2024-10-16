@@ -24,7 +24,7 @@ description: 'Once authentication is tested, trigger and action steps are easy t
     *   Test Data: Did your test data include the details your app expects, such as actual dates in date fields or complete email addresses in email address fields?
     *   Input Field Keys: Did you use the same field keys in your input field as your API expects? Double-check that in the Input Designer, and change if needed.
     *   API Call Customization: Does your API expect something different than the standard API call details Zapier sets by default? You may need to use Code Mode if the options you need aren’t available.
-6.  When testing a [REST Hook trigger](/build/hook-trigger), you will instead have to create and test a Zap in the Zap Editor as follows:
+6.  When testing a [REST Hook trigger](/platform/build/hook-trigger), you will instead have to create and test a Zap in the Zap Editor as follows:
 
     *   Test the trigger to confirm that the Perform List works and provides live data from the app.
     *   Turn on the Zap to confirm that the subscription is successful.
@@ -32,7 +32,7 @@ description: 'Once authentication is tested, trigger and action steps are easy t
     *   Compare the data returned from the Perform (can be seen in the [Zap history](https://help.zapier.com/hc/en-us/articles/8496291148685-View-and-manage-your-Zap-history)) with the data returned from the Perform List and confirm that they are both in the same format and have the same information in them.
     *   Turn off the Zap to confirm that the unsubscription is successful. A successful unsubscription should delete the Zap’s webhook URL from your app.
 
-It is recommended that you check the logs in the [Monitoring](/build/test-monitoring) component for feedback from your Zap testing.
+It is recommended that you check the logs in the [Monitoring](/platform/build/test-monitoring) component for feedback from your Zap testing.
 
 - - -
 

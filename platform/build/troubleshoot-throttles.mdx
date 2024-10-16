@@ -23,7 +23,7 @@ If implementing a `ThrottledError`, you could consider implementing a jitter for
 
 `throw new z.errors.ThrottledError('message here', 60 + Math.floor(Math.random() * 60))`
 
-Keep in mind that adding custom error handling with `ThrottledError` would likely require a [new integration version](/manage/versions), whereas adding to the headers could be implemented on your API’s end.
+Keep in mind that adding custom error handling with `ThrottledError` would likely require a [new integration version](/platform/manage/versions), whereas adding to the headers could be implemented on your API’s end.
 
 ## Webhook throttles by Zapier
 
