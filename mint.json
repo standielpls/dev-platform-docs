@@ -185,7 +185,7 @@
           "pages": ["platform/manage/add-team"]
         },
         {
-          "group": "integration changes",
+          "group": "Integration changes",
           "pages": [
             "platform/manage/planning-changes",
             "platform/manage/auth-scheme",
@@ -205,7 +205,7 @@
           ]
         },
         {
-          "group": "integration performance",
+          "group": "Integration performance",
           "pages": [
             "platform/manage/api-outage",
             "platform/manage/embed-insights",
