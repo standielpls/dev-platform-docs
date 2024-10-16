@@ -50,30 +50,30 @@
     {
       "group": "Quick start",
       "pages": [
-        "quickstart/build-private-integration",
+        "platform/quickstart/build-private-integration",
         {
           "group": "Developer tools",
           "pages": [
-            "quickstart/ui-vs-cli",
-            "quickstart/ui-tutorial",
-            "quickstart/cli-tutorial",
-            "quickstart/get-help"
+            "platform/quickstart/ui-vs-cli",
+            "platform/quickstart/ui-tutorial",
+            "platform/quickstart/cli-tutorial",
+            "platform/quickstart/get-help"
           ]
         },
         {
           "group": "Glossary",
-          "pages": ["quickstart/glossary"]
+          "pages": ["platform/quickstart/glossary"]
         },
         {
           "group": "How it works",
           "pages": [
-            "quickstart/how-zapier-works",
-            "quickstart/zapier-integration-structure",
-            "quickstart/private-vs-public-integrations"
+            "platform/quickstart/how-zapier-works",
+            "platform/quickstart/zapier-integration-structure",
+            "platform/quickstart/private-vs-public-integrations"
           ]
         },
-        "quickstart/must-have-triggers-and-actions",
-        "quickstart/trusted-developers"
+        "platform/quickstart/must-have-triggers-and-actions",
+        "platform/quickstart/trusted-developers"
       ]
     },
     {
@@ -82,91 +82,91 @@
         {
           "group": "Actions",
           "pages": [
-            "build/action",
-            "build/create",
-            "build/search",
-            "build/reorder-action",
-            "build/search-or-create"
+            "platform/build/action",
+            "platform/build/create",
+            "platform/build/search",
+            "platform/build/reorder-action",
+            "platform/build/search-or-create"
           ]
         },
         {
           "group": "Advanced features",
           "pages": [
-            "build/env",
-            "build/errors",
-            "build/bundle",
-            "build/code-mode",
-            "build/hydration-cli",
-            "build/static-ip"
+            "platform/build/env",
+            "platform/build/errors",
+            "platform/build/bundle",
+            "platform/build/code-mode",
+            "platform/build/hydration-cli",
+            "platform/build/static-ip"
           ]
         },
         {
           "group": "Authentication",
           "pages": [
-            "build/auth",
-            "build/apikeyauth",
-            "build/basicauth",
-            "build/digestauth",
-            "build/oauth",
-            "build/sessionauth",
-            "build/connection-label",
-            "build/computed-fields",
-            "build/computed-test-field",
-            "build/requesttemplate",
-            "build/subdomain-validation"
+            "platform/build/auth",
+            "platform/build/apikeyauth",
+            "platform/build/basicauth",
+            "platform/build/digestauth",
+            "platform/build/oauth",
+            "platform/build/sessionauth",
+            "platform/build/connection-label",
+            "platform/build/computed-fields",
+            "platform/build/computed-test-field",
+            "platform/build/requesttemplate",
+            "platform/build/subdomain-validation"
           ]
         },
         {
           "group": "Fields",
           "pages": [
-            "build/field-definitions",
-            "build/add-fields",
-            "build/dynamic-field",
-            "build/line-items",
-            "build/sample-data",
-            "build/response-types",
-            "build/dynamic-dropdowns"
+            "platform/build/field-definitions",
+            "platform/build/add-fields",
+            "platform/build/dynamic-field",
+            "platform/build/line-items",
+            "platform/build/sample-data",
+            "platform/build/response-types",
+            "platform/build/dynamic-dropdowns"
           ]
         },
         {
           "group": "Testing",
           "pages": [
-            "build/test-auth",
-            "build/test-triggers-actions",
-            "build/test-tools",
-            "build/test-monitoring"
+            "platform/build/test-auth",
+            "platform/build/test-triggers-actions",
+            "platform/build/test-tools",
+            "platform/build/test-monitoring"
           ]
         },
         {
           "group": "Triggers",
           "pages": [
-            "build/trigger",
-            "build/polling-trigger",
-            "build/hook-trigger",
-            "build/reorder-trigger",
-            "build/deduplication",
-            "build/pagination-trigger",
-            "build/cli-hook-trigger"
+            "platform/build/trigger",
+            "platform/build/polling-trigger",
+            "platform/build/hook-trigger",
+            "platform/build/reorder-trigger",
+            "platform/build/deduplication",
+            "platform/build/pagination-trigger",
+            "platform/build/cli-hook-trigger"
           ]
         },
         {
           "group": "Troubleshooting",
           "pages": [
-            "build/operating-constraints",
-            "build/troubleshoot-trigger-timeouts",
-            "build/troubleshoot-trigger-payload",
-            "build/troubleshoot-action-timeouts",
-            "build/troubleshoot-action-payload",
-            "build/troubleshoot-custom-fields",
-            "build/reduce-api-requests",
-            "build/troubleshoot-throttles",
-            "build/hydration-limits",
-            "build/error-array-expected",
-            "build/error-non-object",
-            "build/error-non-object-array"
+            "platform/build/operating-constraints",
+            "platform/build/troubleshoot-trigger-timeouts",
+            "platform/build/troubleshoot-trigger-payload",
+            "platform/build/troubleshoot-action-timeouts",
+            "platform/build/troubleshoot-action-payload",
+            "platform/build/troubleshoot-custom-fields",
+            "platform/build/reduce-api-requests",
+            "platform/build/troubleshoot-throttles",
+            "platform/build/hydration-limits",
+            "platform/build/error-array-expected",
+            "platform/build/error-non-object",
+            "platform/build/error-non-object-array"
           ]
         },
-        "build/form-mode"
+        "platform/build/form-mode"
       ]
     },
     {
@@ -174,57 +174,57 @@
       "pages": [
         {
           "group": "Account and team",
-          "pages": ["manage/add-team"]
+          "pages": ["platform/manage/add-team"]
         },
         {
           "group": "integration changes",
           "pages": [
-            "manage/planning-changes",
-            "manage/auth-scheme",
-            "manage/auth-required",
-            "manage/auth-keys",
-            "manage/change-keys",
-            "manage/required-input",
-            "manage/input-key",
-            "manage/output-key",
-            "manage/output",
-            "manage/change-trigger",
-            "manage/change-perform",
-            "manage/change-api",
-            "manage/export-cli",
-            "manage/export-ui",
-            "manage/essential-tips-iq"
+            "platform/manage/planning-changes",
+            "platform/manage/auth-scheme",
+            "platform/manage/auth-required",
+            "platform/manage/auth-keys",
+            "platform/manage/change-keys",
+            "platform/manage/required-input",
+            "platform/manage/input-key",
+            "platform/manage/output-key",
+            "platform/manage/output",
+            "platform/manage/change-trigger",
+            "platform/manage/change-perform",
+            "platform/manage/change-api",
+            "platform/manage/export-cli",
+            "platform/manage/export-ui",
+            "platform/manage/essential-tips-iq"
           ]
         },
         {
           "group": "integration performance",
           "pages": [
-            "manage/api-outage",
-            "manage/embed-insights",
-            "manage/user-feedback",
-            "manage/error-handling",
-            "manage/active-users",
-            "manage/integration-insights",
-            "manage/zap-activation",
-            "manage/embed-activation"
+            "platform/manage/api-outage",
+            "platform/manage/embed-insights",
+            "platform/manage/user-feedback",
+            "platform/manage/error-handling",
+            "platform/manage/active-users",
+            "platform/manage/integration-insights",
+            "platform/manage/zap-activation",
+            "platform/manage/embed-activation"
           ]
         },
         {
           "group": "Sharing",
-          "pages": ["manage/sharing"]
+          "pages": ["platform/manage/sharing"]
         },
         {
           "group": "Versions",
           "pages": [
-            "manage/versions",
-            "manage/clone",
-            "manage/promote",
-            "manage/migrate",
-            "manage/deprecate",
-            "manage/versions-legacy"
+            "platform/manage/versions",
+            "platform/manage/clone",
+            "platform/manage/promote",
+            "platform/manage/migrate",
+            "platform/manage/deprecate",
+            "platform/manage/versions-legacy"
           ]
         },
-        "manage/branding-cli"
+        "platform/manage/branding-cli"
       ]
     },
     {
@@ -233,59 +233,59 @@
         {
           "group": "Branding",
           "pages": [
-            "publish/branding-guidelines",
-            "publish/add-or-modify-branding"
+            "platform/publish/branding-guidelines",
+            "platform/publish/add-or-modify-branding"
           ]
         },
         {
           "group": "Launch process",
           "pages": [
-            "publish/public-integration",
-            "publish/integration-build-guidelines",
-            "publish/integration-publishing-requirements",
-            "publish/zap-templates",
-            "publish/user-help",
-            "publish/zps"
+            "platform/publish/public-integration",
+            "platform/publish/integration-build-guidelines",
+            "platform/publish/integration-publishing-requirements",
+            "platform/publish/zap-templates",
+            "platform/publish/user-help",
+            "platform/publish/zps"
           ]
         },
         {
           "group": "Partner program",
           "pages": [
-            "publish/partner-program",
-            "publish/partner-faq",
-            "publish/benefits-guide"
+            "platform/publish/partner-program",
+            "platform/publish/partner-faq",
+            "platform/publish/benefits-guide"
           ]
         },
         {
           "group": "Validation",
-          "pages": ["publish/integration-checks-reference"]
+          "pages": ["platform/publish/integration-checks-reference"]
         }
       ]
     },
     {
       "group": "Embed",
-      "pages": ["embed/partner-solutions"]
+      "pages": ["platform/embed/partner-solutions"]
     },
     {
       "group": "Reference",
       "pages": [
-        "reference/cli-docs",
+        "platform/reference/cli-docs",
         {
           "group": "Use cases",
           "pages": [
-            "reference/forms-app",
-            "reference/crm-app",
-            "reference/project-app",
-            "reference/ai-app"
+            "platform/reference/forms-app",
+            "platform/reference/crm-app",
+            "platform/reference/project-app",
+            "platform/reference/ai-app"
           ]
         },
-        "reference/cli",
-        "reference/transfer",
-        "reference/ai-actions",
-        "reference/custom-actions-api-requests",
-        "reference/legacy-scripting",
-        "reference/changelog",
-        "reference/schema"
+        "platform/reference/cli",
+        "platform/reference/transfer",
+        "platform/reference/ai-actions",
+        "platform/reference/custom-actions-api-requests",
+        "platform/reference/legacy-scripting",
+        "platform/reference/changelog",
+        "platform/reference/schema"
       ]
     }
   ],
