@@ -48,6 +48,10 @@
   ],
   "navigation": [
     {
+      "group": "",
+      "pages": ["platform/home"]
+    },
+    {
       "group": "Quick start",
       "pages": [
         "platform/quickstart/build-private-integration",
