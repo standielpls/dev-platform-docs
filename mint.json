@@ -47,7 +47,7 @@
     }
   ],
   "navigation": [
-    { "group": "Home", "pages": ["home"] },
+    { "group": "Home", "pages": ["platform"] },
     {
       "group": "Quick start",
       "pages": [
