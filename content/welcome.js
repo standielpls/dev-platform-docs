@@ -1,0 +1,4 @@
+console.info(
+  '%cDig into the Zapier Developer Platform!',
+  'font-weight: bold; font-size: 1rem; text-shadow: #474747 2px 2px 2px, 2px 1px 1px rgba(255,79,0,0); color: #FFFFFF; background: #FF4F00; padding: 5px; border: 1px solid #ffffff; border-radius: 2px;'
+);
