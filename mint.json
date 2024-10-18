@@ -39,14 +39,28 @@
       "url": "https://zapier.com/platform/login"
     }
   ],
+  "tabs": [
+    {
+      "name": "Developer Platform",
+      "url": "platform/"
+    },
+    {
+      "name": "Partner Solutions",
+      "url": "partner-solutions/"
+    },
+    {
+      "name": "Zapier AI Actions",
+      "url": "ai-actions/"
+    }
+  ],
   "navigation": [
     {
       "group": "home",
       "pages": ["home"]
     },
     {
-      "group": "Platform",
-      "pages": ["platform/home"]
+      "group": "Solutions",
+      "pages": ["platform/home", "partner-solutions/home", "ai-actions/home"]
     },
     {
       "group": "Quick start",
