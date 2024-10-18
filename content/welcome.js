@@ -45,14 +45,15 @@ fetch('https://zapier.com/api/v4/session', {credentials: 'include'})
   .then(function (session) {
     console.info({ session });
 
-    if (!session) {
-      return;
-    }
-
     const {
       first_name: name,
+      is_logged_in: isLoggedIn,
       // photo_url: photoUrl,
     } = session;
+
+    if (!isLoggedIn) {
+      return;
+    }
 
     replaceWithLogoutNav(name);
   });
