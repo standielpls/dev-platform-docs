@@ -269,6 +269,7 @@
             "platform/publish/integration-publishing-requirements",
             "platform/publish/zap-templates",
             "platform/publish/user-help",
+            "platform/publish/best-practices",
             "platform/publish/zps"
           ]
         },
