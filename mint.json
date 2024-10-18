@@ -42,8 +42,7 @@
   "tabs": [
     {
       "name": "Developer Platform",
-      "url": "platform/",
-      "openapi": "https://raw.githubusercontent.com/swagger-api/swagger-petstore/refs/heads/master/src/main/resources/openapi.yaml"
+      "url": "platform/"
     },
     {
       "name": "Partner Solutions",
@@ -306,12 +305,6 @@
       ]
     },
     {
-      "group": "API Reference",
-      "pages": [
-        "platform/api-reference/petstore"
-      ]
-    },
-    {
       "group": "Getting Started",
       "pages": [
           "partner-solutions/getting-started"
@@ -365,64 +358,6 @@
       "pages": [
           "partner-solutions/api-reference/authentication",
           "partner-solutions/api-reference/rate-limiting"
-      ]
-  },
-  {
-      "group": "Apps",
-      "pages": [
-          "partner-solutions/api-reference/apps/get-apps-[v1]",
-          "partner-solutions/api-reference/apps/get-apps-[v2]"
-      ]
-  },
-  {
-      "group": "Categories",
-      "pages": [
-          "partner-solutions/api-reference/categories/get-categories"
-      ]
-  },
-  {
-      "group": "Accounts",
-      "pages": [
-          "partner-solutions/api-reference/accounts/user-profile",
-          "partner-solutions/api-reference/accounts/create-account"
-      ]
-  },
-  {
-      "group": "Zap Templates",
-      "pages": [
-          "partner-solutions/api-reference/zap-templates/get-zap-templates"
-      ]
-  },
-  {
-      "group": "Zaps",
-      "pages": [
-          "partner-solutions/api-reference/zaps/get-zaps-[v1]",
-          "partner-solutions/api-reference/zaps/guess-a-zap",
-          "partner-solutions/api-reference/zaps/get-zaps-[v2]",
-          "partner-solutions/api-reference/zaps/create-a-zap"
-      ]
-  },
-  {
-      "group": "Actions",
-      "pages": [
-          "partner-solutions/api-reference/actions/get-actions",
-          "partner-solutions/api-reference/actions/get-input-fields",
-          "partner-solutions/api-reference/actions/get-choices",
-          "partner-solutions/api-reference/actions/get-output-fields",
-          "partner-solutions/api-reference/actions/step-test"
-      ]
-  },
-  {
-      "group": "Authentications",
-      "pages": [
-          "partner-solutions/api-reference/authentications/get-authentications",
-          "partner-solutions/api-reference/authentications/create-authentication"
-      ]
-  },
-  {
-      "group": "Experimental",
-      "pages": [
-          "partner-solutions/api-reference/experimental/create-a-workflow-step"
       ]
   },
   {
