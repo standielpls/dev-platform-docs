@@ -58,7 +58,7 @@
     {
       "group": "Quick start",
       "pages": [
-        "platform/quickstart/build-private-integration",
+        "platform/quickstart/build-integration",
         {
           "group": "Developer tools",
           "pages": [
