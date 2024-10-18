@@ -16,7 +16,7 @@
       "to": "#FE6C2A"
     }
   },
-  "background": { "style": "gradient" },
+  "background": { "style": "windows" },
   "topbarCtaButton": {
     "name": "Sign Up",
     "url": "https://zapier.com/sign-up",
@@ -395,7 +395,7 @@
   "footerSocials": {
     "facebook": "http://www.facebook.com/ZapierApp?utm_source=zapier.com&amp;utm_medium=referral&amp;utm_campaign=zapier",
     "linkedin": "https://www.linkedin.com/company/zapier/?utm_source=zapier.com&amp;utm_medium=referral&amp;utm_campaign=zapier",
-    "x": "https://twitter.com/?utm_source=zapier.com&amp;utm_medium=referral&amp;utm_campaign=zapier#!/zapier",
+    "x": "https://twitter.com/zapier?utm_source=zapier.com&amp;utm_medium=referral&amp;utm_campaign=zapier#!/zapier",
     "youtube": "https://www.youtube.com/user/ZapierApp/videos?utm_source=zapier.com&amp;utm_medium=referral&amp;utm_campaign=zapier"
   }
 }
