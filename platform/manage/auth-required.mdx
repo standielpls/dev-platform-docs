@@ -4,7 +4,7 @@ title: Add required authentication field
 
 ## Change scenario
 
-You’d like to add, remove, or change an optional input field to be required in your current authentication schema.
+You'd like to add, remove, or change an optional input field to be required in your current authentication schema.
 
 ## Impact to users
 
@@ -15,7 +15,7 @@ This will cause a breaking change which will have the following significant effe
 
 ## Best practices
 
-*   **Add the field as optional:** Use field [help text](/ and [custom error handling](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#error-handling) (if you’re using our Code Mode or the CLI platform) to validate that the newly required field is provided, while keeping it set to optional. Also, consider using custom code to set the field’s default value in your API call if left blank.
+*   **Add the field as optional:** Use field [help text](/ and [custom error handling](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#error-handling) (if you're using our Code Mode or the CLI platform) to validate that the newly required field is provided, while keeping it set to optional. Also, consider using custom code to set the field's default value in your API call if left blank.
 *   **Set a default value:** If possible, provide a default value for the required field that can be overwritten if necessary. This ensures that users who do not provide explicit values for these fields can continue to use your integration without issues.
 
 For example in the case of updated API endpoints for geographical region or site domain, it is possible to account for an added **required** inputField with scripting to ensure existing authentications are backward compatible, allowing existing users to be migrated to the new version.
@@ -39,4 +39,4 @@ switch (authData.region) {
 
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

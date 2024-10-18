@@ -8,8 +8,8 @@ To add a form or survey app integration in the Platform UI:
 ## Prerequisites
 
 *   A [Zapier account](https://zapier.com/sign-up).
-*   If you haven’t used Zapier before, you’ll want to learn the basics in our [Zapier Getting Started Guide](https://zapier.com/learn/zapier-quick-start-guide/).
-*   Familiarity with your app’s API documentation and available endpoints.
+*   If you haven't used Zapier before, you'll want to learn the basics in our [Zapier Getting Started Guide](https://zapier.com/learn/zapier-quick-start-guide/).
+*   Familiarity with your app's API documentation and available endpoints.
 *   Review the [Platform UI Tutorial](/platform/quickstart/ui-tutorial).
 
 ## 1\. Add a new entry/response trigger
@@ -26,7 +26,7 @@ To add a form or survey app integration in the Platform UI:
 *   Add a [dynamic dropdown](/platform/build/field-definitions#how-to-add-dynamic-and-custom-fields) to retrieve form names exactly as they are listed in your app.
 *   If the endpoint the dropdown uses allows for sorting, you can `sort_by` the create date to order the dropdown list by the most recently added form to make it easier for users to select the form they need.
 *   Make the selection of a form required so the trigger only watches for results from this one form
-*   If you keep the form field optional, it can be used for responses to any form; and you’ll need to add help text to let users know what to expect if they do not select a form.
+*   If you keep the form field optional, it can be used for responses to any form; and you'll need to add help text to let users know what to expect if they do not select a form.
 <Frame>
   <img src="/images/79158aee580d74c8241e1375e73f91db.gif"/>
 </Frame>
@@ -35,9 +35,9 @@ To add a form or survey app integration in the Platform UI:
 
 ### Question and answer fields
 
-*   Form fields or survey questions must include the same name within Zapier as that form field shown in your app’s user interface.
+*   Form fields or survey questions must include the same name within Zapier as that form field shown in your app's user interface.
 
-*   In a form that asks for contact information, the question/field “What’s your email?” might internally use an ID like `1839dod38k01` or a generic label such as `Question 1` in your app’s API. The user should also see the field’s friendly name within Zapier so they’ll recognize which field to use when mapping data to action steps. The raw field ID, the `key`, can still be shown beside the friendly name.
+*   In a form that asks for contact information, the question/field “What's your email?” might internally use an ID like `1839dod38k01` or a generic label such as `Question 1` in your app's API. The user should also see the field's friendly name within Zapier so they'll recognize which field to use when mapping data to action steps. The raw field ID, the `key`, can still be shown beside the friendly name.
 
 *   For example, a common use case is to log responses in spreadsheets, with each answer field mapped to different columns. Showing only the key `q_1_answer` for a question is not intuitive for users. Include the label with the full question.
 
@@ -72,7 +72,7 @@ To add a form or survey app integration in the Platform UI:
 </Frame>
 
 
-*   Depending on your app’s API response fields, you might instead opt to return the question’s selected values in a single, comma separated field. Users can then split the values themselves with Zapier’s [Formatter](https://help.zapier.com/hc/en-us/articles/8496030096013-How-to-use-Formatter-Functions#using-split-text-0-3) tool, or could map the all the values together to a later step’s field.
+*   Depending on your app's API response fields, you might instead opt to return the question's selected values in a single, comma separated field. Users can then split the values themselves with Zapier's [Formatter](https://help.zapier.com/hc/en-us/articles/8496030096013-How-to-use-Formatter-Functions#using-split-text-0-3) tool, or could map the all the values together to a later step's field.
 <Frame>
   <img src="/images/02fd5f03f00a7e3c6953c95366013473.png"/>
 </Frame>
@@ -91,7 +91,7 @@ To add a form or survey app integration in the Platform UI:
 
 *   When users can attach files to form responses, include those in the response data as a publicly accessible URL for the file.
 
-*   You could configure Zapier to request the full file via [file dehydration](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#file-dehydration) but you’ll need to then work in the [Platform CLI](/platform/quickstart/cli-tutorial).
+*   You could configure Zapier to request the full file via [file dehydration](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#file-dehydration) but you'll need to then work in the [Platform CLI](/platform/quickstart/cli-tutorial).
 
 
 ## 4\. Choose trigger type under API Configuration
@@ -104,7 +104,7 @@ To add a form or survey app integration in the Platform UI:
 
 *   When your user has many form entries in a short space of time, webhooks make your integration more robust, preventing the possibility that a high number of new entries will exceed the page size of polling results.
 
-*   With REST hooks, Zapier won’t need to repeatedly poll your API to check for new responses.
+*   With REST hooks, Zapier won't need to repeatedly poll your API to check for new responses.
 
 
 ### Polling trigger
@@ -118,9 +118,9 @@ To add a form or survey app integration in the Platform UI:
 
 *   Zapier requests sample results for every trigger and action when users select _Skip test_ if the test API call returns no data.
 
-*   Since a form app has dynamic fields unique to each user, it’s impossible to define sample data that work for every form.
+*   Since a form app has dynamic fields unique to each user, it's impossible to define sample data that work for every form.
 
-*   Instead, include only the common form fields that would be present for every result, such as form ID and timestamp, for the trigger’s static sample data.
+*   Instead, include only the common form fields that would be present for every result, such as form ID and timestamp, for the trigger's static sample data.
 
 
 ## 6\. Test your triggers
@@ -135,4 +135,4 @@ Make Zaps with the trigger for the following criteria to ensure your app integra
 
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

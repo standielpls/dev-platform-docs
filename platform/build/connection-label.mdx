@@ -1,6 +1,6 @@
 ---
 title: Add a connection label
-description: "Zapier users can authenticate multiple accounts for any app. By default, every new app account added to Zapier is identified by the app’s name, followed by a number (#2, #3, …) for accounts connected after the first."
+description: "Zapier users can authenticate multiple accounts for any app. By default, every new app account added to Zapier is identified by the app's name, followed by a number (#2, #3, …) for accounts connected after the first."
 ---
 
 A connection label in the integration authentication options adds optional text as the name of each account connection to help users distinguish between their authenticated accounts.
@@ -16,20 +16,20 @@ A connection label in the integration authentication options adds optional text 
 
 1.  Enter your desired value into the _Connection Label_ field in the authentication configuration, as the name of the field, surrounded by double curly braces
 
-2.  Zapier always includes the app’s name in each account label, so it is redundant to add any hard coded app name into your connection label.
+2.  Zapier always includes the app's name in each account label, so it is redundant to add any hard coded app name into your connection label.
 
 3.  Instead, add either:
 
     *   Data that users enter in the authentication form
 
-    *   Output fields from your app’s authentication test API call
+    *   Output fields from your app's authentication test API call
 
 
     For example, if your auth configuration includes a `username` field, your connection label could look like:
 
     `{{username}}`
 
-    Alternatively, you can use an output field from your test API call in the Connection Label. If you aren’t sure what fields will be returned, you’ll want to test your authentication first, and return to the connection label.
+    Alternatively, you can use an output field from your test API call in the Connection Label. If you aren't sure what fields will be returned, you'll want to test your authentication first, and return to the connection label.
 
     After connecting an account, check the _Response_ tab to see the fields returned from the test request.
 
@@ -76,4 +76,4 @@ Add custom data to Zapier's console log with the `z.console.log` function to ass
 
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

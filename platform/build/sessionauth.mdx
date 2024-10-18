@@ -1,6 +1,6 @@
 ---
 title: Add authentication with Session Authentication
-description: Session authentication has elements of Basic authentication — where Zapier requests a username and password, and OAuth v2 — where Zapier redirects users to the app’s site to allow access. User credentials are exchanged for a token used to authenticate subsequent API calls.
+description: Session authentication has elements of Basic authentication — where Zapier requests a username and password, and OAuth v2 — where Zapier redirects users to the app's site to allow access. User credentials are exchanged for a token used to authenticate subsequent API calls.
 ---
 It is similar to cookie-based authentication in your browser, only here the “cookie” is an auth token stored by Zapier.
 <Frame>
@@ -17,7 +17,7 @@ Use Session authentication with your Zapier integration if your API is designed 
 </Frame>
 *   Session auth does not include any default input fields. Add the fields required by your API by selecting _Add Fields_ and fill in the details for each field. Add the most commonly needed fields first, in the order users expect, as you cannot reorder fields once added.
 
-*   Two types of fields are available when building an Session input form. Standard Fields, work much like other form fields with Zapier’s [input form](/platform/build/field-definitions) in triggers and actions. [Computed Fields](/platform/build/computed-fields) make sure specific fields are returned by your app’s authentication API call response.
+*   Two types of fields are available when building an Session input form. Standard Fields, work much like other form fields with Zapier's [input form](/platform/build/field-definitions) in triggers and actions. [Computed Fields](/platform/build/computed-fields) make sure specific fields are returned by your app's authentication API call response.
 
 *   For each field, add the required _Key_, the name your API uses to reference this field.
 
@@ -36,7 +36,7 @@ Use Session authentication with your Zapier integration if your API is designed 
 
 – **Default Value**: Include a value for this field to be used as a fallback. For optional fields, the default value is set on initial connection creation and used in the API call instead of missing or null values every time the Zap runs. For required fields, this value is used during connection creation, but not when the Zap runs (Zapier raises an error for missing/null values instead).
 
-*   Input fields marked as password and all authentication fields with sensitive, private data such as both username and password from Session Auth are automatically censored at runtime. These values are stored in the Auth bundle and used in API calls, but are replaced in Zapier’s logs with a censored value like this `:censored:6:82a3be9927:`. Due to this, it is not possible to view the exact tokens or keys in Zapier’s logs. To verify that the same token as was returned by the authentication, is being used in subsequent API calls; you can compare censored value characters, for example `:censored:6:82a3be9927:` would have the same value ending in 9927 when used in a subsequent call.
+*   Input fields marked as password and all authentication fields with sensitive, private data such as both username and password from Session Auth are automatically censored at runtime. These values are stored in the Auth bundle and used in API calls, but are replaced in Zapier's logs with a censored value like this `:censored:6:82a3be9927:`. Due to this, it is not possible to view the exact tokens or keys in Zapier's logs. To verify that the same token as was returned by the authentication, is being used in subsequent API calls; you can compare censored value characters, for example `:censored:6:82a3be9927:` would have the same value ending in 9927 when used in a subsequent call.
 
 *   Each input field is listed with its label, key, type, and required status in your authentication settings. Click the field to edit it, or click the gear icon and select _Delete_ to remove a field.
 
@@ -52,7 +52,7 @@ Use Session authentication with your Zapier integration if your API is designed 
 
 *   To customize the token exchange request, select _Switch to Code Mode_ and write custom JavaScript code to handle the API call and the response parsing as needed. The first time you click the toggle, Zapier will [convert your API call to code](/platform/build/code-mode). If you switch back to Form Mode though, Zapier will not convert your code changes to the Form Mode, nor will any subsequent changes in the form be added to your code.
 
-*   If your token exchange request doesn’t return the token and/or any [computed fields](/platform/build/computed-fields) at the top level, also use [Code Mode](/platform/build/code-mode) to modify the response so those fields are available at the top level. It is not possible to store an object with nested keys from the response.
+*   If your token exchange request doesn't return the token and/or any [computed fields](/platform/build/computed-fields) at the top level, also use [Code Mode](/platform/build/code-mode) to modify the response so those fields are available at the top level. It is not possible to store an object with nested keys from the response.
 
 *   All values will be referenced via `{{bundle.authData.field}}`, where `field` is the key in the response.
 
@@ -61,9 +61,9 @@ Use Session authentication with your Zapier integration if your API is designed 
 
 *   Add an API call to your API that requires no configuration, typically a `/user` or `/me` call. Add the URL for the API call, and set the call type, typically a `GET`. This will test the user-entered credentials to ensure it enables a successful API call to your app.
 
-*   Session Auth doesn’t include a defined standard for how access tokens are included in subsequent API calls, so unlike other authenticaton methods, Zapier doesn’t include the access token by default. You’ll need to add it in the test request and in subsequent Trigger and Action step API calls.
+*   Session Auth doesn't include a defined standard for how access tokens are included in subsequent API calls, so unlike other authenticaton methods, Zapier doesn't include the access token by default. You'll need to add it in the test request and in subsequent Trigger and Action step API calls.
 
-*   Click _Show Options_, then add the access token to your API call’s URL Params or HTTP Headers as needed. It is typically not recommended to pass any sensitive information such as the password in the URL Params. Passing it through the headers or the body is preferable. The Access Token will be in the `bundle.authData`, and typically be referenced as `{{bundle.authData.access_token}}`, `{{bundle.authData.sessionToken}}`, or a similar field, depending on how your token exchange response includes the token.
+*   Click _Show Options_, then add the access token to your API call's URL Params or HTTP Headers as needed. It is typically not recommended to pass any sensitive information such as the password in the URL Params. Passing it through the headers or the body is preferable. The Access Token will be in the `bundle.authData`, and typically be referenced as `{{bundle.authData.access_token}}`, `{{bundle.authData.sessionToken}}`, or a similar field, depending on how your token exchange response includes the token.
 
 <Frame>
   <img src="https://cdn.zappy.app/bf9711293b10af85200fb8d7bfe21e39.png"/>
@@ -79,4 +79,4 @@ Connect a valid user account to [test authentication](/platform/build/test-auth)
 
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

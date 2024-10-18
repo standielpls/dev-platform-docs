@@ -6,14 +6,14 @@ description: AI app integrations built on Zapier allow users to automate tasks u
 
 ### 1\. Long-Running Actions
 
-**Pain Point:** Actions that take a long time to process can cause issues, especially with Zapier’s execution time limits. Test steps in the Zapier editor are limited to 50 seconds, and live Zap executions default to 45 seconds.
+**Pain Point:** Actions that take a long time to process can cause issues, especially with Zapier's execution time limits. Test steps in the Zapier editor are limited to 50 seconds, and live Zap executions default to 45 seconds.
 
 **Recommendations:**
 
 *   Use `z.generateCallbackUrl()` and `performResume`
     *   `z.generateCallbackUrl()`: This method generates a callback URL that your service can call once the long-running task is complete.
     *   `performResume`: This function allows the action to pause until the callback URL is called, resuming once the task is complete.
-    *   **Why:** These tools help handle tasks that exceed Zapier’s execution time limits by offloading the wait to an external service and resuming only when the task is done.
+    *   **Why:** These tools help handle tasks that exceed Zapier's execution time limits by offloading the wait to an external service and resuming only when the task is done.
     *   [Documentation](/platform/reference/cli-docs#zgeneratecallbackurl)
 
 ### 2\. Handling Samples for Long-Running Tasks
@@ -34,7 +34,7 @@ description: AI app integrations built on Zapier allow users to automate tasks u
 **Recommendation:**
 
 *   Use Custom Input Fields:
-    *   You can create an input field that depends on another. For example, you could create an “Advanced Features” input field at the bottom of all of your other ones that has the property `altersDynamicFields: true` so when it’s updated, all of the other fields refresh. Then any additional input fields could be dependent on whether that “Advanced Features” input field is true, then display the more advanced ones that are not necessarily required for all users. (ie. `if (bundle.inputData.advanced === true)`)
+    *   You can create an input field that depends on another. For example, you could create an “Advanced Features” input field at the bottom of all of your other ones that has the property `altersDynamicFields: true` so when it's updated, all of the other fields refresh. Then any additional input fields could be dependent on whether that “Advanced Features” input field is true, then display the more advanced ones that are not necessarily required for all users. (ie. `if (bundle.inputData.advanced === true)`)
     *   These custom input fields can hide complex fields behind simpler user interfaces.
     *   **Why:** Simplifying the user interface makes it more user-friendly, leading to a better experience and fewer setup errors.
     *   [Documentation](/platform/reference/cli-docs#customdynamic-fields)
@@ -67,4 +67,4 @@ By addressing these pain points with the recommended strategies, you can signifi
 
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

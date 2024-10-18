@@ -11,7 +11,7 @@ You may find some documents on the Zapier site duplicate or outdated. The most u
 
 Our code is updated frequently. To see a full list of changes, look no further than [the CHANGELOG](https://github.com/zapier/zapier-platform/blob/main/CHANGELOG.md).
 
-This doc describes the latest CLI version (**15.14.0**), as of this writing. If you’re using an older version of the CLI, you may want to check out these historical releases:
+This doc describes the latest CLI version (**15.14.0**), as of this writing. If you're using an older version of the CLI, you may want to check out these historical releases:
 
 *   CLI Docs: [14.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-cli@14.1.2/packages/cli/README.md), [13.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-cli@13.0.0/packages/cli/README.md)
 *   CLI Reference: [14.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-cli@14.1.2/packages/cli/docs/cli.md), [13.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-cli@13.0.0/packages/cli/docs/cli.md)
@@ -983,7 +983,7 @@ When using a function, this "hoisting" of data to the top level is skipped, and 
 
 ### Domain and subdomain validation
 
-When adding a subdomain input field, commonly used in OAuth implementations, additional validation is strongly recommended to prevent a potential security vulnerability. If not taken into account, an attacker could utilize a maliciously constructed subdomain field (like `attacker-domain.com/`) in order to redirect OAuth connection requests to that attacker-controlled domain (because `attacker-domain.com/.your-domain.com` resolves to the attacker’s domain instead of the expected one). 
+When adding a subdomain input field, commonly used in OAuth implementations, additional validation is strongly recommended to prevent a potential security vulnerability. If not taken into account, an attacker could utilize a maliciously constructed subdomain field (like `attacker-domain.com/`) in order to redirect OAuth connection requests to that attacker-controlled domain (because `attacker-domain.com/.your-domain.com` resolves to the attacker's domain instead of the expected one). 
 
 This vulnerability presents itself when:
 
@@ -991,13 +991,13 @@ This vulnerability presents itself when:
 - User is able to input a domain or subdomain when authenticating within Zapier
 - Integration stores sensitive authentication details (in environment variables, for example) which are used as part of the authentication process
 
-Taking the following steps prevents the potential for an attacker to access your integration’s sensitive authentication information, such as the OAuth client ID or secret.
+Taking the following steps prevents the potential for an attacker to access your integration's sensitive authentication information, such as the OAuth client ID or secret.
 
 1. If your integration allows for the user to provide a domain, validate the input against an allow-list of trusted domains.
 
 2. If your integration allows for the user to provide a subdomain, add conditional validation for the subdomain string whenever you include the value in your OAuth HTTP requests. This change will prevent potential exploitation of the subdomain vulnerability.
 
-  - If you’re using OAuth-based authentications, update the `getAccessToken` and optional `refreshAccessToken` configuration methods. If the integration uses [shorthand HTTP requests](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#shorthand-http-requests), switching to [manual HTTP requests](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#manual-http-requests) will allow you to perform this manual subdomain validation.
+  - If you're using OAuth-based authentications, update the `getAccessToken` and optional `refreshAccessToken` configuration methods. If the integration uses [shorthand HTTP requests](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#shorthand-http-requests), switching to [manual HTTP requests](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#manual-http-requests) will allow you to perform this manual subdomain validation.
   
   Example code for handling subdomain validation:
 
@@ -1671,7 +1671,7 @@ If you don't define a trigger for the `dynamic` property, the search connector w
 
 ### Computed Fields
 
-In OAuth and Session Auth, Zapier automatically stores every value from an integration’s auth API response i.e. that’s `getAccessToken` and `refreshAccessToken` for OAuth and `getSessionKey` for session auth.
+In OAuth and Session Auth, Zapier automatically stores every value from an integration's auth API response i.e. that's `getAccessToken` and `refreshAccessToken` for OAuth and `getSessionKey` for session auth.
 
 You can return additional fields in these responses, on top of the expected `access_token` or `refresh_token` for OAuth and `sessionKey` for Session auth. They will be saved in `bundle.authData`. You can reference these fields in any subsequent API call as needed.
 
@@ -3157,7 +3157,7 @@ const yourAfterResponse = (resp) => {
   return resp;
 };
 ```
-Instead of a user’s Zap erroring and halting, the request will be repeatedly retried at the specified time.
+Instead of a user's Zap erroring and halting, the request will be repeatedly retried at the specified time.
 
 For throttled requests that occur during processing of a webhook trigger's perform, before results are produced; there is a max retry delay of 300 seconds and a default delay of 60 seconds if none is specified. For webhook processing only, if a request during the retry attempt is also throttled, it will not be re-attempted again.
 
@@ -3575,7 +3575,7 @@ zapier push
 
 There are a lot of details left out - check out the full example app [here](https://github.com/zapier/zapier-platform/tree/main/example-apps/babel).
 
-> We recommend using `zapier init .`  to create an app - you’ll be presented with a list of currently available example templates to start with.
+> We recommend using `zapier init .`  to create an app - you'll be presented with a list of currently available example templates to start with.
 
 ## FAQs
 
@@ -3946,4 +3946,4 @@ See [CONTRIBUTING.md](https://github.com/zapier/zapier-platform/blob/main/CONTRI
 
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

@@ -1,12 +1,12 @@
 ---
 title: Add input fields to triggers and actions
-description: When building in the Platform UI, you’ll use the Input Designer to create the form users will input data into, to send to your app’s API.
+description: When building in the Platform UI, you'll use the Input Designer to create the form users will input data into, to send to your app's API.
 ---
-The Input Designer works similarly to other form builder tools, building a form that lives inside the Platform UI. Add fields to your form for each bit of data your app needs from users. Use the same name for items as used in your app’s UI. Configure each field’s settings, then reorder them to match the logical order users would add or view data in your app.
+The Input Designer works similarly to other form builder tools, building a form that lives inside the Platform UI. Add fields to your form for each bit of data your app needs from users. Use the same name for items as used in your app's UI. Configure each field's settings, then reorder them to match the logical order users would add or view data in your app.
 <Frame> <img src="/images/524b9300c044809eb13eb732d7a50f9d.png" /> </Frame>
 
 
-Actions require an input form, as they always need a way for users to send data to your app’s API to find, update, or create a new object. An input form is optional for triggers.
+Actions require an input form, as they always need a way for users to send data to your app's API to find, update, or create a new object. An input form is optional for triggers.
 
 In this guide we will cover:
 
@@ -27,7 +27,7 @@ In this guide we will cover:
 *   **Key**: A unique identifier for the field, without spaces, ideally with the same key as your API, such as `first_name`.
 *   **Label**: A user friendly name for the field, such as `First Name`.
 *   **Help Text**: (optional) A 20 character or longer description that appears under the field label, with [Markdown](https://zapier.com/blog/beginner-ultimate-guide-markdown/) formatting. Do not include redundant help text in input fields that repeats the name of the field. Use field help text to tell users what to do, for example “Choose the directory to watch for new files”. Always use active voice.
-*   **Type**: From the dropdown menu, select type of data you want user’s to enter. Learn more in [field definitions and types](/platform/build/field-definitions):
+*   **Type**: From the dropdown menu, select type of data you want user's to enter. Learn more in [field definitions and types](/platform/build/field-definitions):
     *   String
     *   Text
     *   Integer
@@ -36,12 +36,12 @@ In this guide we will cover:
     *   DateTime
     *   Password
     *   Dictionary
-*   **Default Text**: (optional) Value to include in the field if the user leaves it blank; only include if this value would work for API requests made to every user’s account.
+*   **Default Text**: (optional) Value to include in the field if the user leaves it blank; only include if this value would work for API requests made to every user's account.
 *   **Options** (optional):
     *   Select the **Required** checkbox to make it mandatory for users to add data into this input field.
     *   Select **Allows Multiples** checkbox if you want users to add multiple enteries into the same input field.
     *   Select **Alters Dynamic Fields** to have Zapier automatically recompute any dynamic fields any time this field is changed.
-    *   Select **Dropdown** 7. Once you’ve finished adding details for your input field, click **Save**.
+    *   Select **Dropdown** 7. Once you've finished adding details for your input field, click **Save**.
 
 ## Setting field options
 
@@ -67,7 +67,7 @@ That will add another entry row to allow the user to input another entry for tha
 
 For each [dynamic field](/platform/build/dynamic-field) in your integration, Zapier runs code to decide whether to show a field or what to show in a field.
 
-Check the _Alters Dynamic Fields_ option, to have Zapier automatically recompute any dynamic fields in your Zapier integration anytime this field is changed. Do not check the _Alters Dynamic Fields_ option unless the field is needed for your integrations’ dynamic fields.
+Check the _Alters Dynamic Fields_ option, to have Zapier automatically recompute any dynamic fields in your Zapier integration anytime this field is changed. Do not check the _Alters Dynamic Fields_ option unless the field is needed for your integrations' dynamic fields.
 
 <Frame> <img src="/images/f89ed93d7233d0473b435156b31a1a8a.png" /> </Frame>
 
@@ -81,7 +81,7 @@ To offer users pre-set options to choose from in a field, set your field type as
 
 <Frame> <img src="/images/4f65bd28634d7709cac0ba84f2fa73d3.png" /> </Frame>
 
-You’ll see the default _Static_ selected, or _Dynamic_. To add a Static menu of choices, type the options in a comma separated list, with quotes around each item and square brackets around the set, such as:
+You'll see the default _Static_ selected, or _Dynamic_. To add a Static menu of choices, type the options in a comma separated list, with quotes around each item and square brackets around the set, such as:
 
 `["one", "two","three"]`
 
@@ -124,7 +124,7 @@ The best way to make a dynamic dropdown is to use a dedicated trigger to fetch t
 
 **1\. Build a trigger to fetch dynamic dropdown data**
 
-Create a new trigger, with a key, name, and noun. This trigger is usually configured to not be seen by users but you may wish to include a description for your internal team’s awareness. In the _Visibility in Editor_ field, select `Hidden` to hide this trigger from your app’s trigger list in Zapier.
+Create a new trigger, with a key, name, and noun. This trigger is usually configured to not be seen by users but you may wish to include a description for your internal team's awareness. In the _Visibility in Editor_ field, select `Hidden` to hide this trigger from your app's trigger list in Zapier.
 
 <Frame> <img src="/images/36d19e02a566c61c3df00e7b6987daf1.png" /> </Frame>
 
@@ -138,7 +138,7 @@ Select the _API Configuration_ tab, and add the API call where Zapier can fetch 
 
 API calls will usually require additional configuration to pull in data in the order that makes most sense in your menu. You may want to sort options in the order they were added or updated, or want to have the API fetch more items at once than the default. Set these parameters from the _Show Options_ menu.
 <Frame> <img src="/images/81be9d8ede3b19a8d4b5f58125575076.png" /> </Frame>
-If your API supports pagination, you can allow users to load additional data in the menu by checking the _Support Paging_ box. The first API call might pull in 20 items; if the user requests additional items, Zapier would call the API again and request the second page for the next 20 items. _per\_page_ and _limit_ are common parameters to indicate how many items to pull (controlling the page size). Confirm which parameter to use from your API’s documentation.
+If your API supports pagination, you can allow users to load additional data in the menu by checking the _Support Paging_ box. The first API call might pull in 20 items; if the user requests additional items, Zapier would call the API again and request the second page for the next 20 items. _per\_page_ and _limit_ are common parameters to indicate how many items to pull (controlling the page size). Confirm which parameter to use from your API's documentation.
 
 Customize the pagination using [Code Mode](/platform/build/code-mode). Learn more about [how to use pagination in triggers](/platform/build/trigger#how-to-use-pagination).
 
@@ -149,7 +149,7 @@ Define the fields from this hidden trigger that you need to use in the dynamic d
 
 **2\. Add an input field with dynamic fields**
 
-To use the data from the hidden trigger you’ve configured, add a new input field to the trigger/action you’re working on, and set the label, key, and other details as normal. Check the _Dropdown_ box and select the _Dynamic_ toggle. Choose the hidden trigger you’ve configured for this menu in the _Dropdown Source_ option.
+To use the data from the hidden trigger you've configured, add a new input field to the trigger/action you're working on, and set the label, key, and other details as normal. Check the _Dropdown_ box and select the _Dynamic_ toggle. Choose the hidden trigger you've configured for this menu in the _Dropdown Source_ option.
 
 <Frame> <img src="/images/f2a8c7071bf4e96e5a44073999b4ccf5.png" /> </Frame>
 
@@ -166,7 +166,7 @@ and map data from other Zap steps into this field. Being able to see what type o
 Dynamic Dropdown menus can optionally include an additional _Add a Search Step_ button beside the dropdown menu. This lets users dynamically select the correct item from a dynamic field based on input from previous Zap steps.
 <Frame> <img src="/images/51ef24ac9ee90dd393e695ec75601532.png" /> </Frame>
 
-You’ll need to add a [Search Action](/platform/build/action#how-to-add-a-search-action) to find the items used in this dropdown menu. Then check the _Add a search to this field_ option under the dynamic dropdown you’ve built, choose that action, and enter the ID of the field from that trigger that Zapier needs to pass with this API call (which should include the same data as the _Field Name_ you selected before for the dynamic menu).
+You'll need to add a [Search Action](/platform/build/action#how-to-add-a-search-action) to find the items used in this dropdown menu. Then check the _Add a search to this field_ option under the dynamic dropdown you've built, choose that action, and enter the ID of the field from that trigger that Zapier needs to pass with this API call (which should include the same data as the _Field Name_ you selected before for the dynamic menu).
 <Frame> <img src="/images/3f6203d975653bcd004dccb5f15424ed.png" /> </Frame>
 
 When users click or add a search step in their Zap, Zapier will add a new search step before this action step.
@@ -207,4 +207,4 @@ In your trigger or action settings:
 
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

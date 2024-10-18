@@ -1,6 +1,6 @@
 ---
 title: Add an instant trigger using REST Hooks in Zapier Platform CLI
-description: REST Hooks are an alternative to polling. The main differences are allowing your customers’ Zaps to trigger instantly; and avoiding polling triggers’ numerous - and sometimes unnecessary - requests to your API’s endpoints to check for new data.
+description: REST Hooks are an alternative to polling. The main differences are allowing your customers' Zaps to trigger instantly; and avoiding polling triggers' numerous - and sometimes unnecessary - requests to your API's endpoints to check for new data.
 ---
 REST Hook triggers are marked as _Instant_ [in the Zap editor](https://cdn.zappy.app/f510859bf90c0e341bc94997a75f9626.png).
 
@@ -64,7 +64,7 @@ This function will run every time a Zap is turned on.
 
 ## 2\. Write the `unsubscribeHook` Function
 
-The next function to implement is the `unsubscribeHook` function which will be called when a Zap is turned off. This notifies your servers to delete the URL you’ve been storing and stop sending payloads to it. If your API continues posting notification payloads to the Zap after it has unsubscribed, you can expect to see a 410 response from Zapier.
+The next function to implement is the `unsubscribeHook` function which will be called when a Zap is turned off. This notifies your servers to delete the URL you've been storing and stop sending payloads to it. If your API continues posting notification payloads to the Zap after it has unsubscribed, you can expect to see a 410 response from Zapier.
 
 `bundle.subscribeData.id` is required — this is the ID of the hook in question. You could assign it to a `hookID` variable or similar.
 
@@ -130,7 +130,7 @@ module.exports = {
 
 The final function to implement is the `performList` function, used when testing the Trigger to collect sample data in the Zap editor. Though optional, not defining a performList is a sub-optimal experience for users and is [required for public apps](/platform/quickstart/private-vs-public-integrations).
 
-Most commonly this is a GET request to an endpoint of your API which will provide a response from the user’s account with the exact same schema as the data delivered via webhook when a trigger event happens.
+Most commonly this is a GET request to an endpoint of your API which will provide a response from the user's account with the exact same schema as the data delivered via webhook when a trigger event happens.
 
 Response data returned must be an array, even if the array contains only one object. It must have the exact same schema as the data delivered via webhook when a trigger event happens otherwise fields mapped from this sample in subsequent steps of a Zap will break when it runs live.
 
@@ -179,12 +179,12 @@ Function that calls an endpoint you control with a payload of data, including th
 
 ### `perform`
 
-This should be a function that processes the inbound webhook request. No `HTTP` request has to made here. As seen in the example app [here](https://github.com/zapier/zapier-platform-example-app-rest-hooks/blob/master/triggers/recipe.js#L41-L54), this can simply take the data from `bundle.cleanedRequest` and build a new object that is returned within an array. It’s important to return this object within an array as specified [here](https://github.com/zapier/zapier-platform/blob/master/packages/cli/README.md#return-types).
+This should be a function that processes the inbound webhook request. No `HTTP` request has to made here. As seen in the example app [here](https://github.com/zapier/zapier-platform-example-app-rest-hooks/blob/master/triggers/recipe.js#L41-L54), this can simply take the data from `bundle.cleanedRequest` and build a new object that is returned within an array. It's important to return this object within an array as specified [here](https://github.com/zapier/zapier-platform/blob/master/packages/cli/README.md#return-types).
 
 ### `performList`
 
-Testing a REST Hook trigger in the Zap editor will only call `performList`, not `perform`. `performList` ideally should make a `HTTP` request to an endpoint that can return sample data to be mapped into subsequent steps of the user’s Zap. You can see an example of this [here](https://github.com/zapier/zapier-platform-example-app-rest-hooks/blob/master/triggers/recipe.js#L56-L67). Required for public apps and highly recommended for private apps to avoid user confusion when setting up a Zap.
+Testing a REST Hook trigger in the Zap editor will only call `performList`, not `perform`. `performList` ideally should make a `HTTP` request to an endpoint that can return sample data to be mapped into subsequent steps of the user's Zap. You can see an example of this [here](https://github.com/zapier/zapier-platform-example-app-rest-hooks/blob/master/triggers/recipe.js#L56-L67). Required for public apps and highly recommended for private apps to avoid user confusion when setting up a Zap.
 
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

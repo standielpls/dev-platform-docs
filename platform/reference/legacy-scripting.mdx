@@ -5,12 +5,12 @@ description: "This guide provides instructions on editing and maintaining existi
 ## Introduction
 
 
-> **Note**: This guide isn’t for new integrations built in Platform CLI or Platform UI. For new integrations, use the [Platform UI](/platform/quickstart/ui-tutorial) or the [Platform CLI](/platform/reference/cli-docs) to build an integration in code.
+> **Note**: This guide isn't for new integrations built in Platform CLI or Platform UI. For new integrations, use the [Platform UI](/platform/quickstart/ui-tutorial) or the [Platform CLI](/platform/reference/cli-docs) to build an integration in code.
 
 
 If you are creating new functionality, check maintaining your converted integration for the best way forward.
 
-Much like [Code Mode](/platform/build/code-mode), Zapier’s Web Builder Scripting was the previous way to allow you to directly manipulate the requests and responses that are exchanged between your app’s API and Zapier. It continues to be supported using both the Platform UI and CLI.
+Much like [Code Mode](/platform/build/code-mode), Zapier's Web Builder Scripting was the previous way to allow you to directly manipulate the requests and responses that are exchanged between your app's API and Zapier. It continues to be supported using both the Platform UI and CLI.
 
 ## Access and edit scripting
 
@@ -48,7 +48,7 @@ There are various methods for manipulating requests Zapier makes to your API. Be
 
 ### Trigger methods
 
-Many of the trigger methods follow a naming pattern of key + method name, where key is the key given to the trigger when you created it. Below, Zapier uses the convention of `KEY` as the placeholder for the trigger’s actual key. For example, if you define a trigger with the key “my\_trigger” and want to implement the pre\_poll method, you would write a method called `my_trigger_pre_poll`.
+Many of the trigger methods follow a naming pattern of key + method name, where key is the key given to the trigger when you created it. Below, Zapier uses the convention of `KEY` as the placeholder for the trigger's actual key. For example, if you define a trigger with the key “my\_trigger” and want to implement the pre\_poll method, you would write a method called `my_trigger_pre_poll`.
 
 ### Polling
 
@@ -90,7 +90,7 @@ data: bundle.request.data
 
 See [bundle.request](/platform/reference/legacy-scripting#prepared-request-via-bundlerequest).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 #### `KEY_post_poll`
 
@@ -124,7 +124,7 @@ return [];
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 #### `KEY_poll`
 
@@ -164,7 +164,7 @@ return []; // or callback(null, [])
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### Static and REST hooks
 
@@ -204,7 +204,7 @@ return []; // or {}
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### REST hooks and notification REST hooks
 
@@ -247,7 +247,7 @@ data: bundle.request.data
 
 Learn more in [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s legacy web builder, and is mostly incompatible with Platform CLI and Platform UI).
+> **Note**: This code is only valid for Zapier's legacy web builder, and is mostly incompatible with Platform CLI and Platform UI).
 
 #### `post_subscribe`
 
@@ -282,7 +282,7 @@ return ""; // or {}, or []
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 #### `pre_unsubscribe`
 
@@ -324,7 +324,7 @@ data: bundle.request.data
 
 Learn more in [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### Notification REST hooks
 
@@ -363,7 +363,7 @@ data: bundle.request.data
 
 Learn more in [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 #### `KEY_post_hook`
 
@@ -396,7 +396,7 @@ return [];
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### Available to all triggers
 
@@ -439,7 +439,7 @@ data: bundle.request.data
 
 Learn more in [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 #### `KEY_post_custom_trigger_fields`
 
@@ -481,11 +481,11 @@ return [];
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ## Action Methods
 
-Action methods follow a naming pattern of key + method name, where key is the key given to the action when you created it. Below, Zapier use the convention of `KEY` as the placeholder for the action’s actual key. For example, if you define an action with the key “my\_action” and you want to implement the pre\_write method, you would write a method called `my_action_pre_write`.
+Action methods follow a naming pattern of key + method name, where key is the key given to the action when you created it. Below, Zapier use the convention of `KEY` as the placeholder for the action's actual key. For example, if you define an action with the key “my\_action” and you want to implement the pre\_write method, you would write a method called `my_action_pre_write`.
 
 ### `KEY_pre_write`
 
@@ -528,7 +528,7 @@ data: bundle.request.data
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_post_write`
 
@@ -561,7 +561,7 @@ return <object>;
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_write`
 
@@ -606,7 +606,7 @@ return z.JSON.parse(response.content);
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_pre_custom_action_fields`
 
@@ -645,7 +645,7 @@ data: bundle.request.data
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_post_custom_action_fields`
 
@@ -685,11 +685,11 @@ return []; // return fields in the order you want them displayed in the UI. They
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_custom_action_fields`
 
-Allows you to completely take over the handling of retrieving and processing field metadata for custom action fields. Pre- and Post- methods will not be called if you’ve implemented this method. This method will be passed a bundle and must return an array of custom field metadata. If a request to an endpoint fails, you will need to throw an exception - the platform will not do it automatically.
+Allows you to completely take over the handling of retrieving and processing field metadata for custom action fields. Pre- and Post- methods will not be called if you've implemented this method. This method will be passed a bundle and must return an array of custom field metadata. If a request to an endpoint fails, you will need to throw an exception - the platform will not do it automatically.
 
 ```javascript
 var Zap = {KEY_custom_action_fields: function(bundle) {
@@ -730,11 +730,11 @@ The response should be JSON serializable:
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_custom_action_result_fields`
 
-It allows you to completely take over the handling of retrieving and processing field metadata for custom fields when users are working with _results_ of your action in the Zap editor. Pre- and Post- methods will not be called if you’ve implemented this method. This method will be passed a bundle and must return an array of custom field metadata. If a request to an endpoint fails, you will need to throw an exception - the platform will not do it automatically.
+It allows you to completely take over the handling of retrieving and processing field metadata for custom fields when users are working with _results_ of your action in the Zap editor. Pre- and Post- methods will not be called if you've implemented this method. This method will be passed a bundle and must return an array of custom field metadata. If a request to an endpoint fails, you will need to throw an exception - the platform will not do it automatically.
 
 ```javascript
 var Zap = {KEY_custom_action_result_fields: function(bundle) {
@@ -769,7 +769,7 @@ return []; // return fields in the order you want them displayed in the UI. They
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_pre_custom_action_result_fields`
 
@@ -808,7 +808,7 @@ data: bundle.request.data
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_post_custom_action_result_fields`
 
@@ -850,7 +850,7 @@ return []; // return fields in the order you want them displayed in the UI. They
 
 ## Search Methods
 
-Search methods follow a naming pattern of key + method name, where key is the key given to the search when you created it. Below, Zapier use the convention of `KEY` as the placeholder for the search’s actual key. For example, if you define an search with the key “my\_search” and you want to implement the pre\_search method, you would write a method called `my_search_pre_search`.
+Search methods follow a naming pattern of key + method name, where key is the key given to the search when you created it. Below, Zapier use the convention of `KEY` as the placeholder for the search's actual key. For example, if you define an search with the key “my\_search” and you want to implement the pre\_search method, you would write a method called `my_search_pre_search`.
 
 ### `KEY_pre_search`
 
@@ -889,13 +889,13 @@ data: bundle.request.data
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_post_search`
 
 Runs after Zapier receive a response from the search endpoint, can modify the response or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will throw for status codes 4xx and 5xx after the method runs automatically. _Note:_ The output of the method is _not_ exactly what the user sees. Zapier follow searches up with requests for the individual resources and present the user with the output from those follow-up requests. If you wish to modify the number (or ordering) of the search results, use `_post_search`. If you wish to modify the data the user sees, use `_post_read_resource`. One other thing to be aware of is that searches must return an _array_ of objects, so if your search endpoint returns a single object, you can use this method to wrap your object in an array.
 
-> Note we’ll only use the first object in the array for now, so if you can add optional fields to help narrow the search down, it’s a great idea.
+> Note we'll only use the first object in the array for now, so if you can add optional fields to help narrow the search down, it's a great idea.
 
 ```javascript
 var Zap = {
@@ -928,13 +928,13 @@ return [ { ... }, { ... }, ... ]; // several matches, with "best match" first
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_search`
 
 Runs in place of pre\_search and post\_search. You get a bundle and are expected to make the request and return the appropriate response or throw an [exception](/platform/reference/legacy-scripting/#available-exceptions). Zapier will **not** throw for status codes like 4xx and 5xx automatically! Note: The output of the method is not exactly what the user sees. Zapier follow searches up with requests for the individual resources and present the user with the output from those follow-up requests. If you wish to modify the number (or ordering) of the search results, you can do that inside `_search`. If you wish to modify the data the user sees, use `_post_read_resource`.
 
-> Note we’ll only use the first object in the array for now, so if you can add optional fields to help narrow the search down, it’s a great idea.
+> Note we'll only use the first object in the array for now, so if you can add optional fields to help narrow the search down, it's a great idea.
 
 ```javascript
 var Zap = {
@@ -969,7 +969,7 @@ return {...}; // or callback(null, {...})
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_pre_custom_search_fields`
 
@@ -1009,7 +1009,7 @@ data: bundle.request.data
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_post_custom_search_fields`
 
@@ -1048,11 +1048,11 @@ return []; // return fields in the order you want them displayed in the UI. They
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_custom_search_fields`
 
-Allows you to completely take over the handling of retrieving and processing field metadata for custom search action fields. Pre- and Post- methods will not be called if you’ve implemented this method. This method will be passed a bundle and must return an array of custom field metadata. If a request to an endpoint fails, you will need to throw an exception - the platform will not do it automatically.
+Allows you to completely take over the handling of retrieving and processing field metadata for custom search action fields. Pre- and Post- methods will not be called if you've implemented this method. This method will be passed a bundle and must return an array of custom field metadata. If a request to an endpoint fails, you will need to throw an exception - the platform will not do it automatically.
 
 ```javascript
 var Zap = {KEY_custom_search_fields: function(bundle)
@@ -1088,11 +1088,11 @@ return []; // return fields in the order you want them displayed in the UI. They
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_custom_search_result_fields`
 
-Allows you to completely take over the handling of retrieving and processing field metadata for custom fields when users are working with _results_ of your search action in the Zap editor. Pre- and Post- methods will not be called if you’ve implemented this method. This method will be passed a bundle and must return an array of custom field metadata. If a request to an endpoint fails, you will need to throw an exception - the platform will not do it automatically.
+Allows you to completely take over the handling of retrieving and processing field metadata for custom fields when users are working with _results_ of your search action in the Zap editor. Pre- and Post- methods will not be called if you've implemented this method. This method will be passed a bundle and must return an array of custom field metadata. If a request to an endpoint fails, you will need to throw an exception - the platform will not do it automatically.
 
 ```javascript
 var Zap = {
@@ -1123,7 +1123,7 @@ bundle.response.content: <str>
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s legacy web builder, and is mostly incompatible with Platform CLI and Platform UI).
+> **Note**: This code is only valid for Zapier's legacy web builder, and is mostly incompatible with Platform CLI and Platform UI).
 
 ### `KEY_pre_custom_search_result_fields`
 
@@ -1162,7 +1162,7 @@ data: bundle.request.data
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_post_custom_result_search_fields`
 
@@ -1201,7 +1201,7 @@ return []; // return fields in the order you want them displayed in the UI. They
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_pre_read_resource`
 
@@ -1241,7 +1241,7 @@ data: bundle.request.data
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_post_read_resource`
 
@@ -1276,7 +1276,7 @@ return {...};
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `KEY_read_resource`
 
@@ -1315,13 +1315,13 @@ return {...}; // or callback(null, {...})
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ## Authentication Methods
 
 ### `pre_oauthv2_token`
 
-Modify the request we’d send to the access token endpoint.
+Modify the request we'd send to the access token endpoint.
 
 > Be aware that for legacy reasons the request does not follow [RFC6749](https://tools.ietf.org/html/rfc6749#section-4.1.3) and passes the parameters via the query string. If you define `pre_oauthv2_token` then it is up to you correct this if needed. Without the method, Zapier will retry the request conform standards if the API returns an error on the first attempt.
 
@@ -1361,7 +1361,7 @@ data: bundle.request.data
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `post_oauthv2_token`
 
@@ -1389,11 +1389,11 @@ return z.JSON.parse(bundle.response.content);
 }
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `pre_oauthv2_refresh`
 
-Modify the request we’d send to the refresh token endpoint. Only use if you have set the auth type for your App to be OAuth V2 with Refresh.
+Modify the request we'd send to the refresh token endpoint. Only use if you have set the auth type for your App to be OAuth V2 with Refresh.
 
 ```javascript
 var Zap = {
@@ -1432,7 +1432,7 @@ data: bundle.request.data
 
 Learn more about [bundle.request](/platform/reference/legacy-scripting#bundle-details).
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `get_session_info`
 
@@ -1458,7 +1458,7 @@ return {'api_key': api_key};
 };
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ### `get_connection_label`
 
@@ -1486,19 +1486,19 @@ return 'partners@zapier.com';
 };
 ```
 
-> **Note**: This code is only valid for Zapier’s Legacy Web Builder. It’s mostly incompatible with Zapier’s Platform CLI and Platform UI.
+> **Note**: This code is only valid for Zapier's Legacy Web Builder. It's mostly incompatible with Zapier's Platform CLI and Platform UI.
 
 ## Built-in Functions and Tools
 
 ### Available Libraries
 
-Our scripting engine uses JavaScript. As you’d expect, it provides the standard JavaScript interfaces (JSON, Math, Date and more) as well as `$` for jQuery (1.8.3), `_` for Underscore (1.4.4), and `moment` for Moment.js (2.0.0 with timezone), `crypto`, and `async` (0.2.9). Plus, it has some handy Zapier specific tools on the `z` object!
+Our scripting engine uses JavaScript. As you'd expect, it provides the standard JavaScript interfaces (JSON, Math, Date and more) as well as `$` for jQuery (1.8.3), `_` for Underscore (1.4.4), and `moment` for Moment.js (2.0.0 with timezone), `crypto`, and `async` (0.2.9). Plus, it has some handy Zapier specific tools on the `z` object!
 
-> **Note:** Do not use Underscore’s collection methods (`_.each()`, `_.map()`…) on objects. This [will break](https://github.com/jashkenas/underscore/issues/2407#issuecomment-169541016) if the object has a `length` property. Use `Object.keys(obj, fn)` instead.
+> **Note:** Do not use Underscore's collection methods (`_.each()`, `_.map()`…) on objects. This [will break](https://github.com/jashkenas/underscore/issues/2407#issuecomment-169541016) if the object has a `length` property. Use `Object.keys(obj, fn)` instead.
 
 ### Unavailable Objects
 
-Some “common” objects you might expect to find Zapier don’t provide access to include `root`, `child_process`, `Function`, `module`, `process`, `global`, and `setInterval` (they’ll be `undefined` at runtime).
+Some “common” objects you might expect to find Zapier don't provide access to include `root`, `child_process`, `Function`, `module`, `process`, `global`, and `setInterval` (they'll be `undefined` at runtime).
 
 ### Making Outbound Requests (z.request)
 
@@ -1512,8 +1512,8 @@ The `z.request` function allows you to make external calls. It performs in a syn
 #### Options
 
 *   `request <Object>`: Takes all [options for the NPM request package](https://www.npmjs.com/package/request#requestoptions-callback) plus some that allow it to accept what most pre-scripting methods receive as `bundle.request`:
-*   `request <Object>`: Means you can also pass `bundle` and we’ll extract `bundle.request` to work with.
-*   `auth <Array> | <Object>`: If `auth` is an `Array`, it will be transforrmed to `{'user':auth[0], 'pass':auth[1]}` to match the package’s [HTTP Authentication](https://www.npmjs.com/package/request#http-authentication). If your Zapier app is configured to use Basic Auth then `bundle.request.auth` will be array with 2 elements for the username and password. If it uses Digest Auth then the third element will be `false`. In this case, when `auth[2]` is set, Zapier will set `auth.sendImmediately` to `auth[2]` and also default `jar` to `true` since most digest servers require cookies.
+*   `request <Object>`: Means you can also pass `bundle` and we'll extract `bundle.request` to work with.
+*   `auth <Array> | <Object>`: If `auth` is an `Array`, it will be transforrmed to `{'user':auth[0], 'pass':auth[1]}` to match the package's [HTTP Authentication](https://www.npmjs.com/package/request#http-authentication). If your Zapier app is configured to use Basic Auth then `bundle.request.auth` will be array with 2 elements for the username and password. If it uses Digest Auth then the third element will be `false`. In this case, when `auth[2]` is set, Zapier will set `auth.sendImmediately` to `auth[2]` and also default `jar` to `true` since most digest servers require cookies.
 *   `params <Object>`: Will become `qs` unless that already exists.
 *   `data <string>` Will become `body` unless that already exists. While `bundle.request.data` will always be a `String`, be aware that `body` also accepts a `Buffer`, `ReadStream` or - if `json` is set to `true` - any JSON-serializable object.
 *   `callback Function ([error], response)`: Will be called on completion, with: - `error <Error>`: Any error, when applicable. - `response <Object>`: See _Response_.
@@ -1524,7 +1524,7 @@ You will not receive the full response but a selection from [`http.IncomingMessa
 
 *   `status_code <number>`: The 3-digit HTTP response status code. E.G. `404`.
 *   `headers <Array>`: Key-value pairs of header names (lower-cased) and values.
-*   `content <string>`: If `http.IncomingMessage.body` is a `string` or `Buffer` then we’ll wrap it in `String()`.
+*   `content <string>`: If `http.IncomingMessage.body` is a `string` or `Buffer` then we'll wrap it in `String()`.
 
 ### Errors
 
@@ -1532,7 +1532,7 @@ When you call `z.request()` without a callback and an error occurs, it will be t
 
 ### Example
 
-Let’s call [http://httpbin.org/get?hello=world](http://httpbin.org/get?hello=world) with a header to tell it Zapier like JSON:
+Let's call [http://httpbin.org/get?hello=world](http://httpbin.org/get?hello=world) with a header to tell it Zapier like JSON:
 
 ```javascript
 var request = {
@@ -1610,7 +1610,7 @@ The following hash algorithms are supported:
 
 ### Base 64 Encoding
 
-If you’re looking to turn some text to base64 for something like Basic Auth or otherwise, use this simple function available from Node.js:
+If you're looking to turn some text to base64 for something like Basic Auth or otherwise, use this simple function available from Node.js:
 
 ```javascript
 var b64data = btoa("this is my string to turn into base64");
@@ -1618,9 +1618,9 @@ var b64data = btoa("this is my string to turn into base64");
 
 ### Hydration & Dehydration
 
-Dehydration is what Zapier calls the creation of a pointer to some data, this is what you’ll normally use to provide data that may not be needed now but could the future.
+Dehydration is what Zapier calls the creation of a pointer to some data, this is what you'll normally use to provide data that may not be needed now but could the future.
 
-Hydration is the opposite of dehydration. It is the consumption of a pointer that returns data. Let’s show an example!
+Hydration is the opposite of dehydration. It is the consumption of a pointer that returns data. Let's show an example!
 
 ```javascript
 var Zap = {
@@ -1658,14 +1658,14 @@ There are two scenarios when `get_contact` will then be called and “hydrated�
 
 1.  When a user is first setting up their Zap in the UI and accessing fields (because `deal.contact` may have keys to choose from on itself).
 
-2.  When a user’s Zap tries to send `deal.contact` out to another app.
+2.  When a user's Zap tries to send `deal.contact` out to another app.
 
 
 ### Files
 
 #### Dehydrating Files
 
-Dehydration is what Zapier call the creation of a pointer to data, this is what you’ll normally use in triggers to provide binary data out of band to Zapier. The idea is you don’t want to download all the attachments from all 100 records in a poll - that would take way too long and would be wasteful. So Zapier offer a handy way to create pointers that Zapier can consume “on-demand”.
+Dehydration is what Zapier call the creation of a pointer to data, this is what you'll normally use in triggers to provide binary data out of band to Zapier. The idea is you don't want to download all the attachments from all 100 records in a poll - that would take way too long and would be wasteful. So Zapier offer a handy way to create pointers that Zapier can consume “on-demand”.
 
 ```javascript
 // you can pass along urls and extra request information
@@ -1714,11 +1714,11 @@ The scripting portion of hydration in actions is incomplete - right now your API
 
 ### Prepared request via `bundle.request`
 
-All `pre` and methods like `KEY_write` receive a prepared request via `bundle.request`. This object has the same format as what the `pre` methods are expected. This means you can modify and return it. It is also the same format that `z.request()` accepts. This is what you’d do in most `KEY_TYPE` methods.
+All `pre` and methods like `KEY_write` receive a prepared request via `bundle.request`. This object has the same format as what the `pre` methods are expected. This means you can modify and return it. It is also the same format that `z.request()` accepts. This is what you'd do in most `KEY_TYPE` methods.
 
 *   `url <string>`: Configured Polling, Action or Search Endpoint URL. Any variables will be resolved.
 *   `method <string>`: Will be `GET` in most cases, but `POST` for actions (`_write`), `pre_subscribe` and `pre_unsubscribe`.
-*   `auth <Array>`: Will only be set if the app’s Auth Type is _Basic_ or _Digest Auth_. The first 2 elements are the username and password. _Digest Auth_ has a third element which is always `false`.
+*   `auth <Array>`: Will only be set if the app's Auth Type is _Basic_ or _Digest Auth_. The first 2 elements are the username and password. _Digest Auth_ has a third element which is always `false`.
 *   `headers <Object>`: If the Auth Type is _API Key (Headers)_ or when it is _OAuth V2_, _OAuth V2 (w/refresh)_ or _Session Auth_ and you have selected _Header_ or _Both_ for _Access Token Placement_, then this object will have the required/mapped headers. In addition, Zapier always set `Content-Type: application/json; charset=utf-8` and `Accept: application/json` since `data` defaults to JSON and Zapier prefer to get that back as well.
 *   `params <Object>`: Will be mapped into the querystring. If the Auth Type is _API Key (Query String)_ or when it is _OAuth V2_, _OAuth V2 (w/refresh)_ or _Session Auth_ and you have selected _Querystring_ or _Both_ for _Access Token Placement_, then this object will have the required/mapped parameters. If you need to convert this to an actual querystring, use `$.param(bundle.request.params)`. Be aware that Zapier do not automatically set params for your _Trigger Fields_!
 *   `data <string>`: Will form the body of the request. This will be set to a JSON string for `pre_subscribe`, `pre_unsubscribe` and actions (`_write`) that have one or more fields with _Send to Action Endpoint URL in JSON body_ enabled. To parse a JSON string back to an object use `z.JSON.parse(bundle.request.data)`. To stringify an object use `JSON.stringify(your_object)`.
@@ -1845,7 +1845,7 @@ return bundle.request;
 
 ## Available exceptions
 
-> **Note**: This guide is for Zapier’s legacy web builder. If you use Platform UI, Zapier expects [standard HTTP errors](/platform/build/auth#common-authentication-error-messages) to be thrown. If you use Platform CLI, learn more in our [CLI error handling docs](https://zapier.github.io/zapier-platform-cli/#error-handling).
+> **Note**: This guide is for Zapier's legacy web builder. If you use Platform UI, Zapier expects [standard HTTP errors](/platform/build/auth#common-authentication-error-messages) to be thrown. If you use Platform CLI, learn more in our [CLI error handling docs](https://zapier.github.io/zapier-platform-cli/#error-handling).
 
 In scripting, you have several exception classes at your disposal:
 
@@ -1856,7 +1856,7 @@ In scripting, you have several exception classes at your disposal:
 
 ### General errors
 
-The most rudimentary exception class is the `ErrorException`. Use it in situations where the user has something misconfigured with their Zap and will need to take action. Typically, this will be for prettifying `4xx` responses and API’s that return errors as `200` with a payload that describes the error.
+The most rudimentary exception class is the `ErrorException`. Use it in situations where the user has something misconfigured with their Zap and will need to take action. Typically, this will be for prettifying `4xx` responses and API's that return errors as `200` with a payload that describes the error.
 
 Example: `throw new ErrorException('Your error message.');`
 
@@ -1868,7 +1868,7 @@ Any method can be interrupted or “halted” (not success, not error, but stopp
 
 Example: `throw new HaltedException('Your reason.');`
 
-Any pre\_XXX call can be interrupted **silently** with `StopRequestException`. This will prevent the request from being made and will never cause a user’s Zap to be turned off.
+Any pre\_XXX call can be interrupted **silently** with `StopRequestException`. This will prevent the request from being made and will never cause a user's Zap to be turned off.
 
 Example: `throw new StopRequestException('Your reason.');`
 
@@ -1890,7 +1890,7 @@ For session-based APIs only, stale authorization credentials can be refreshed by
 
 ### Trigger pre-poll examples
 
-> **Note** This code is only valid for the v2 platform. It’s incompatible with Platform CLI and Platform UI.
+> **Note** This code is only valid for the v2 platform. It's incompatible with Platform CLI and Platform UI.
 
 ```javascript
 "use strict";
@@ -1959,7 +1959,7 @@ return request;
 
 ### Trigger post-poll examples
 
-> **Note** This code is only valid for the v2 platform. It’s incompatible with Platform CLI and Platform UI.
+> **Note** This code is only valid for the v2 platform. It's incompatible with Platform CLI and Platform UI.
 
 ```javascript
 "use strict";
@@ -2025,7 +2025,7 @@ return results;
 
 ### Catching webhooks example
 
-> **Note** This code is only valid for the v2 platform. It’s incompatible with Platform CLI and Platform UI.
+> **Note** This code is only valid for the v2 platform. It's incompatible with Platform CLI and Platform UI.
 
 ```javascript
 "use strict";
@@ -2094,7 +2094,7 @@ return json;
 
 ### Action pre-write examples
 
-> **Note** This code is only valid for the v2 platform. It’s incompatible with Platform CLI and Platform UI.
+> **Note** This code is only valid for the v2 platform. It's incompatible with Platform CLI and Platform UI.
 
 ```javascript
 "use strict";
@@ -2164,7 +2164,7 @@ return bundle.request;
 
 ### Search post-write examples
 
-> **Note** This code is only valid for the v2 platform. It’s incompatible with Platform CLI and Platform UI.
+> **Note** This code is only valid for the v2 platform. It's incompatible with Platform CLI and Platform UI.
 
 Sometimes, a search endpoint will return a successful response despite the search being unsuccessful. To account for this, you need to manipulate the response in a [`_post_search`](#key_post_search) method:
 
@@ -2189,7 +2189,7 @@ return response.search_results;
 
 ### REST hook subscription xamples
 
-> Heads up! This code is only valid for the v2 platform, and is incompatible with today’s [Platform CLI and Platform UI](/platform/quickstart/ui-vs-cli).
+> Heads up! This code is only valid for the v2 platform, and is incompatible with today's [Platform CLI and Platform UI](/platform/quickstart/ui-vs-cli).
 
 ```javascript
 var Zap = {
@@ -2239,7 +2239,7 @@ return bundle.request;
 
 ### Session authentication examples
 
-> **Note** This code is only valid for the v2 platform. It’s incompatible with Platform CLI and Platform UI.
+> **Note** This code is only valid for the v2 platform. It's incompatible with Platform CLI and Platform UI.
 
 ```javascript
 var Zap = {
@@ -2289,7 +2289,7 @@ return z.JSON.parse(bundle.response.content);
 
 ## Testing and Debugging
 
-As your legacy scripting methods are now running within the platform, you’ll want to use the tools available on each.
+As your legacy scripting methods are now running within the platform, you'll want to use the tools available on each.
 
 If you have `console.log` references, these will be translated to `z.console.log`, so the console logs can be made available in our different logging tools.
 
@@ -2303,4 +2303,4 @@ For Platform CLI: /reference/cli-docs#logging
 
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

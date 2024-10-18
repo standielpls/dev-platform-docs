@@ -1,6 +1,6 @@
 ---
 title: Use dynamic dropdowns in Zapier Platform CLI
-description: "API endpoints sometimes require clients to specify a parent object in order to create or access the child resources. For instance, accessing the tasks in a project, or specifying a spreadsheet ID in order to retrieve its worksheets. Since people don’t speak in auto-incremented IDs, it is necessary that Zapier offer a simple way to select that parent using human readable handles."
+description: "API endpoints sometimes require clients to specify a parent object in order to create or access the child resources. For instance, accessing the tasks in a project, or specifying a spreadsheet ID in order to retrieve its worksheets. Since people don't speak in auto-incremented IDs, it is necessary that Zapier offer a simple way to select that parent using human readable handles."
 ---
 
 Zapier does that with a dropdown that is populated by making a live API call to fetch a list of parent objects. We call these special dropdowns “dynamic dropdowns.”
@@ -31,18 +31,18 @@ Before adding a dynamic dropdown, you should have:
 To add a dynamic dropdown in a CLI app:
 
 1.  Open the code of the trigger/action/search where the dynamic dropdown field would be used.
-2.  In the ‘InputFields’ array of the trigger/action/search definition, add a `dynamic` property to the object of the field that is to be the dynamic dropdown field. This property is what lets Zapier know that the field is a dynamic dropdown field.
+2.  In the ‘InputFields' array of the trigger/action/search definition, add a `dynamic` property to the object of the field that is to be the dynamic dropdown field. This property is what lets Zapier know that the field is a dynamic dropdown field.
 3.  Specify the value of the `dynamic` property. The format for this value would depend on if the dropdown is powered by a trigger or a resource.
 4.  Run the `zapier push` command to push this changes to the Zapier integration.
 
-The dynamic dropdown would show up on the user’s Zap as a dynamic dropdown menu:
+The dynamic dropdown would show up on the user's Zap as a dynamic dropdown menu:
 
 <Frame>
   <img src="/images/e02787cd50af43ab22dc48af457b5a33.png"/>
 </Frame>
 
-You can have multiple dynamic dropdown fields in a trigger, create action, or search action. Also, a dynamic dropdown can depend on the value chosen in another dynamic dropdown when making it’s API call. This means you must make sure that the key of the first dynamic dropdown is the same as referenced in the trigger or resource powering the second.
+You can have multiple dynamic dropdown fields in a trigger, create action, or search action. Also, a dynamic dropdown can depend on the value chosen in another dynamic dropdown when making it's API call. This means you must make sure that the key of the first dynamic dropdown is the same as referenced in the trigger or resource powering the second.
 
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

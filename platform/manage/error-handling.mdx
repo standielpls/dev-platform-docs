@@ -4,24 +4,24 @@ description: "Errors from your API cause pain for users at two vital points:"
 ---
 
 *   During the Zap setup process, stopping them from enabling and activating their Zaps
-*   During the Zap’s runtime, once it has been turned on, preventing the Zap from completing all actions successfully
+*   During the Zap's runtime, once it has been turned on, preventing the Zap from completing all actions successfully
 
 Zap runs that encounter an error response status code when making a request to your API throw an exception and receive the “Stopped / Errored” status. This will [display an error message to the user](https://help.zapier.com/hc/en-us/articles/20505304170637-Review-Zap-run-statuses) in their Zap History and they will be notified via email based on their [notification settings](https://help.zapier.com/hc/en-us/articles/8496289225229-Manage-notifications-when-errors-occur-in-Zaps).
 
 Even if the `message` included in the response details an error, users should **never receive** a success/200 response if there was an error in the request as this will not show up as an error in the Zap history.
 
-If [95% of a Zap’s runs in the last 7 days are assigned the “Stopped / Errored” status](https://help.zapier.com/hc/en-us/articles/8496037690637-Troubleshoot-errors-in-Zapier#500-series-error-codes-0-3), the Zap will be automatically turned off. The Zap will not run again until the user manually enables it, so only return an error if the scenario is truly an error that needs to be fixed.
+If [95% of a Zap's runs in the last 7 days are assigned the “Stopped / Errored” status](https://help.zapier.com/hc/en-us/articles/8496037690637-Troubleshoot-errors-in-Zapier#500-series-error-codes-0-3), the Zap will be automatically turned off. The Zap will not run again until the user manually enables it, so only return an error if the scenario is truly an error that needs to be fixed.
 
 Monitor spikes in errors from the the _Monitoring_ page in the Platform UI as leading indicators of problems users are facing within your integration.
 
-The more descriptive and thorough [error handling](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#error-handling) your API and integration have in place, the easier it will be for users to resolve their own issues and for Zapier’s support team to assist with debugging.
+The more descriptive and thorough [error handling](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#error-handling) your API and integration have in place, the easier it will be for users to resolve their own issues and for Zapier's support team to assist with debugging.
 
-If you don’t have control to make changes to the API itself, utilize custom error handling to improve your error messages:
+If you don't have control to make changes to the API itself, utilize custom error handling to improve your error messages:
 
 *   Elaborate on briefly worded errors with user-friendly messaging.
 *   When writing user-facing error messages however, keep the message below 250 characters total as Zapier truncates errors from integrations at 250 characters when displaying them to users.
 *   Update “not\_authenticated” to “Your API Key is invalid. Please reconnect your account.”
-*   Surface specific information to users regarding the field and why it’s producing an error. This empowers users to fix Zap issues independently.
+*   Surface specific information to users regarding the field and why it's producing an error. This empowers users to fix Zap issues independently.
 *   Instead of “Provided data is invalid”, return “Contact name is invalid”.
 *   Improve “Contact name is invalid” with “Contact name exceeds character limit.”
 *   Format the error to include a second, optional argument code machines can use to identify the type of error, and last, optional argument of a HTTP status code. `throw new z.errors.Error('Contact name exceeds character limit.', 'InvalidData', 400);`
@@ -30,7 +30,7 @@ Your app integration can use custom code to improve the user experience in Zapie
 
 ## Prerequisites
 
-*   Documentation for the API you’re working with that includes the response status codes per endpoint
+*   Documentation for the API you're working with that includes the response status codes per endpoint
 *   Familiarity with [general error handling in Zapier](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#general-errors).
 
 ## 1\. Custom errors in Platform CLI
@@ -41,7 +41,7 @@ This will allow you to write a single script that applies across the entire inte
 
 ## 2\. Custom errors in Platform UI
 
-When you build and maintain your app in the UI, custom error handling can still be implemented. The main difference is that you’ll need to add it to each individual element of the integration (triggers, actions, searches, authentication) that could encounter the error.
+When you build and maintain your app in the UI, custom error handling can still be implemented. The main difference is that you'll need to add it to each individual element of the integration (triggers, actions, searches, authentication) that could encounter the error.
 
 In the UI, `skipThrowForStatus` is set from the [Advanced tab](/platform/build/errors). This allows for custom error handling for status codes above 400. Note that 401 status codes will throw a `RefreshAuthError` [regardless](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#user-content-error-response-handling).
 <Frame>
@@ -68,4 +68,4 @@ return z.request(options).then((response) => {
 
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

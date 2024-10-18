@@ -1,6 +1,6 @@
 ---
 title: Response types Zapier expects
-description: 'With every API call, Zapier expects the response data to be returned in a specific response type. This can vary depending on what part of your integration you’re working on. Use the table below to identify the correct response type to use:'
+description: 'With every API call, Zapier expects the response data to be returned in a specific response type. This can vary depending on what part of your integration you're working on. Use the table below to identify the correct response type to use:'
 ---
 
 | Method | Response type | Notes |
@@ -14,13 +14,13 @@ description: 'With every API call, Zapier expects the response data to be return
 <Info>
   **Note**:
 
- *   If your app’s API call does not return a response, Zapier will show a timeout error.
+ *   If your app's API call does not return a response, Zapier will show a timeout error.
  *   If you use line items in your integration, note that not all Zapier integrations support line items. Use the recommended response type in the table to reduce users possibility of needing to reformat this data to use in their Zaps. Learn more on [how line items work in Zaps](https://help.zapier.com/hc/en-us/articles/8496277737997).
 
 </Info>
 ## Return your data as line items for search or create actions
 
-Line items are used to present multiple items associated with a single transaction, such as an order or an invoice. To return line items in the data for your users in their search or create actions, you’ll need to return the multiple items you want to show as an array of objects under a descriptive key. This may be as part of another object (like items in an invoice) or as multiple top-level items.
+Line items are used to present multiple items associated with a single transaction, such as an order or an invoice. To return line items in the data for your users in their search or create actions, you'll need to return the multiple items you want to show as an array of objects under a descriptive key. This may be as part of another object (like items in an invoice) or as multiple top-level items.
 
 For example, a Create Order action returning an order with multiple items might look like this:
 
@@ -54,4 +54,4 @@ A standard search returns only the inner array of users, and only the first user
 
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

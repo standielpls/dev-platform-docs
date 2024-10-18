@@ -9,7 +9,7 @@ Canary testing is a way to test new changes temporarily with real users in produ
 ### Prerequisites
 
 *   Completed build of your Zapier integration, built from the CLI (as of Sep 23, 2024, this is a CLI only feature)
-*   If you haven’t used Zapier before, you’ll want to learn the basics in our [Zapier Getting Started Guide](https://zapier.com/learn/zapier-quick-start-guide/).
+*   If you haven't used Zapier before, you'll want to learn the basics in our [Zapier Getting Started Guide](https://zapier.com/learn/zapier-quick-start-guide/).
 
 You may want to use the canary tool when adding a new feature, or fixing a bug. For example, if you are planning to roll out a bug fix, you may want to test this out to see if the fix will work. The usual validation steps may include unit tests, and [setting up Zaps for validation](/platform/build/test-monitoring). Unit tests will ensure your integration code functionality matches what you intended to do. Setting up Zaps will ensure the trigger or action works with the inputs you provide. The canary tool ensures your changes work for many existing live Zaps, with different inputs and outputs.
 
@@ -34,17 +34,17 @@ You may want to use the canary tool when adding a new feature, or fixing a bug. 
 
 ### FAQ
 <AccordionGroup>
-  <Accordion title="Q: What happens if I don’t rollback in time?">
+  <Accordion title="Q: What happens if I don't rollback in time?">
 A: The system will automatically rollback to the previous version after the specified duration.
   </Accordion>
   <Accordion title="Q: Can I extend the duration of a canary test?">
 A: Yes, you can extend the duration by stopping the existing canary, and re-running the `zapier canary` command with a new duration.
   </Accordion>
   <Accordion title="Q: How do I monitor the canary test?">
-A: Use Zapier’s monitoring tools and logs to keep track of the test performance. We don’t currently have a way to isolate monitoring for canary, only the overall success or error pattern. Test
+A: Use Zapier's monitoring tools and logs to keep track of the test performance. We don't currently have a way to isolate monitoring for canary, only the overall success or error pattern. Test
   </Accordion>
 </AccordionGroup>
 
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

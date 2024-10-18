@@ -1,35 +1,35 @@
 ---
 title: Integration check reference
-description: "Before you can submit your integration for publishing, it runs through a set of automated checks to ensure it’s working properly and giving our users (and yours) the best possible experience."
+description: "Before you can submit your integration for publishing, it runs through a set of automated checks to ensure it's working properly and giving our users (and yours) the best possible experience."
 ---
 
 To [publish your integration](/platform/publish/public-integration), all Errors and Publishing Tasks must be validated. Warnings are non-blocking and not strictly required to proceed as they would not prevent you from promoting a version, though we do recommend you review them for usability of your integration.
 
-If your integration will remain private, it isn’t _necessary_ to pass the validation checks. You will be able to [share it with users](/platform/manage/sharing) as is. However, you can still select `Run Validation` from the _Version Overview_ tab in the Platform UI or run the `zapier validate` command [in the Platform CLI](https://github.com/zapier/zapier-platform/blob/main/packages/cli/docs/cli.md#validate) to be notified of any issues and recommendations to better the user experience.
+If your integration will remain private, it isn't _necessary_ to pass the validation checks. You will be able to [share it with users](/platform/manage/sharing) as is. However, you can still select `Run Validation` from the _Version Overview_ tab in the Platform UI or run the `zapier validate` command [in the Platform CLI](https://github.com/zapier/zapier-platform/blob/main/packages/cli/docs/cli.md#validate) to be notified of any issues and recommendations to better the user experience.
 
 To help better address a check in communication, each check is given a unique ID, consisting of a capital letter and three digits, such as `D001`.
 
-You don’t need to know the implication of the initial capitial letter. But if you’re curious, they are:
+You don't need to know the implication of the initial capitial letter. But if you're curious, they are:
 
 | Area | Description |
 | --- | --- |
 | **C**ompatibility | Only apply when your integration is public, these checks verify how the new version is backward compatible with the currently public version. They ask questions like “would this change break existing Zaps, Zap Templates, or connected accounts?” |
 | **D**efinition | Definition of the integration, including auth and trigger/search/action configurations. Some of these checks could block you from saving/pushing if the violation results in a broken trigger/search/action. |
-| **M**arketing | Public-facing information, such as the app title, description, and logo. The intent of these rules is to give Zapier users a consistent style among texts and images across all public integrations. They’re more likely to block you from going public. |
+| **M**arketing | Public-facing information, such as the app title, description, and logo. The intent of these rules is to give Zapier users a consistent style among texts and images across all public integrations. They're more likely to block you from going public. |
 | Connected **A**ccounts | Connected accounts that are linked to your integration. We verify these to ensure the authentication is working. |
 | **S**tats | Usage stats, such as the number of users your integration has. These are more likely to block you from going public. |
 | **T** - Zap History | Data from runs in your Zap History, produced by live (enabled) Zaps. These are more likely to block you from going public. The “T” checks are named as such for historical reasons. Zapier now shows tasks in the Zap History. |
-| **U**ser | Things in the developer’s (your) account, such as Terms of Service acceptance. |
+| **U**ser | Things in the developer's (your) account, such as Terms of Service acceptance. |
 | **L**ifecycle | The lifecyle state of your integration or its versions, such as the visibility (private, pending, or public) and the version state (deprecated, non-production, or production). |
 | **Z**ap | Things related to Zaps, such as the trigger samples you pulled into the Zap editor. |
 
-When the checks are run, we’ll give a brief blurb summarizing the violation (with a check ID) along with a link to this page. This will act as a full reference explaining each error and giving examples for each.
+When the checks are run, we'll give a brief blurb summarizing the violation (with a check ID) along with a link to this page. This will act as a full reference explaining each error and giving examples for each.
 
 - - -
 
 ## A001 - A Connected Account Exists
 
-To ensure you’ve tested auth, we require you to set up at least one connected account.
+To ensure you've tested auth, we require you to set up at least one connected account.
 
 - - -
 
@@ -59,13 +59,13 @@ When you change/remove the `key` property of an item in your `sample`, Zap Templ
 
 ## D001 - Asks for API Key in Action Instead of in Auth
 
-Some integrations incorrectly have `api_key` or similar as an an action field in an action instead of centrally used in auth. This is worse because action fields typically aren’t treated with the same level of security as auth fields are (e.g. scrubbed from logs) and aren’t action specific. Additionally, the ability to test the validity of auth doesn’t exist for action fields, so anything auth related should be put into an auth field instead.
+Some integrations incorrectly have `api_key` or similar as an an action field in an action instead of centrally used in auth. This is worse because action fields typically aren't treated with the same level of security as auth fields are (e.g. scrubbed from logs) and aren't action specific. Additionally, the ability to test the validity of auth doesn't exist for action fields, so anything auth related should be put into an auth field instead.
 
 - - -
 
 ## D002 - Provide Link in Help Text for Auth Fields
 
-It’s often not obvious where a user can find their API credentials for a service. If you use a pasted API key as an authentication method, it’s strongly encouraged that you link the user to the page (or relevant help doc) that has their key.
+It's often not obvious where a user can find their API credentials for a service. If you use a pasted API key as an authentication method, it's strongly encouraged that you link the user to the page (or relevant help doc) that has their key.
 
 <Icon icon="xmark"/> an example of an **incorrect** implementation:
 
@@ -122,7 +122,7 @@ The most important role of the label is to uniquely identify the connection.
 
 ## D004 - ID Fields Should Have Dynamic Dropdowns
 
-We’ve found that instead of instructing users to paste an item `id` into Zapier, providing them with a [dynamic dropdown](/platform/reference/cli-docs#dynamic-dropdowns) greatly increases the likelihood of the user setting up Zaps correctly. Users will still be able to map custom fields, but this gets them started on the right foot.
+We've found that instead of instructing users to paste an item `id` into Zapier, providing them with a [dynamic dropdown](/platform/reference/cli-docs#dynamic-dropdowns) greatly increases the likelihood of the user setting up Zaps correctly. Users will still be able to map custom fields, but this gets them started on the right foot.
 
 Read more about implementing dynamic dropdowns below:
 
@@ -133,19 +133,19 @@ Read more about implementing dynamic dropdowns below:
 
 ## D005 - Dynamic Dropdown Connects to a Non-Existing Trigger
 
-[Dynamic dropdowns](/platform/reference/cli-docs#dynamic-dropdowns) allow you to connect an input field to an existing trigger. The dropdown won’t work if the trigger key you specify doesn’t exist.
+[Dynamic dropdowns](/platform/reference/cli-docs#dynamic-dropdowns) allow you to connect an input field to an existing trigger. The dropdown won't work if the trigger key you specify doesn't exist.
 
 - - -
 
 ## D006 - REST Hook Trigger Needs a Polling URL
 
-When users are setting up a hook-based (aka instant) Trigger, it’s important to have a polling fallback. For example, imagine a Zap that triggers on a new Slack message. If testing relies on the sending of a webhook, the test won’t complete without the user sending an actual message in a Slack channel, which is disruptive.
+When users are setting up a hook-based (aka instant) Trigger, it's important to have a polling fallback. For example, imagine a Zap that triggers on a new Slack message. If testing relies on the sending of a webhook, the test won't complete without the user sending an actual message in a Slack channel, which is disruptive.
 
 Instead, during testing, the Perform List (`performList`) operation fetches a (real) recent message using the provided URL for polling and uses it as the test result. The polling URL in a REST Hook trigger is only used for testing during a Zap setup.
 
-It’s very important that the structure of an object from a webhook and from a poll are identical. Typically, this means modifying a poll result so that it looks like a hook. If a poll has fields that a hook doesn’t, the user may map them to a later step, and when the Zap runs live, the value will be blank. This can cause errors or unexpected results for users.
+It's very important that the structure of an object from a webhook and from a poll are identical. Typically, this means modifying a poll result so that it looks like a hook. If a poll has fields that a hook doesn't, the user may map them to a later step, and when the Zap runs live, the value will be blank. This can cause errors or unexpected results for users.
 
-Let’s walk through an example. Say we have a `New Contact` REST Hook trigger. When a new contact is created, Zapier gets a webhook that looks like this:
+Let's walk through an example. Say we have a `New Contact` REST Hook trigger. When a new contact is created, Zapier gets a webhook that looks like this:
 
 ```json
 {
@@ -189,9 +189,9 @@ See [Sample Data](/platform/build/sample-data) for more details on this.
 
 ## D007 - All URLs Should Be HTTPS
 
-When handling customer data (which all Zapier functions do), it’s strongly encouraged that all communication take place securely. Using SSL is a big part of that, so ensure your URLs have HTTPS as their protocol.
+When handling customer data (which all Zapier functions do), it's strongly encouraged that all communication take place securely. Using SSL is a big part of that, so ensure your URLs have HTTPS as their protocol.
 
-If you need help setting up an SSL certificate for your API, we suggest [Let’s Encrypt](https://letsencrypt.org/).
+If you need help setting up an SSL certificate for your API, we suggest [Let's Encrypt](https://letsencrypt.org/).
 
 <Icon icon="xmark"/> an example of an **incorrect** setup:
 
@@ -211,7 +211,7 @@ https://example.com/messages/subscribe
 
 A valid markdown link consists of a pair of square brackets with the link text paired with a pair of parentheses that have the link itself. See the [markdown cheatsheet](https://www.markdownguide.org/basic-syntax/#links) for more info.
 
-If you want to show a full link without actually linking to it, use backticks. This makes it clear to the user that they don’t need to click the link, it’s just used as an example. Any link used in plain text needs to either be a proper link or in backticks.
+If you want to show a full link without actually linking to it, use backticks. This makes it clear to the user that they don't need to click the link, it's just used as an example. Any link used in plain text needs to either be a proper link or in backticks.
 
 <Icon icon="xmark"/> examples of an **incorrect** implementation:
 
@@ -239,17 +239,17 @@ If you see this error, you should look through both the description for the trig
 
 ## D009 - Requires at Least One Search Field
 
-When making a search step, it’s important to have a field to search by. Common examples for searching for a user are by name, email, and username.
+When making a search step, it's important to have a field to search by. Common examples for searching for a user are by name, email, and username.
 
 - - -
 
 ## D010 - Missing Primary Key Fields in Static Sample Data
 
-For polling triggers, the deduper uses the primary key field(s) to decide if it’s seen an object before. You can define one or more output fields as the primary key. Each field can be a string or a number. But it’s important that the primary key is unique. If no fields are set as `primary`, the deduper will by default use the `id` field as the primary key.
+For polling triggers, the deduper uses the primary key field(s) to decide if it's seen an object before. You can define one or more output fields as the primary key. Each field can be a string or a number. But it's important that the primary key is unique. If no fields are set as `primary`, the deduper will by default use the `id` field as the primary key.
 
-Hooks are not deduped, so they’re not required to have a primary key.
+Hooks are not deduped, so they're not required to have a primary key.
 
-This check ensures the static samples in your integration definition contain the primary key fields. It’s similar to `T002`. The difference is that `T002` validates the live polling results in the Zap History.
+This check ensures the static samples in your integration definition contain the primary key fields. It's similar to `T002`. The difference is that `T002` validates the live polling results in the Zap History.
 
 <Icon icon="xmark"/> an example of an **incorrect** implementation:
 
@@ -349,7 +349,7 @@ Help text is optional and meant to provide non-obvious information or links for 
 
 When a user sets up a trigger or action (create or search), they need sample data to be returned in order to have fields available to map in the subsequent steps. If testing the trigger returns no live results, we use static sample data as a fallback.
 
-It’s very important that the data structure of the response from the actual trigger/action request and in the sample data are identical. Otherwise, users could map fields that don’t exist in the live results, which results in a broken Zap.
+It's very important that the data structure of the response from the actual trigger/action request and in the sample data are identical. Otherwise, users could map fields that don't exist in the live results, which results in a broken Zap.
 
 See [Sample Data](/platform/build/sample-data) for more details on this.
 
@@ -357,13 +357,13 @@ See [Sample Data](/platform/build/sample-data) for more details on this.
 
 ## D013 - Connects to a Non-Existing Search
 
-[Search-Powered Fields](/platform/reference/cli-docs#search-powered-fields) prompt users to set up a search step to populate the value of the field. It won’t work if the search key you specify doesn’t exist.
+[Search-Powered Fields](/platform/reference/cli-docs#search-powered-fields) prompt users to set up a search step to populate the value of the field. It won't work if the search key you specify doesn't exist.
 
 - - -
 
 ## D014 - Has a Search Connector, but No Dynamic Dropdown
 
-By design, to get the “Add a Search Step” button to appear for users in the Zap editor, an action needs both a search connector and a (valid) dynamic dropdown. If you can’t provide a valid dropdown, you can instead point to a dummy trigger that always returns an empty array.
+By design, to get the “Add a Search Step” button to appear for users in the Zap editor, an action needs both a search connector and a (valid) dynamic dropdown. If you can't provide a valid dropdown, you can instead point to a dummy trigger that always returns an empty array.
 
 <Icon icon="xmark"/> an example of an **incorrect** setup:
 
@@ -388,13 +388,13 @@ By design, to get the “Add a Search Step” button to appear for users in the 
 
 ## D015 - Search-Or-Create Connects to a Non-Existing Action/Search
 
-The search or create key you specify in `searchOrCreates` must reference to an existing search or action. Otherwise, it won’t work.
+The search or create key you specify in `searchOrCreates` must reference to an existing search or action. Otherwise, it won't work.
 
 - - -
 
 ## D016 - Consists Only a Static Webhook
 
-A REST Hook trigger missing a Subscribe or Unsubscribe endpoint, is presented to users as a [Static Webhook](https://cdn.zappy.app/3b35908a6a0c232087b5da807cf9d6fb.png). Static hooks are [not supported in public integrations](/platform/publish/integration-checks-reference#D017), but they could be used if the integration intends to remain private. However, Zapier doesn’t allow integrations that are a single static hook with the availability of [Webhooks by Zapier](https://zapier.com/apps/webhook/integrations). To fix this, add more triggers/searches/actions.
+A REST Hook trigger missing a Subscribe or Unsubscribe endpoint, is presented to users as a [Static Webhook](https://cdn.zappy.app/3b35908a6a0c232087b5da807cf9d6fb.png). Static hooks are [not supported in public integrations](/platform/publish/integration-checks-reference#D017), but they could be used if the integration intends to remain private. However, Zapier doesn't allow integrations that are a single static hook with the availability of [Webhooks by Zapier](https://zapier.com/apps/webhook/integrations). To fix this, add more triggers/searches/actions.
 
 - - -
 
@@ -406,7 +406,7 @@ When a REST Hook trigger is missing a Subscribe or Unsubscribe endpoint, it is p
 
 ## D018 - Titlecased Label
 
-In order to have a consistent style across trigger/action/search labels, they’re required to be presented in title case. If you fail this check, a passing version of your label will be shown.
+In order to have a consistent style across trigger/action/search labels, they're required to be presented in title case. If you fail this check, a passing version of your label will be shown.
 
 <Icon icon="xmark"/> an example of an **incorrect** implementation:
 
@@ -446,7 +446,7 @@ Triggers when there's a new contact.
 
 ## D022 - Creates Should Try to Have Static Input Fields
 
-When making Zap Templates, it’s helpful to have input fields that are common for all users. Without any, it’s hard to create templates. If possible, add some static input fields that all users will be able to use.
+When making Zap Templates, it's helpful to have input fields that are common for all users. Without any, it's hard to create templates. If possible, add some static input fields that all users will be able to use.
 
 - - -
 
@@ -569,19 +569,19 @@ const response = await z.request({
 
 ## L001 - Version Is Deprecated
 
-You can’t promote a deprecated version.
+You can't promote a deprecated version.
 
 - - -
 
 ## L002 - Version Was Already Submitted
 
-You can’t submit a version you’ve already submitted. If your integration was pushed back and you want to resubmit for another review, you should make changes on a **new** version and submit that.
+You can't submit a version you've already submitted. If your integration was pushed back and you want to resubmit for another review, you should make changes on a **new** version and submit that.
 
 - - -
 
 ## L003 - Version Is Already Production
 
-This could happen if you’re attempting to promote a version that is already in production.
+This could happen if you're attempting to promote a version that is already in production.
 
 - - -
 
@@ -599,11 +599,11 @@ To correctly categorize your integration on Zapier, please choose the category t
 
 ## M002 - Description Is Invalid
 
-Your app’s description is a place to talk about your app, not ours! Even if we really like your app, you’re not allowed to say “Zapier” in your app’s description.
+Your app's description is a place to talk about your app, not ours! Even if we really like your app, you're not allowed to say “Zapier” in your app's description.
 
-Additionally, it’s discouraged that you talk about how this integration will “sync” anything, as the space is supposed to be about your app itself instead of the Zapier integration in particular.
+Additionally, it's discouraged that you talk about how this integration will “sync” anything, as the space is supposed to be about your app itself instead of the Zapier integration in particular.
 
-Lastly, this section should be short and sweet. A brief description (roughly tweet-sized) is best. Specifically, we’re looking for 1 - 3 sentences or at least 40 characters and a maximum of 140 characters.
+Lastly, this section should be short and sweet. A brief description (roughly tweet-sized) is best. Specifically, we're looking for 1 - 3 sentences or at least 40 characters and a maximum of 140 characters.
 
 <Icon icon="xmark"/> an example of an **incorrect** setup:
 
@@ -628,7 +628,7 @@ For your integration to go public, you must be employed or hired by the company 
 
 ## M004 - Invalid Logo
 
-Your app’s logo will be used all over the site in square containers and in various sizes. To ensure it looks good at all sizes, the logo image must be:
+Your app's logo will be used all over the site in square containers and in various sizes. To ensure it looks good at all sizes, the logo image must be:
 
 *   a square PNG image
 *   at least 256px by 256px in size
@@ -640,7 +640,7 @@ To resize an image or convert an image to PNG, you can use this [tool](http://ww
 
 ## M005 - Admin Team Member Email Domain Matches App Domain
 
-To ensure that this integration is being submitted by the app owner we require that one of the Admin team members listed on the project have an email address with the same domain as your app’s homepage URL (which must also be present). You can add the homepage URL at `https://developer.zapier.com/app/APP_ID/version/APP_VERSION/settings`. Collaborator team members with the same domain as the homepage do not meet this requirement.
+To ensure that this integration is being submitted by the app owner we require that one of the Admin team members listed on the project have an email address with the same domain as your app's homepage URL (which must also be present). You can add the homepage URL at `https://developer.zapier.com/app/APP_ID/version/APP_VERSION/settings`. Collaborator team members with the same domain as the homepage do not meet this requirement.
 
 - - -
 
@@ -652,7 +652,7 @@ Each app must have a homepage URL. You can add the homepage URL at `https://deve
 
 ## M007 - Public Integration Already Exists
 
-We only allow one public integration in our app directory for a given app. If a public integration with the same title already exists, we won’t approve your submission to go public. If you’re the owner of the existing public integration, create an updated version with any edits and promote that instead of submitting a new integration.
+We only allow one public integration in our app directory for a given app. If a public integration with the same title already exists, we won't approve your submission to go public. If you're the owner of the existing public integration, create an updated version with any edits and promote that instead of submitting a new integration.
 
 - - -
 
@@ -676,7 +676,7 @@ You can also [contact us](https://developer.zapier.com/contact) if you need a tr
 
 ## S003 - Live Version Count Limit
 
-You can’t have more than 5 previous or current production versions with live Zaps. To continue, migrate users on older versions to a newer version.
+You can't have more than 5 previous or current production versions with live Zaps. To continue, migrate users on older versions to a newer version.
 
 - - -
 
@@ -684,7 +684,7 @@ You can’t have more than 5 previous or current production versions with live Z
 
 There must be at least one successful Zap run for each visible trigger/action/search in your app.
 
-To ensure you have run a live test of every visible trigger/action/search, create a Zap for each one, turn it on, and trigger a Zap run while it’s on.
+To ensure you have run a live test of every visible trigger/action/search, create a Zap for each one, turn it on, and trigger a Zap run while it's on.
 
 This check is performed using the [Zap History](https://zapier.com/app/history) for accounts belonging to the integration admins, so build your test Zaps in these accounts.
 
@@ -694,11 +694,11 @@ Learn more about the Zap History [here](https://help.zapier.com/hc/en-us/article
 
 ## T002 - Missing Primary Key Fields in Live Polling Results
 
-For polling triggers, the deduper uses the primary key field(s) to decide if it’s seen an object before. You can define one or more output fields as the primary key. Each field can be a string or a number. But it’s important that the primary key is unique. If no fields are set as `primary`, the deduper will by default use the `id` field as the primary key.
+For polling triggers, the deduper uses the primary key field(s) to decide if it's seen an object before. You can define one or more output fields as the primary key. Each field can be a string or a number. But it's important that the primary key is unique. If no fields are set as `primary`, the deduper will by default use the `id` field as the primary key.
 
-Hooks are not deduped, so they’re not required to have a primary key.
+Hooks are not deduped, so they're not required to have a primary key.
 
-This check ensures the live polling results in the [Zap History](https://zapier.com/app/history) contain the primary key fields. It’s similar to `D010`. The difference is that `D010` validates the static samples in your integration definition.
+This check ensures the live polling results in the [Zap History](https://zapier.com/app/history) contain the primary key fields. It's similar to `D010`. The difference is that `D010` validates the static samples in your integration definition.
 
 This check is performed using the [Zap History](https://zapier.com/app/history) for accounts belonging to the integration admins, so build your test Zaps in these accounts.
 
@@ -814,7 +814,7 @@ This check is performed using the [Zap History](https://zapier.com/app/history) 
 
 ## T004 - Static Sample Contains a Subset of Keys from Live Result
 
-Static samples provide Zapier users and partners a way to preview and map fields for a trigger or action without actually making a request to your API. It’s important that static samples reflect the real results from these calls as seen in the Zap History. Errors occur when a Zap uses a field from static sample that is not provided once the Zap is running.
+Static samples provide Zapier users and partners a way to preview and map fields for a trigger or action without actually making a request to your API. It's important that static samples reflect the real results from these calls as seen in the Zap History. Errors occur when a Zap uses a field from static sample that is not provided once the Zap is running.
 
 This check requires the static sample you define for each trigger/action/search to contain a subset of the keys in the latest run in the [Zap History](https://zapier.com/app/history).
 
@@ -877,7 +877,7 @@ For REST Hook triggers, we require you to provide a `Perform List` URL (check `D
 
 Errors occur when a Zap uses a field from the polling sample that is not provided by the hook payload sent once the Zap is running.
 
-To ensure this doesn’t happen, this check compares the latest item in the [Zap History](https://zapier.com/app/history) with the selected polling sample in the corresponding Zap. For it to pass:
+To ensure this doesn't happen, this check compares the latest item in the [Zap History](https://zapier.com/app/history) with the selected polling sample in the corresponding Zap. For it to pass:
 
 *   There must be a Zap that is using the trigger.
 *   The Zap must have at least one Zap run (the most recent run will be used).
@@ -942,4 +942,4 @@ output fields: [
 ```
 - - -
 
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._

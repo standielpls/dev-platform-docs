@@ -7,7 +7,7 @@ description: "API Key authentication passes along a user-entered API Key with ev
 
 Use API Key authentication if your API primarily uses an API key to identify accounts, especially with apps for weather, maps, content verification, file conversion, and other data tools that require a key for access to the service but do not contain user-specific content.
 
-Since API Key authentication allows you to create a custom input form, you can use it for any custom authentication type with username and password-based logins that don’t fit other authentication scheme types.
+Since API Key authentication allows you to create a custom input form, you can use it for any custom authentication type with username and password-based logins that don't fit other authentication scheme types.
 
 ## 1\. Build input form
 
@@ -15,7 +15,7 @@ Since API Key authentication allows you to create a custom input form, you can u
 <Frame>
 <img src="/images/283f4595d4e25caee8256b2727eebb6d.png" /> </Frame>
 
-*   Add authentication input fields where users will enter their API key and any other required authentication details. Check your API documentation for what fields are required, including user or account names, domains, and more. Note any details users may need on how to find that data in your app. API keys especially are often hidden under settings menus and you’ll need to include those details in your input form’s help text.
+*   Add authentication input fields where users will enter their API key and any other required authentication details. Check your API documentation for what fields are required, including user or account names, domains, and more. Note any details users may need on how to find that data in your app. API keys especially are often hidden under settings menus and you'll need to include those details in your input form's help text.
 <Frame>
 <img src="/images/8de37a192b7d50162a7a115281d4a388.png" /> </Frame>
 
@@ -40,7 +40,7 @@ Since API Key authentication allows you to create a custom input form, you can u
 
 – **Default Value**: Include a value for this field to be used as a fallback. For optional fields, the default value is set on initial connection creation and used in the API call instead of missing or null values every time the Zap runs. For required fields, this value is used during connection creation, but not when the Zap runs (Zapier raises an error for missing/null values instead).
 
-*   Input fields marked as password and all authentication fields with sensitive, private data such as API keys from API Key auth are automatically censored at runtime. These values are stored in the Auth bundle and used in API calls, but are replaced in Zapier’s logs with a censored value like this `:censored:6:82a3be9927:`. Due to this, it is not possible to view the exact tokens or keys in Zapier’s logs. To verify that the same token as was returned by the authentication, is being used in subsequent API calls; you can compare censored value characters, for example `:censored:6:82a3be9927:` would have the same value ending in 9927 when used in a subsequent call.
+*   Input fields marked as password and all authentication fields with sensitive, private data such as API keys from API Key auth are automatically censored at runtime. These values are stored in the Auth bundle and used in API calls, but are replaced in Zapier's logs with a censored value like this `:censored:6:82a3be9927:`. Due to this, it is not possible to view the exact tokens or keys in Zapier's logs. To verify that the same token as was returned by the authentication, is being used in subsequent API calls; you can compare censored value characters, for example `:censored:6:82a3be9927:` would have the same value ending in 9927 when used in a subsequent call.
 
 *   Computed fields are not applicable to API Key authentication and are only used with OAuth v2 and Session Auth.
 
@@ -49,7 +49,7 @@ Since API Key authentication allows you to create a custom input form, you can u
 <Frame>
 <img src="/images/b27d364f2dd6ef2c1701c8b094a7ada0.png" /> </Frame>
 
-*   Once you’ve added all the input fields to your authentication form, select _Continue_
+*   Once you've added all the input fields to your authentication form, select _Continue_
 
 ## 2\. Add a Test API Request
 
@@ -72,4 +72,4 @@ Review [connection label documentation](/platform/build/connection-label) to opt
 Connect a valid user account to [test authentication](/platform/build/test-auth).
 
 - - -
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we’ll connect you with the right resource or contact support._
+_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._
