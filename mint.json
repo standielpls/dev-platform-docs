@@ -5,9 +5,6 @@
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
   },
-  "api": {
-    "baseUrl": "https://nla.zapier.com"
-  },
   "favicon": "/favicon.png",
   "colors": {
     "primary": "#FF4F00",
