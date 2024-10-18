@@ -38,12 +38,8 @@
   ],
   "topbarLinks": [
     {
-      "name": "Explore apps",
-      "url": "https://zapier.com/apps"
-    },
-    {
-      "name": "Log In",
-      "url": "https://zapier.com/app/login"
+      "name": "Developer Platform Login",
+      "url": "https://zapier.com/platform/login"
     }
   ],
   "navigation": [
