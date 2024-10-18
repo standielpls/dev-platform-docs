@@ -1,0 +1,146 @@
+---
+title: 'Quick Account Creation'
+description: 'Quick Account Creation is a seamless, accelerated sign-up feature allowing first time Zapier users to skip the standard sign-up procedure and onboarding survey. Enabling Quick Account Creation as part of your embed tool code helps provide a more frictionless experience for end users.'
+---
+
+Instead of being directed to a sign-up screen, users are presented with a consent page to connect to Zapier, then proceed to the Zap editor if consented. If an existing Zapier account under the email does not exist, users will receive an email prompting them to finish setting up their account. This allows users to dive directly into the Zap editor to accomplish the task at hand efficiently and without context switching.
+
+Case study
+----------
+
+Signups to use Adalo's integration jumped 40% after embedding Zapier with Quick Account Creation into their app builder. [Read more about Adalo's user experience and results.](https://zapier.com/blog/adalo-user-experience-with-zapier/)
+
+Example implementation
+----------------------
+
+<Frame caption="This video demonstrates how to implement Quick Account Creation using the Zap template element within Adalo's platform. This provides users with a faster, seamless sign-up experience.">
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://cdn.zappy.app/1f21dbddbc570407248253c13859a5d9.mp4"
+></video>
+</Frame>
+
+Prerequisites
+-------------
+
+-   New or existing implementation of the [Workflow Element](/partner-solutions/workflow-element/intro), or [Workflow API](/partner-solutions/workflow-api/intro).
+-   Access to your user's first name, last name, and email on the page supporting Quick Account Creation.
+
+Add support to embed elements
+-----------------------------
+
+<Steps>
+    <Step title="Visit the generator">
+        Go to the [generator tool](https://zapier.com/partner/embed/workflow) for the Workflow Element.
+    </Step>
+    <Step title="Customize">
+        Customize the visual design and features of the embed solution of choice.
+    </Step>
+    <Step title="Generate your embed code">
+        Generate the embed code in HTML, Vanilla JS, React, Angular, or Vue.js.
+    </Step>
+     <Step title="Replace placeholder properties">
+        Replace the placeholder values set to `sign-up-email`, `sign-up-first-name`, and `sign-up-last-name` in the code Body. All three values and the client ID are required for Quick Account Creation.
+    </Step>
+    <Step title="Embed your embed code">
+        Embed both the Head and Body code on your product's page.
+    </Step>
+</Steps>
+
+You can still embed the Workflow Element or utilize the Workflow API without support for Quick Account Creation. If the four required fields aren't provided, the embed will use the default behaviour redirecting users to Zapier's signup page from your product's page.
+
+If you have an existing Workflow Element embed, you can add the new required fields for Quick Account Creation to your current code implementation, instead of re-customizing and regenerating the code. Make sure the Body code includes the below four fields with the placeholder values replaced:
+
+```js
+clientId="your_integration_client_id"
+signUpEmail="email_of_your_user@example.com"
+signUpFirstName="first_name_of_your_user"
+signUpLastName="last_name_of_your_user"
+```
+
+
+Add support to the Workflow API
+-----------------------------
+### Redirect users to the Zap editor
+
+After an account is created with this implementation, a user token still needs to be procured to access specific Workflow API endpoints. Generally, since the user will already be signed in to their newly created account in an active session on Zapier, users won't have to explicitly sign in again when prompted with Zapier's OAuth flow.
+
+<Steps>
+    <Step>
+        Use the URL below to initiate Quick Account Creation, then redirect users into the Zap editor with the Zap template set in the parameters:
+        ```js
+
+        https://zapier.com/webintent/create-zap
+            ?template=<zap-template-id>
+            &utm_source=partner
+            &utm_medium=embed
+            &utm_campaign=partner_api
+            &utm_content=partner_quick_account_creation
+            &entry-point-location=partner_embed
+            &referer=<referer>
+            &referrer=<referrer>
+            &sign-up-first-name=<sign-up-first-name>
+            &sign-up-last-name=<sign-up-last-name>
+            &sign-up-email=<sign-up-email>
+            &client-id=<client-id>
+        ```
+    </Step>
+    <Step>
+         Replace the following query parameter placeholders in the URL:
+        | Parameter | Requirement | Explanation |
+        | --- | --- | --- |
+        | client_id | Required | Your application Client ID. |
+        | template | Required | An ID of a Zap Template. |
+        | sign-up-first-name | Required | First name of the user signing up. |
+        | sign-up-last-name | Required | Last name of the user signing up. |
+        | sign-up-email | Required | Email address of the user signing up. |
+        | refer or referrer | Required | URL of the page where the user clicked the link. |
+    </Step>
+</Steps>
+
+
+### Procure a token and redirect users to a custom URL
+
+This implementation allows a new Zapier account to be created, provides an access token to Zapier's [Workflow API](/partner-solutions/workflow-api/intro), then allows you to redirect users to a custom URL of your choosing.
+
+<Steps>
+    <Step>
+        Use the URL below to initiate Quick Account Creation, then redirect users to a specified URL:
+        ```js
+
+        https://api.zapier.com/v2/authorize
+            ?redirect_uri=<redirect_uri>
+            &scope=<scope>
+            &response_type=<response_type>
+            &client_id=<client_id>
+            &sign_up_first_name=<sign_up_first_name>
+            &sign_up_last_name=<sign_up_last_name>
+            &sign_up_email=<sign_up_email>
+        ```
+    </Step>
+    <Step>
+         Replace the following query parameter placeholders in the URL:
+            | Parameter | Requirement | Explanation |
+            | --- | --- | --- |
+            | redirect_uri | Required | The page the user will be redirect to after OAuth. |
+            | scope | Required | Space (`%20`) separated values. See the [API reference](/partner-solutions/api-reference/categories/get-categories) for more information on specific scopes required. |
+            | response_type | Required | Set to `token`. |
+            | client_id | Required | Your application Client ID. |
+            | sign_up_first_name | Required | First name of the user signing up. |
+            | sign_up_last_name | Required | Last name of the user signing up. |
+            | sign_up_email | Required | Email address of the user signing up. |
+    </Step>
+</Steps>
+
+When Quick Account Creation is enabled
+--------------------------------------
+
+-   If the user is already logged into Zapier, they are redirected to the Zap editor.
+-   If the user's email is already associated with a Zapier account, but the user is not logged in, they are redirected to Zapier's sign-in page.
+-   If the user's email is not associated with an existing Zapier account, they are redirected to the consent page.
+    -   If the user consents to the terms and selects "Continue", a Zapier account is created on their behalf and they are redirected to the Zap editor. They receive an email to finish setting up their account shortly after the account is created.
+    -   If the user closes the consent page, no Zapier account is created.
+    -   If there is an error creating an account, the user is redirected to an error page.
+-   In the event a user wants to sign up with a different email than the one supplied, they can edit that email within the consent page.
+-   In the event a user has an existing Zapier account, but it's not under the supplied email they also have an option to sign in to any other account from the consent page.

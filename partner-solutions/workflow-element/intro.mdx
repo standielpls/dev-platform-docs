@@ -1,0 +1,109 @@
+---
+title: 'Embed the Workflow Element'
+description: 'The Workflow Element is a prebuilt UI component that offers the quickest—and easiest—way to surface your Zapier integration directly within your own product.'
+---
+
+<Info>As of 6/25/2024, the Workflow Element has fully replaced our previous suite of embedded UI Elements: the Full Zapier Experience, the Zap Templates Element, the App Directory Element, and the Zap Manager Element.</Info>
+
+With the Workflow Element, you can create a seamless experience for your users that allows them to automate and manage their workflows right from your app.
+
+Whether you want to surface pre-built zap templates in your product, allow your users to manage their zaps from your product, enable thousands of integrations to your app, or allow your users to build workflows without ever leaving your product, the Workflow Element can be customized to your particular use case, and plugged into your product in minutes, no engineering resources required!
+
+[Get started with the Workflow Element](https://zapier.com/partner/embed/workflow)
+
+<Frame caption="Workflow Element Demo">
+  <video
+  controls
+  className="w-full aspect-video"
+  src="https://cdn.zappy.app/8aa623bff94e5e85387c6d6afc0b1a48.mp4"
+></video>
+</Frame>
+
+## Capabilities
+
+The Workflow Element is the easiest and best way to bring automation to your users, with customizable features that allow your users to discover, use, create, and manage automations without ever leaving your product. 
+
+### Discover
+Take advantage of Zapier’s extensive and industry-leading app directory by embedding a customized version of Zapier’s App Directory. Users can search through thousands of available apps to pair with yours and see popular workflows at a glance. Our generator allows you to customize the number of apps that are displayed and allows you to exclude apps by name or by app category.
+
+<Frame caption="Give your users instant access to over 7000 integrations">
+  <video
+  controls
+  className="w-full aspect-video"
+  src="https://cdn.zappy.app/c835acfec476da341ac603d225cd447e.mp4"
+></video>
+</Frame>
+
+### Use
+Easily surface pre-built zap templates in your product for your users to use. You can surface the most popular zap templates for your app, or choose specific zap templates to showcase.
+
+<Frame caption="Showcase pre-built zap templates in your user flow">
+  <video
+  controls
+  className="w-full aspect-video"
+  src="https://cdn.zappy.app/01b1d163d5733a8db107ad3fca8ee52e.mp4"
+></video>
+</Frame>
+
+
+### Create
+When clicking on a template or app listing, a modal opens up within your site, prompting users to log in or sign up if they don’t have a Zapier account. Enable Quick Account Creation to make this even simpler for users. Once done, the Zap Editor will open on this same modal, and users can create Zaps.
+
+<Frame caption="Allow your user to create and edit Zaps without leaving your products">
+  <video
+  controls
+  className="w-full aspect-video"
+  src="https://cdn.zappy.app/e2228fb4acd30ccb861f365a85411afc.mp4"
+></video>
+</Frame>
+
+
+### Manage
+Once users have created Zaps, they’re able to see them directly inside your product. They can view their Zaps and see their status at a glance without ever having to leave your product
+
+<Frame caption="Allow your users to manage their Zaps right from your app">
+  <video
+  controls
+  className="w-full aspect-video"
+  src="https://cdn.zappy.app/edd9b9e0a75ddfbb62fa42cdfad3f64c.mp4"
+></video>
+</Frame>
+
+<Tip>See more ways our partners have used the Workflow Element in our [Embed Gallery](https://zapier.com/developer-platform/partner-embeds)</Tip>
+
+### Prerequisites
+In order to embed the Workflow Element:
+- Your app has to have passed the review process and is Published in the Zapier App Directory, i.e. your app is in the Beta or Public stage.
+- You have created Zap templates for your app, and they have been reviewed and made public
+
+## How to Embed the Workflow Element  
+<Steps>
+  <Step title="Add your domains">
+    The Workflow Element uses iframes, which are blocked by default for security purposes. Provide us with a list of domains you intend to embed it in and we'll permit these specific domains. Head to the [Zapier Developer Platform](https://developer.zapier.com/), find your app and select settings to get started.
+    <Frame caption="Adding domains is a required security measure.">
+      ![Customize your embed](https://cdn.zappy.app/da56277eb07303d8ce8ef42cafc8511e.png)
+    </Frame>
+  </Step>
+    <Step title="Navigate to the Workflow Element in the Developer Platform">
+    You can [configure your embed](https://zapier.com/partner/embed/workflow) and select your app.
+    </Step>
+    <Step title="Customize your embed">
+        Using the sidebar panel in the tool, customize your embed. When it’s ready, click Generate Code.
+        <Frame caption="Use the options on the left panel to customize your embed.">
+          ![Customize your embed](https://cdn.zappy.app/d6113da7c1934b6e0402453b77f2fb8d.png)
+        </Frame>
+         <Note>The preview shows what your embed looks like for a user logged in to Zapier. The Intro to Zapier is only shown to Zapier users who are not logged in. This is why if you toggle to show the Intro to Zapier, you will not see it appear in the preview, but your users who are not logged in to Zapier will see a short section explaining Zapier at the top of the embed.</Note>
+    </Step>    
+    <Step title="Copy the code and place the embed anywhere in your product ✨">
+    <Frame caption="As the sample above shows, you can choose from a variety of code samples & guides to copy right over to your product. ">
+        ![Code generator](https://cdn.zappy.app/72ecc13062e1b04b931ebac5483e4962.png)
+      </Frame>
+    </Step>
+    <Step title="Review our security practices">
+    To ensure a consistent experience for your users and avoid common challenges, it's worth reading over our [Security Practices.](/partner-solutions/elements-security)
+    </Step>
+</Steps>
+
+<Tip>Consider augmenting with [Quick Account Creation](/partner-solutions/quick-account-creation) - it makes signing up to Zapier more seamless. Users are able to bypass signup and onboarding and and jump right into creating a Zap with your integration with the click of a button. Note, Quick Account Creation only works if your embed is behind a login wall.</Tip>
+<Info>We do not support iframes inside of iframes. If you try to embed the Workflow Element in an iframe, links will open in pop ups rather than in an iframe.</Info>
+

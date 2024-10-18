@@ -1,0 +1,15 @@
+---
+title: Requests
+---
+
+Requests follow the [JSON API spec](https://jsonapi.org/format/#fetching) and should send the header Accept: application/vnd.api+json.
+
+Typical arguments for requests are sent via query params, for more information check the specific requests for each endpoint in the API Reference section.
+
+Example:
+
+```bash
+curl --request GET \
+  --url https://stoplight.io/mocks/zapier/public-api/181772442/zaps \
+  --header 'Accept: application/vnd.api+json'
+```

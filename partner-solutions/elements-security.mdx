@@ -1,0 +1,33 @@
+---
+title: 'Element Security'
+description: 'Keeping our elements secure and usable is critical at Zapier'
+---
+
+User security is paramount. By default, Zapier denies any embedding of our product unless you provide us with a list of domains that you expect to embed Zapier in.
+
+This protects the user from malicious activities like [Clickjacking](https://www.owasp.org/index.php/Clickjacking). :
+
+<Frame caption='If you were to attempt to embed Zapier and the embedding domain was not registered, we would present an error.'>
+![If you were to attempt to embed Zapier and the embedding domain was not registered, we would present an error](https://cdn.zappy.app/4fb49db62ac6d5c41df46db7ccf3aab7.png)
+</Frame>
+
+Provide a list of domains
+-------------------------
+
+If you've already embedded our Product, this would have already been captured and your product domains are permitted.
+
+-   To add domains, navigate to the Settings tab under the Embed section in the sidebar of your integration's [Platform UI](https://developer.zapier.com/), and add the missing domains under the 'Embedding Domains' section.
+<Frame caption='Adding Domains within the Zapier Developer Platform.'>
+![](https://cdn.zappy.app/da56277eb07303d8ce8ef42cafc8511e.png)
+</Frame>
+
+These specific domains are then permitted to embed Zapier. The domains provided by you should be registered with your company with a public registrar. That is to say a `randomcnamedomain.com` is not valid for the same reason that a user or bad actor could register that domain.
+
+Troubleshooting
+---------------
+
+-   `localhost`, `yourcomp.local` and `127.0.0.1` are not valid supported domains. An option during your embed development would be to use a tunnel service like [ngrok](https://ngrok.com/) and to register that ngrok tunnel with us. Be advised, that we will ask for a static domain from ngrok.com or similar tunneling service.
+
+-   If the domain you're embedding on is added to the allowlist within *Manage Domains*, but you're seeing the `This embed is blocked` error, the [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) may be too restrictive/overly strict. You'll want to check Console/Network for the appropriate request to see the [referrer-policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy) header. Using `strict-origin-when-cross-origin` as the referrer-policy is recommended.
+
+-   For local development, use [ngrok](https://ngrok.com/) to make `https` test URLs when needed, as using `http` would be blocked, even if the domain has been added to the allowlist.

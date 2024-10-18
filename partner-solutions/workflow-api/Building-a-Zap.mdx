@@ -1,0 +1,389 @@
+---
+title: How to Build a Workflow
+description: This guide walks through the entire process of building an automated workflow for your users to use -- front picking apps, adding authentication, filling inputs and publishing. 
+---
+
+<Info>Authenticating with Zapier is required to build alongside this guide. This is covered separately [here](/partner-solutions/api-reference/authentication). </Info>
+
+For this guide, let's assume that we want give our users the ability to automate workflows with the (imaginary) apps SuperExampleCRM and PlatformAdManager so that when there is a new lead in SuperExampleCRM, a new engagement report is sent to PlatformAdManager. We need to build a zap in your product with SuperExampleCRM and PlatformAdManager. Zaps are comprised of a series of steps, so in this example our two steps would be:
+
+<CardGroup cols={2}>
+  <Card title="First Step" icon="circle-1">
+    Whenever there is a new lead in SuperExampleCRM...
+  </Card>
+  <Card title="Second Step" icon="circle-2">
+    ...a new engagement report is sent to PlatformAdManager
+  </Card>
+</CardGroup>
+
+### Zap Step Requirements
+
+Each Zap step in turn, is comprised of:
+<CardGroup cols={1}>
+<Card title="An Action" icon="person-running-fast" iconType="duotone">
+  An Action is an operation that can be performed against a third-party API; either a `READ` or a `WRITE`.
+</Card>
+<Card title="An Authentication" icon="lock-keyhole" iconType="duotone">
+  An Authentication is a set of user credentials for an App that is stored securely by Zapier.
+</Card>
+<Card title="A Group of Inputs" icon="list-check" iconType="duotone">
+  Inputs are fields that are provided to an Action so that it can run. They are analogous to the arguments that a function takes.
+</Card>
+</CardGroup>
+
+To build a Zap, we'll need to select an **_Action_**, **_Authentication_**, and **_Inputs_** for each step.
+
+## Configuring the first step
+> "When there is a new lead in SuperExampleCRM ..."*
+
+<Info>The first step of a Zap must to have a `READ` action.</Info>
+
+### Selecting an Action
+The first thing that we need to do is select an Action for the first step of the Zap. See [Selecting an Action](/partner-solutions/workflow-api/Selecting-an-Action) for more details.
+
+Let's say that the `id` of the SuperExampleCRM app is `4b3920d6-1d5a-4071-b837-9383dc511b80`. Given that id and the constraint that the first action of an app must have the `action_type` `READ`, we can fetch a list of available actions for the selected app by making a request to the `/actions` endpoint.
+
+```js
+
+GET /actions?app=4b3920d6-1d5a-4071-b837-9383dc511b80&action_type=READ
+```
+
+Our user can then select one of these Actions that they wish to use as the Trigger for their Zap. For this guide, we'll say that the user chose the "New Lead" Action:
+```js
+{
+  "id": "core:wJ3PxHpNArZ8MqvloW3L1ZyMDQ4nJ",
+  "key": "new_lead"
+  "app": "4b3920d6-1d5a-4071-b837-9383dc511b80",
+  "type": "action",
+  "action_type": "READ",
+  "is_instant": true,
+  "title": "New Lead",
+  "description": "Triggers when a new lead is added to SuperExampleCRM"
+}
+```
+### Selecting an Authentication
+The next step is to select an authentication for the first step of the Zap.  See [Selecting an Authentication](/partner-solutions/workflow-api/Selecting-an-Authentication) for more details.
+
+We can make a request to `GET /authentications?app=4b3920d6-1d5a-4071-b837-9383dc511b80` and allow the user to select which one of the returned Authentications they wish to use. (See [Selecting an Authentication](/partner-solutions/workflow-api/Selecting-an-Authentication) for what to do when there are no Authentications, Authentication isn't required, or if a new Authentication should be created)
+
+For this guide, we'll say that the user chose the authentication with `id` `"49509"`
+```js
+{
+  "type": "authentication",
+  "id": "49509",
+  "app": "4b3920d6-1d5a-4071-b837-9383dc511b80",
+  "title": "SuperExampleCRM (wade@zapier.com)",
+  "is_expired": false
+}
+```
+
+### Configuring Inputs
+The last thing that we need to do for step 1 of the Zap is to select input values. Please see [Fields and Fieldsets](/partner-solutions/workflow-api/Fields-and-Fieldsets) for more details on fetching available Input Fields for a given Action, and reloading Input Fields as the user provides input data.
+
+In an above step, the user selected the "New Lead" action with id `core:wJ3PxHpNArZ8MqvloW3L1ZyMDQ4nJ`. With the `/actions/{action_id}/inputs` endpoint, we can get a list of the input fields that our first action requires
+
+<CodeGroup>
+
+```js Request
+//POST /actions/core:core:wJ3PxHpNArZ8MqvloW3L1ZyMDQ4nJ/inputs
+{
+  "data": {
+    "authentication": "49509",
+    "inputs": {}
+  }
+}
+```
+
+```js Response
+//POST /actions/core:853266/inputs
+{
+  "data": [
+    {
+      "type": "input_field",
+      "id": "lead_type",
+      "depends_on": [],
+      "value_type": "STRING",
+      "format": "SELECT",
+      "is_required": true,
+      "title": "Lead type",
+      "description": "The type of Lead to filter on.",
+      "invalidates_input_fields": false,
+      "default_value": "company",
+      "placeholder": ""
+    }
+  ]
+}
+```
+</CodeGroup>
+
+<br />
+
+<Note>
+Please see [Fields and Fieldsets](/partner-solutions/workflow-api/Fields-and-Fieldsets) for more details on fetching available Input Fields for a given Action, fetching Choices for Input Fields, and reloading Input Fields as the user provides input data.
+</Note>
+
+As you can see, this action only has a single input field: the `Lead type`.
+This gives the user the opportunity to configure the action so that it only
+returns a certain type of lead.
+
+In this example, the `format` of this input field is `SELECT`, which means we
+now need to fetch the possible values which are available:
+
+<CodeGroup>
+
+```js Request
+// POST /actions/core:wJ3PxHpNArZ8MqvloW3L1ZyMDQ4nJ/inputs/lead_type/choices
+{
+  "data": {
+    "authentication": "49509",
+    "inputs": {}
+  }
+}
+``` 
+
+```js Response
+// POST /actions/core:wJ3PxHpNArZ8MqvloW3L1ZyMDQ4nJ/inputs/lead_type/choices
+{
+  "data": [
+    {
+      "type": "choice",
+      "id": "company",
+      "label": "Company",
+      "value": "company"
+    },
+    {
+      "type": "choice",
+      "id": "person",
+      "label": "Person",
+      "value": "person"
+    }
+  ]
+}
+```
+</CodeGroup>
+
+Again, we've provided an empty `inputs` field object, as the user has not yet
+provided any input. If there are multiple input fields, this object should be
+populated as the user progresses through them.
+
+In this case, there are two available choices for the `lead_type` field:
+`company` and `person`. With this information, we can render a dropdown field
+and allow the user to select one of them.
+
+For this guide, we'll say that the user selected `person` from the dropdown.
+
+## Configuring the second step
+> "... a new engagement report is sent to PlatformAdManager"*
+
+### Selecting an Action
+Selecting an Action for the second step of a Zap follows the same process and uses the same API endpoints as selecting an Action for the first step of a Zap, with the two exceptions that a different App id should be used, and that the `action_type` of the second action should be `WRITE`.  In this case, let's say that the id of the PlatformAdManager App is `9c29df46-f9b9-48e2-a879-8f5479d8401d`. We can fetch a list of available actions for PlatformAdManager by making a request to the `/actions` endpoint.
+
+```js
+
+GET /actions?app=9c29df46-f9b9-48e2-a879-8f5479d8401d&action_type=WRITE
+```
+
+Again, our user can then select one of these Actions that they wish to use. For this guide, we'll say that the user chose the "Create Engagement Report" Action:
+
+```js
+{
+  "id": "core:3ZYFzZKkjbDK2AwQopVqrZWL9pK",
+  "key": "create_engagement_report"
+  "app": "9c29df46-f9b9-48e2-a879-8f5479d8401d",
+  "type": "action",
+  "action_type": "WRITE",
+  "is_instant": true,
+  "title": "Create Engagement Report",
+  "description": "Creates a report of as engagement"
+}
+```
+
+### Selecting an Authentication
+Selecting an Authentication for the second step of a Zap follows the same process and uses the same API endpoints as selecting an Authentication for the first step of a Zap, with the exception that a a different App id should be used. In this case, we would make a request to `GET /authentications?app=9c29df46-f9b9-48e2-a879-8f5479d8401d`
+
+Again, our user can select which of the available authentications they would like to use with this Zap. For this guide, we'll say that the user chose the authentication with `id` `"857610"`
+```js
+{
+  "type": "authentication",
+  "id": "857610",
+  "title": "PlatformAdManager (wade@zapier.com)",
+  "app": "9c29df46-f9b9-48e2-a879-8f5479d8401d",
+  "is_expired": false
+}
+```
+
+### Configuring Inputs
+For the second step of a Zap, you can follow the same process outlined above to fetch Input Fields, Choices, and reload Input fields as a user provides input data. 
+
+For this guide, lets say that we make the following request and get the below fields in response.
+
+<CodeGroup>
+
+```js Request
+// POST /actions/core:3ZYFzZKkjbDK2AwQopVqrZWL9pK/inputs
+{
+  "data": {
+    "authentication": "857610",
+    "inputs": {}
+  }
+}
+```
+
+```js Response
+// POST /actions/core:3ZYFzZKkjbDK2AwQopVqrZWL9pK/inputs
+{
+  "data": [
+    {
+      "type": "input_field",
+      "id": "engaged_party",
+      "depends_on": [],
+      "value_type": "STRING",
+      "is_required": true,
+      "title": "Engaged party",
+      "description": "The name of party that had engagement",
+      "invalidates_input_fields": false,
+      "placeholder": ""
+    },
+    {
+      "type": "input_field",
+      "id": "engagement_type",
+      "depends_on": [],
+      "value_type": "STRING",
+      "format": "SELECT",
+      "is_required": true,
+      "title": "Engagement type",
+      "description": "The action that the engaged party took.",
+      "invalidates_input_fields": false,
+      "default_value": "lead_form_completed",
+      "placeholder": ""
+    }
+  ]
+}
+```
+</CodeGroup>
+
+<Note>
+Again, please see [Fields and Fieldsets](/partner-solutions/workflow-api/Fields-and-Fieldsets) for more details on fetching available Input Fields for a given Action, fetching Choices for Input Fields, and reloading Input Fields as the user provides input data.
+</Note>
+
+We can go through the same process that we did in Step 1 of presenting input fields to the user and receiving input configuration. However, we also have the option of creating dynamic input by mapping the Output Fields of step 1 to the Input Fields of step 2.
+
+### Mapping Outputs to Inputs
+We get the available output fields of our first action from the outputs endpoint:
+
+<CodeGroup>
+
+```js Request
+// POST /actions/core:wJ3PxHpNArZ8MqvloW3L1ZyMDQ4nJ/outputs
+{
+  "data": {
+    "authentication": "49509",
+    "inputs": {
+      "lead_type": "person"
+    }
+  }
+}
+```
+
+```js Response
+// POST /actions/core:wJ3PxHpNArZ8MqvloW3L1ZyMDQ4nJ/outputs
+{
+  "data": [
+    {
+      "type": "output_field",
+      "id": "id",
+      "title": "Lead ID",
+      "sample": "a3bx91sl"
+    },
+    {
+      "type": "output_field",
+      "id": "full_name",
+      "title": "Full Name",
+      "sample": "Neve Hahn"
+    },
+    {
+      "type": "output_field",
+      "id": "lead_status",
+      "title": "Lead Status",
+      "sample": "qualified"
+    }
+  ]
+}
+```
+</CodeGroup>
+
+Now, we can use these output fields when we configure the second action of our Zap.
+
+When we configure the inputs of step 2, we can map Step 1's Output Field `full_name` to step 2's Input Field `engaged_party` by using double curly braces `{{step1_field_id}}`, or in this case `{{full_name}}`.
+
+
+
+## Create a Zap
+Now that we have an **Action**, **Authentication**, and **Inputs** for each step of our Zap, we can use the [POST /zaps](partner-solutions/api-reference/zaps/create-a-zap) endpoint to create a fully configured Zap.
+
+<CodeGroup>
+```js Request
+// POST /zaps
+{
+  "data": {
+    "enabled": true,
+    "title": "Register engagement report on lead creation",
+    "steps": [
+      {
+        "action": "core:wJ3PxHpNArZ8MqvloW3L1ZyMDQ4nJ",
+        "inputs": {
+          "lead_type": "person"
+        },
+        "authentication": "49509"
+      },
+      {
+        "action": "core:3ZYFzZKkjbDK2AwQopVqrZWL9pK",
+        "inputs": {
+          "engaged_party": "{{full_name}}",
+          "engagement_type": "lead_form_completed"
+        },
+        "authentication": "857610"
+      }
+    ]
+  }
+}
+```
+
+``` js Response
+{
+	"type": "zap",
+	"id": "233307281",
+	"is_enabled": true,
+	"last_successful_run_date": null,
+	"updated_at": "2024-03-28T17:25:08+00:00",
+	"title": "Register engagement report on lead creation",
+	"links": {
+		"html_editor": "https://zapier.com/app/editor/233307281?utm_source=partner&utm_medium=embed&utm_campaign=partner_api&referer=None"
+	},
+	"steps": [
+		{
+			"action": "core:wJ3PxHpNArZ8MqvloW3L1ZyMDQ4nJ",
+			"authentication": "49509",
+			"inputs": null,
+			"title": null
+		},
+		{
+			"action": "core:3ZYFzZKkjbDK2AwQopVqrZWL9pK",
+			"authentication": "857610",
+			"inputs": null,
+			"title": null
+		}
+	]
+}
+```
+</CodeGroup>
+
+<Info>It is expected that the returned Zap doesn't include any step `inputs`</Info>
+
+
+Notice that we've combined all of the configurations we collected above to construct the body of this request.
+* The `action` of each step is the `id` of the Action that the user selected.
+* The `authentication` of each step is the `id` of the Authentication that the user selected.
+* The `inputs` of each step is an object where each key is the `id` of an Input Field
+    * In the case of `engaged_party` (where we mapped an Output Field from step 1 to an Input Field of step 2), the value is the `id` of the Output Field from step 1 wrapped in double curly braces `{{...}}`
+    * In all other cases, the value is a static value that was selected or otherwise configured by the user

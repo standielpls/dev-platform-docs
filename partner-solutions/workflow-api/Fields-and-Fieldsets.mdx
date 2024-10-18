@@ -1,0 +1,394 @@
+---
+title: Fields and Fieldsets
+---
+
+There are two main types of fields to consider when dealing with the Zapier API:
+input fields and output fields:
+
+<Card title="Input fields" icon="inbox-in" iconType="duotone">
+  Those that are provided to an Action so that it can run. They are analogous to
+  the arguments that a function takes.
+</Card>
+<Card title="Output fields" icon="inbox-out" iconType="duotone">
+  Those that are returned by an Action. These may then be _mapped_ into the input
+  fields of a subsequent Action in a Zap.
+</Card>
+
+## Input Fields
+
+To fetch the input fields for an Action, make a request to the
+`/actions/{action_id}/inputs` endpoint:
+
+<CodeGroup>
+
+```js Request
+// POST /actions/core:853266/inputs
+{
+  "data": {
+    "authentication": "762331",
+    "inputs": {}
+  }
+}
+```
+
+```js Response
+// POST /actions/core:853266/inputs
+{
+  "data": [
+    {
+			"type": "input_field",
+			"id": "spreadsheet",
+			"default_value": "",
+			"depends_on": [],
+			"description": "The spreadsheet to add a new row",
+			"format": "SELECT",
+			"invalidates_input_fields": true,
+			"is_required": true,
+			"placeholder": "",
+			"title": "Spreadsheet",
+			"value_type": "STRING"
+		}
+  ]
+}
+```
+
+</CodeGroup>
+
+### Invalidation
+
+The `invalidates_input_fields` field signifies whether the input fields should
+be _refetched_ from `/inputs` when the value of the given field is changed. A real-world example
+of when this might be required is for spreadsheet apps. When adding a new row to
+a sheet, the first input field allows the user to select the relevant sheet and,
+once that is selected, more input fields become available (one for each column
+in the selected sheet). If the user changes the sheet, then the input fields
+must be refetched.
+
+When making a request to refetch the input fields, make sure to include all the
+fields that have been populated so far:
+
+<CodeGroup>
+
+```js Request
+// POST /actions/core:5381/inputs
+{
+  "data": {
+    "authentication": "928117",
+    "inputs": {
+      "spreadsheet": "my_sheet"
+    }
+  }
+}
+```
+
+```js Response
+// POST /actions/core:5381/inputs
+{
+  "data": [
+    {
+      "type": "input_field",
+      "id": "spreadsheet",
+      "title": "Spreadsheet",
+      "description": "The spreadsheet to add a row to.",
+      "value_type": "string",
+      "format": "SELECT",
+      "depends_on": [],
+      "is_required": true,
+      "invalidates_input_fields": true
+    },
+    {
+      "type": "input_field",
+      "id": "worksheet",
+      "title": "Worksheet",
+      "description": "The worksheet to add a row to.",
+      "value_type": "string",
+      "format": "SELECT",
+      "depends_on": ["spreadsheet"],
+      "is_required": true,
+      "invalidates_input_fields": true
+    },
+    {
+      "type": "input_field",
+      "id": "column_A",
+      "title": "Column A",
+      "description": "",
+      "value_type": "string",
+      "depends_on": [],
+      "is_required": false,
+      "invalidates_input_fields": false
+    },
+    {
+      "type": "input_field",
+      "id": "column_B",
+      "title": "Column B",
+      "description": "",
+      "value_type": "string",
+      "depends_on": [],
+      "is_required": false,
+      "invalidates_input_fields": false
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+In this example, if the user changes the value of `spreadsheet`, we should refetch `/inputs` and pass this new value to reload all fields.
+ If `worksheet` is modified, once again we'd refetch `/inputs` and reload the non-dependant fields. 
+ This is because both `spreadsheet` and `worksheet` have `invalidates_input_fields` field set to `true`.
+
+### Dependencies
+
+Sometimes one input field _depends_ on one or more other fields, meaning `/inputs` should be refetched 
+if any of the dependent fields are changed. This is represented via the `depends_on` array field, which has strings of field IDs in
+it. Continuing with the spreadsheet example, the `worksheet` field depends on
+the `spreadsheet` field. That is, if the user changes which spreadsheet they are
+working in, the value of the worksheet field must be cleared (and `/inputs` refetched)---as the set of
+inputs available for the action will now be different.
+
+### Invalidation & Dependancy Flow
+
+<Frame caption="The sequencing of inputs can be complex for certain actions, this flow demonstrates how to present these inputs to users.">
+  ![Invalidation & Dependancy
+  Flow](https://cdn.zappy.app/9cff01e591e7c205326aa4b6b212c89a.jpg)
+</Frame>
+
+### Input Field Types
+<Note>[Input Field Schema](/partner-solutions/api-reference/common-types/inputField)</Note>
+The `value_type` key indicates what type of user data is accepted for a given field.
+
+Per [the schema](/partner-solutions/api-reference/common-types/inputField), the options for `value_type` are: `STRING`, `NUMBER`, `INTEGER`, `BOOLEAN`, `ARRAY`, and `OBJECT`. 
+The following variants warrant additional consideration:  
+
+<AccordionGroup>
+  <Accordion title="Array fields">
+    Array fields accept JSON arrays of the underlying value type. The `items`
+    key will be defined for arrays, and it will contain a key `type` with the
+    value type of the array items.
+
+    This input field:
+    ``` js
+    "column_names": {
+      "value_type": "ARRAY",
+      "items": {
+        "type": "STRING"
+      }
+    }
+    ```
+    would accept this value:
+    ```js
+    "column_names": ["Word", "Definition"]
+    ```
+  </Accordion>
+  <Accordion title="Object fields">
+    Object fields accept JSON objects with arbitrary keys and _string_ values.
+
+    This input field:
+    ```js
+    "dictionary": {
+      "value_type": "OBJECT"
+    }
+    ```
+    would accept this value:
+    ```js
+    "dictionary": {
+      "apple": "A fruit!",
+      "salmon": "A fish!"
+    }
+    ```
+  </Accordion>
+  <Accordion title="Boolean fields">
+      While boolean fields are logically `true` or `false`, their actual values can
+      change depending on the specific action. For this reason boolean values are paired with a `format` 
+      of `SELECT` and options should be fetched from `/choices`. See [choices](/partner-solutions/workflow-api/Fields-and-Fieldsets#choices) for more information.
+      This input field:
+      ```js
+      {
+        "type": "input_field",
+        "id": "replace_all_rows",
+        "format": "SELECT",
+        "value_type": "BOOLEAN"
+        ...
+      }
+      ```
+      would require a request to `/choices`; 
+      ``` js
+      // repsonse from POST https://api.zapier.com/v2/actions/core:gq7MXdsdsaaqqDBj/inputs/replace_all_rows/choices
+      {
+        "id": "False",
+        "type": "choice",
+        "label": "No",
+        "value": "False"
+      },
+      {
+        "id": "True",
+        "type": "choice",
+        "label": "Yes",
+        "value": "True"
+      }
+      ```
+      and ultimately would accept this value:
+      ```js
+      "False"
+      ```
+      Where this is the `id` of the selection. See [choices](/partner-solutions/workflow-api/Fields-and-Fieldsets#choices) for more information.
+  </Accordion>
+</AccordionGroup> 
+
+### Input Formats
+ The `format` key indicates how to present a given input field to the user, per [the schema](/partner-solutions/api-reference/common-types/inputField).
+ Its options are: `DATETIME`, `MULTILINE`, `PASSWORD`, `CODE`, `READONLY`, `FILE`, `SELECT`. Additional information on 
+ how these fields are processed by Zapier can be found in our [help docs](https://help.zapier.com/hc/en-us/articles/8496259603341-Different-field-types-in-Zaps).
+
+ The following variants warrant additional consideration:
+ <AccordionGroup> 
+   <Accordion title="Readonly fields">
+      These fields are to be presented as text only, and require no input. The `description` field contains the text to be presented.
+      ```js
+      "format": "READONLY"
+      ```
+  </Accordion>
+  <Accordion title="File fields">
+      These fields should contain a URL to a file, which will be fetched during zap execution by the zapier platform.
+      ```js
+      "format": "FILE"
+      ```
+  </Accordion>
+  <Accordion title="Select fields">
+      These fields require an additional request to `/choices` to fetch the choices available for 
+      that input. See [choices](/partner-solutions/workflow-api/Fields-and-Fieldsets#choices) for more information.
+      ```js
+      "format": "SELECT"
+      ```
+  </Accordion>
+</AccordionGroup> 
+
+### Choices
+
+<Note>[Choice Schema](/partner-solutions/api-reference/common-types/choice)</Note>
+
+When the `format` key is equal to `SELECT`, the `/choices` endpoint returns a list of options from which the user should select.
+
+Continuing the spreadsheet example, the first input field is (`spreadsheet`) which is
+a `string` type. The `format` is `SELECT`, which implies this field has a set of
+_choices_ for the user to select from (which would normally be rendered as a
+dropdown menu in the UI).
+
+To fetch these, use the `/actions/{action_id}/inputs/{input_id}/choices`
+endpoint:
+
+<CodeGroup>
+
+```js Request
+// POST /actions/core:853266/inputs/spreadsheet/choices
+{
+  "data": {
+    "authentication": "762331",
+    "inputs": {}
+  }
+}
+```
+
+```js Response
+// POST /actions/core:853266/inputs/spreadsheet/choices
+{
+  "data": [
+    {
+			"id": "ABCD12345",
+			"type": "choice",
+			"label": "Group Standup",
+			"value": "ABCD12345"
+    },
+    {
+			"id": "ABCDE123456",
+			"type": "choice",
+			"label": "Incident Tracking",
+			"value": "ABCDE123456"
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+So, this input field has only two choices available. When making a zap pass the `id` of the selected choice for the desired input.
+
+
+### Fieldsets
+
+<Note>[Fieldset Schema](/partner-solutions/api-reference/common-types/fieldset)</Note>
+
+Input fields may be _grouped_ together into fieldsets (just like in HTML). This
+gives a hint as to how the fields should be rendered in the UI.
+
+Only one level of nesting is supported (a Fieldset cannot be contained within
+another Fieldset).
+
+### Informational Fields
+
+<Note>[Info Field Schema](/partner-solutions/api-reference/common-types/infoField)</Note>
+
+An informational field is one that has no input, but contains some
+markdown-formatted text which should be rendered in the relevant position in the
+form. This is often used to give helpful tips to the user.
+
+## Output Fields
+
+<Note>[Output Field Schema](/partner-solutions/api-reference/common-types/outputField)</Note>
+
+Once the user has populated all the input fields, we can determine which output
+fields are available from the given action using the
+`/actions/{action_id}/outputs` endpoint:
+
+<CodeGroup>
+
+```js Request
+// POST /actions/core:853266/outputs
+{
+  "data": {
+    "authentication": "762331",
+    "inputs": {
+      "worksheet": "ABC123",
+      "spreadsheet": "EFGH456"
+    }
+  }
+}
+```
+
+```js Response
+// POST /actions/core:853266/outputs
+{
+  "data": [
+    {
+      "type": "output_field",
+      "id": "id",
+      "title": "Id",
+      "sample": "1"
+    },
+    {
+      "type": "output_field",
+			"id": "COL$A",
+			"title": "Col$A",
+			"sample": "Value in column A"
+    },
+    {
+			"type": "output_field",
+			"id": "COL$B",
+			"title": "Col$B",
+			"sample": "Value in column B"
+    },
+    {
+			"type": "output_field",
+			"id": "COL$C",
+			"title": "Col$C",
+			"sample": "Value in column C"
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+In reality, many more output fields would likely be available. For details on
+how these can be mapped into the input fields of subsequent steps in a Zap, see
+[Building a Zap](/partner-solutions/workflow-api/Building-a-Zap).

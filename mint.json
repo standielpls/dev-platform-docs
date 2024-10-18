@@ -42,11 +42,13 @@
   "tabs": [
     {
       "name": "Developer Platform",
-      "url": "platform/"
+      "url": "platform/",
+      "openapi": "https://raw.githubusercontent.com/swagger-api/swagger-petstore/refs/heads/master/src/main/resources/openapi.yaml"
     },
     {
       "name": "Partner Solutions",
-      "url": "partner-solutions/"
+      "url": "partner-solutions/",
+      "openapi": "https://api.zapier.com/schema"
     },
     {
       "name": "Zapier AI Actions",
@@ -59,8 +61,8 @@
       "pages": ["home"]
     },
     {
-      "group": "Solutions",
-      "pages": ["platform/home", "partner-solutions/home", "ai-actions/home"]
+      "group": "",
+      "pages": ["platform/home", "partner-solutions/getting-started", "ai-actions/home"]
     },
     {
       "group": "Quick start",
@@ -302,7 +304,150 @@
         "platform/reference/changelog",
         "platform/reference/schema"
       ]
-    }
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        "platform/api-reference/petstore"
+      ]
+    },
+    {
+      "group": "Getting Started",
+      "pages": [
+          "partner-solutions/getting-started"
+      ]
+  },
+  {
+      "group": "Workflow API",
+      "pages": [
+          "partner-solutions/workflow-api/intro",
+          {
+              "group": "Building a Workflow",
+              "pages": [
+                  "partner-solutions/workflow-api/Building-a-Zap",
+                  "partner-solutions/workflow-api/Fields-and-Fieldsets",
+                  "partner-solutions/workflow-api/Selecting-an-Action",
+                  "partner-solutions/workflow-api/Selecting-an-Authentication",
+                  {
+                      "group": "Custom Flows",
+                      "pages": [
+                          "partner-solutions/workflow-api/testing-a-step",
+                          "partner-solutions/workflow-api/Hardcoding-an-Action",
+                          "partner-solutions/workflow-api/adding-an-authentication"
+                      ]
+                  },
+                  "partner-solutions/workflow-api/limitations"
+              ]
+          },
+          "partner-solutions/workflow-api/list-apps",
+          "partner-solutions/workflow-api/list-zaps",
+          "partner-solutions/workflow-api/list-zap-templates",
+          "partner-solutions/workflow-api/embed-zap-editor"
+      ]
+  },
+  {
+      "group": "Workflow Element",
+      "pages": [
+          "partner-solutions/workflow-element/intro",
+          "partner-solutions/elements-security",
+          "partner-solutions/embed-insights"
+      ]
+  },
+  {
+      "group": "Embed Enhancements",
+      "pages": [
+          "partner-solutions/pre-filled-zaps",
+          "partner-solutions/quick-account-creation"
+      ]
+  },
+  {
+      "group": "Getting Started With the API",
+      "pages": [
+          "partner-solutions/api-reference/authentication",
+          "partner-solutions/api-reference/rate-limiting"
+      ]
+  },
+  {
+      "group": "Apps",
+      "pages": [
+          "partner-solutions/api-reference/apps/get-apps-[v1]",
+          "partner-solutions/api-reference/apps/get-apps-[v2]"
+      ]
+  },
+  {
+      "group": "Categories",
+      "pages": [
+          "partner-solutions/api-reference/categories/get-categories"
+      ]
+  },
+  {
+      "group": "Accounts",
+      "pages": [
+          "partner-solutions/api-reference/accounts/user-profile",
+          "partner-solutions/api-reference/accounts/create-account"
+      ]
+  },
+  {
+      "group": "Zap Templates",
+      "pages": [
+          "partner-solutions/api-reference/zap-templates/get-zap-templates"
+      ]
+  },
+  {
+      "group": "Zaps",
+      "pages": [
+          "partner-solutions/api-reference/zaps/get-zaps-[v1]",
+          "partner-solutions/api-reference/zaps/guess-a-zap",
+          "partner-solutions/api-reference/zaps/get-zaps-[v2]",
+          "partner-solutions/api-reference/zaps/create-a-zap"
+      ]
+  },
+  {
+      "group": "Actions",
+      "pages": [
+          "partner-solutions/api-reference/actions/get-actions",
+          "partner-solutions/api-reference/actions/get-input-fields",
+          "partner-solutions/api-reference/actions/get-choices",
+          "partner-solutions/api-reference/actions/get-output-fields",
+          "partner-solutions/api-reference/actions/step-test"
+      ]
+  },
+  {
+      "group": "Authentications",
+      "pages": [
+          "partner-solutions/api-reference/authentications/get-authentications",
+          "partner-solutions/api-reference/authentications/create-authentication"
+      ]
+  },
+  {
+      "group": "Experimental",
+      "pages": [
+          "partner-solutions/api-reference/experimental/create-a-workflow-step"
+      ]
+  },
+  {
+      "group": "Schemas",
+      "pages": [
+          {
+              "group": "Common Types",
+              "pages": [
+                  "partner-solutions/api-reference/common-types/action",
+                  "partner-solutions/api-reference/common-types/app",
+                  "partner-solutions/api-reference/common-types/authentication",
+                  "partner-solutions/api-reference/common-types/choice",
+                  "partner-solutions/api-reference/common-types/fieldset",
+                  "partner-solutions/api-reference/common-types/infoField",
+                  "partner-solutions/api-reference/common-types/inputField",
+                  "partner-solutions/api-reference/common-types/outputField",
+                  "partner-solutions/api-reference/common-types/zap",
+                  "partner-solutions/api-reference/common-types/errors",
+                  "partner-solutions/api-reference/common-types/pagination",
+                  "partner-solutions/api-reference/common-types/requests",
+                  "partner-solutions/api-reference/common-types/responses"
+              ]
+          }
+      ]
+  }
   ],
   "footerSocials": {
     "facebook": "http://www.facebook.com/ZapierApp?utm_source=zapier.com&amp;utm_medium=referral&amp;utm_campaign=zapier",

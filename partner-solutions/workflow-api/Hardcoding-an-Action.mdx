@@ -1,0 +1,26 @@
+---
+title: Hardcoding an Action
+description: To help focus the user experience, it can be helpful to hardcode a certain Action to guide users in selecting the most appropriate action for their use-case.
+---
+
+<Warning>While it may be tempting to reuse the `id` field returned by the `/actions`
+endpoint, this is unsupported. The `id` field should not be considered stable, and the `key` field should instead be used.</Warning>
+
+To hardcode an action, first make a request to the [`/actions` endpoint](/partner-solutions/api-reference/actions/get-actions), filtered by App using the `app` query param (e.g.
+`/actions?app=dc4dfc3e-c5bd-47a4-ac85-6d5ef8a50c50`).
+
+<Steps>
+  <Step title="Store the App ID">
+    This ID is guaranteed to remain the same for a particular
+App, even as different versions of the App are promoted in the background.
+  </Step>
+  <Step title="Look up the list of Actions by App ID">
+    i.e.
+`/api/v2/actions?app=768dedb4-54b8-4585-a166-2140216e9b13`
+  </Step>
+  <Step title="Filter for the Action required using the `key` field.">
+    This is the value
+provided in the Zapier Developer Platform, and remains the same for the same
+action across versions. The Action ID field returned can then be used as usual to create a Zap.
+  </Step>
+</Steps>

@@ -1,0 +1,38 @@
+---
+title: 'Retrieving a list of users Zaps'
+description: Listing a users zaps reveals existing workflows created by users.
+---
+
+### Prerequisites
+
+- Your app needs to be published as a [public integration](https://platform.zapier.com/quickstart/private-vs-public-integrations) in Zapier’s App Directory.
+
+
+### Example Implementation 
+
+<Frame caption="Unbounce uses the /zaps endpoint to display users’ Zaps using their integration directly within the Unbounce platform.">
+  <video
+  controls
+  className="w-full aspect-video"
+  src="https://cdn.zappy.app/c272eef3c4261c529e8e9e0ce9d5630b.mp4"
+></video>
+</Frame>
+
+## Fetching a list of Zaps for a user
+
+<Steps>
+    <Step title="Authenticate with Zapier">
+        Following the [authentication guide](/partner-solutions/api-reference/authentication), receive a token from the Zapier Workflow API.
+    </Step>
+    <Step title="Create your request, and filter as needed">
+        Leverage the [`/zaps` endpoint](/partner-solutions/api-reference/zaps/get-zaps-[v2]) to fetch a users zaps.
+        - You can optionally filter the list by specific input values, which can be helpful for instances where a user has a zap associated to specific resources. Example might be a specific trello board or google sheet. See [the api-reference](/partner-solutions/api-reference/zaps/get-zaps-[v2]) for more info. 
+        - Leverage the `expand` parameter to return 
+        additional zap detail such as step information.
+        - Use the `zap:all` scope to return _all_ owned zaps on a users acccount regardless of paired apps. 
+        <Info> By default, only zaps that contain the authenticating app and that are **owned** by the user are returned. Shared zaps or zaps the user may have permission to view/edit will not be returned. </Info>
+    </Step>
+    <Step title="Integrate with your product">
+        Shape the zaps returned to match the look and feel of your product, showcasing any existing workflows ✨
+    </Step>
+</Steps>

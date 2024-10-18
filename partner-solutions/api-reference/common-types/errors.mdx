@@ -1,0 +1,34 @@
+---
+title: Errors
+description: Errors in the API follow the <a href="https://jsonapi.org/format/#error-objects" target="_blank">recommendation</a> from the JSON API spec.
+---
+
+An example error object returned in a response body looks like this:
+
+```json
+{
+  "errors": [
+    {
+      "status": "400",
+      "title": "Bad Request",
+      "detail": "The request could not be understood by the server due to malformed syntax.",
+      "source": {
+        "pointer": "/data/attributes/first-name"
+      }
+    }
+  ]
+}
+```
+
+Other potential error codes that may be returned are:
+
+<CardGroup>
+  <Card title="401 Unauthorized" icon="circle" iconType="solid" color="#dbdb00">
+  </Card>
+  <Card title="403 Forbidden" icon="circle" iconType="solid" color="#FF0000">
+  </Card>
+</CardGroup>
+
+In all cases the response will be a JSON object with a single key `errors` which will be an array of error objects.
+
+For more information, check out the [responses](https://jsonapi.org/format/#error-objects) in the API reference.

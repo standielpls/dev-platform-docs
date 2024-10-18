@@ -1,0 +1,45 @@
+---
+title: 'Retrieving Zap Templates'
+description: 'Zap templates are pre-made Zaps that help users discover popular use cases for automating their work. Each template features a specific use case and the apps needed for it to work.'
+---
+
+### Prerequisites
+
+- Your app needs to be published as a [public integration](https://platform.zapier.com/quickstart/private-vs-public-integrations) in Zapier’s App Directory.
+- Only `published` Zap templates will be visible through the API.
+
+
+### Example Implementation 
+
+<Frame caption="Wufoo uses the /zap-templates endpoint to retrieve raw data about their Zap Templates to customize the look and feel of how they are surfaced to users within their own integration directory.">
+  <video
+  controls
+  className="w-full aspect-video"
+  src="https://cdn.zappy.app/f25a20ea30b58eec65888744e939a497.mp4"
+></video>
+</Frame>
+
+## Fetching a list of Zap Templates
+
+<Steps>
+    <Step title="Get your Client ID">
+    You can find your Client ID in the [Zapier Developer Platform](https://developer.zapier.com/) under `Embed` → `Settings` → `Credentials`
+      <Frame>
+        ![Client ID and Secret](https://cdn.zappy.app/cb3660c17a3d26b36f438ab80c0860d5.png)
+      </Frame>
+      <Warning>
+        Your application's **Client ID** and **Client Secret** are only available after you've published your app as a [public integration in Zapier's App Directory](https://platform.zapier.com/quickstart/private-vs-public-integrations).
+      </Warning>
+      <Info>
+        Regenerating your client secret will invalidate any previous secret.
+      </Info>
+    </Step>
+    <Step title="Create your request, and filter as needed">
+        Leverage the [`/zap-templates` endpoint](/partner-solutions/api-reference/zap-templates/get-zap-templates) to fetch zap templates.
+        - You can optionally provide an `apps` query param to only return Zap Templates that have both your app and one of the app ids provided. 
+        <Info>By default, all zap templates paired with your app are returned.</Info>
+    </Step>
+    <Step title="Integrate with your product">
+        Shape the zap templates returned to match the look and feel of your product,  workflow opportinuties that are 1-click away ✨
+    </Step>
+</Steps>

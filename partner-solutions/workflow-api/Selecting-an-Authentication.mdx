@@ -1,0 +1,127 @@
+---
+title: Selecting an Authentication
+description: Support users in selecting 3rd party authentications, either through an existing authentication or by adding new. 
+---
+
+An Authentication is a set of user credentials for an [App](/partner-solutions/api-reference/apps/get-apps-[v2]) that is stored securely by Zapier. When required, a user must select which of the Authentications they have for that App (they may have multiple) that they would like to use when a Zap executes. 
+
+<Note>
+[Authentication Schema](/partner-solutions/api-reference/common-types/authentication)
+</Note>
+
+We can fetch a list of Authentications available for an App by making a request to the [`/authentications` endpoint](/partner-solutions/api-reference/authentications/get-authentications):
+
+```js
+// GET /authentications?app=4b3920d6-1d5a-4071-b837-9383dc511b80
+{
+  "data": [
+    {
+      "type": "authentication",
+      "id": "49509",
+      "app": "4b3920d6-1d5a-4071-b837-9383dc511b80",
+      "title": "SuperExampleCRM (wade@zapier.com)",
+      "is_expired": false
+    },
+    {
+      "type": "authentication",
+      "id": "96983",
+      "app": "4b3920d6-1d5a-4071-b837-9383dc511b80",
+      "title": "SuperExampleCRM (bryan@zapier.com)",
+      "is_expired": false
+    }
+  ]
+}
+```
+Our user can then select one of these Authentications to use with a Zap.
+
+## When no Authentications exist
+It's possible that the user doesn't have _any_ Authentications for an App they've picked, as in every case when it's a new Zapier account. In these cases the `/authentications` endpoint will return an empty list under the `data` key. In this scenario, we should direct the user to the url provided by the `/apps` endpoint under the `links.connect_new_authentication` key to add a new Authentication.
+
+This is also the best approach to take if you want to offer the user the option to use a new Authentication with this Zap, even if they already have Authentications available. (e.g. If the user wants to use a different SuperExampleCRM account than the ones already linked to Zapier)
+
+<Note>
+  If `links.connect_new_authentication` is `null`, then this app doesn't require authentication, and `null` should be passed instead of a valid id. Read more about that [below](/partner-solutions/workflow-api/Selecting-an-Authentication#when-authentication-is-not-required).
+</Note>
+
+### Directing the user to create a new Authentication
+The best way to use this `links.connect_new_authentication` link is as follows:
+
+<Steps>
+  <Step title="Open the `links.connect_new_authentication` link in a popup">
+    In this popup, the user will be prompted to authenticate with the app, and to allow Zapier to access that app.
+  </Step>
+  <Step title="Create an event listener to listen for `zapier.popup.close` messages from that popup">
+     A message with that type will be posted when the auth flow in the popup is complete.
+  </Step>
+  <Step title="From the message, retrieve the new `authentication_id`">
+    Afterwards, use that `authentication_id` to continue the Zap creation process
+
+    ```js
+    // 1. Open a popup window to the `links.  connect_new_authentication` url. 
+    const authPopup = window.open(app.links.  connect_new_authentication, '_blank', 'width=1280,height=1024');
+    if (!authPopup) {
+        alert("Please allow popups to continue.");
+      return;
+    }
+
+    // 2. Add an event listener to be alerted when the user has completed the auth flow.
+    window.addEventListener('message', function(event) {
+      if (event.origin === 'https://zapier.com') {
+        const action = event.data;
+        if (action?.type === "zapier.popup.close") {
+          if (authPopup) {  // In case popup has already been closed
+            authPopup.close();
+          }
+          const new_authentication_id = action.authentication_id;
+          // 3. Use `new_authentication_id` to continue the Zap creation process.
+          // The `new_authentication_id` is the id of the authentication that the 
+          // user just created.
+        }
+      }
+    });
+    ```
+  </Step>
+</Steps>
+<Tip>Looking to add an authentication to your own app? You can supply auth details directly and streamline the process. Check out [Adding an Authentication](/partner-solutions/workflow-api/adding-an-authentication).</Tip>
+
+## When Authentication is not required
+
+Some apps don't require authentication at all - like Webhooks. You'll know this is the case when fetching the app and it's not possible to add a new authentication.
+``` js Sample response from /apps
+...
+"links": {
+          "connect_new_authentication": null
+        },
+...
+```
+
+When creating zaps with these apps, `null` should be passed in place of a valid authentication id;
+<CodeGroup>
+``` js Sample POST to /inputs
+// POST https://api.zapier.com/v2/actions/core:8yjfgwyq03zskh3LOe9jPa5dOeW/inputs
+{
+  "data": {
+    "authentication": null,
+    "inputs": {}
+  }
+}
+```
+
+``` js Sample POST to /zaps
+// POST https://api.zapier.com/v2/zaps
+...
+"steps": [
+      ...
+      {
+        "action": "core:3ZYFzZKkjbDK2AwQopVqrZWL9pK",
+        "inputs": {
+          "url": "https://greatWebhooks.com/myWebhook"
+        },
+        "authentication": null
+      }
+    ]
+...
+```
+</CodeGroup>
+
+

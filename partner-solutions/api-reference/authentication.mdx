@@ -1,0 +1,283 @@
+---
+title: "Zapier Authentication"
+description: "Authenticate with The Zapier Workflow API"
+---
+
+### Prerequisites
+
+- Your app needs to be published as a [public integration](https://platform.zapier.com/quickstart/private-vs-public-integrations) in Zapier’s App Directory.
+
+### Retrieving an access Token
+
+The Workflow API uses [OAuth 2.0 authentication with the authorization code grant type](https://developer.okta.com/blog/2018/04/10/oauth-authorization-code-grant-type). At the end of the Oauth authentication code flow, you'll get a user access token that you'll pass in a header with each API request.
+
+<Steps>
+    <Step title="Configure a redirect URI">
+    You can configure one (or multiple) redirect URIs in the [Zapier Developer Platform](https://developer.zapier.com/) under `Embed` → `Settings` → `Redirect URIs`
+      <Frame>
+      ![Configure redirect URIs](https://cdn.zappy.app/f8fbb9cf76864f457a0132b7eb8db196.png)
+      </Frame>
+      <Warning>
+        You will only be able to configure redirect URIs after you've published your app as a [public integration in Zapier's App Directory](https://platform.zapier.com/quickstart/private-vs-public-integrations).
+      </Warning>
+    </Step>
+    <Step title="Get your Client ID and Client Secret">
+    You can find your Client ID and Client Secret in the [Zapier Developer Platform](https://developer.zapier.com/) under `Embed` → `Settings` → `Credentials`
+      <Frame>
+        ![Client ID and Secret](https://cdn.zappy.app/cb3660c17a3d26b36f438ab80c0860d5.png)
+      </Frame>
+      <Warning>
+        Your application's **Client ID** and **Client Secret** are only available after you've published your app as a [public integration in Zapier's App Directory](https://platform.zapier.com/quickstart/private-vs-public-integrations).
+      </Warning>
+      <Info>
+        Regenerating your client secret will invalidate any previous secret.
+      </Info>
+    </Step>
+    <Step title="Determine which OAuth scopes are required for your use case">
+    The various endpoints of the Zapier Workflow API require different OAuth scopes. Information on specific scopes required is included within the API reference for each endpoint.
+      <Frame>
+        <img src="https://cdn.zappy.app/3667a31edfb56bc1187739d8b1303c5c.png" />
+      </Frame>
+    </Step>
+    <Step title="Initiate the OAuth flow and get the user’s permission.">
+      Construct a URL like the one below (with your own redirect url, client id, OAuth scopes, etc.) and open a browser to that URL.
+      ``` js
+      https://api.zapier.com/v2/authorize
+          ?response_type=code
+          &client_id={YOUR_CLIENT_ID}
+          &redirect_uri={YOUR_REDIRECT_URI}
+          &scope={YOUR_OAUTH_SCOPES}
+          &response_mode=query
+          &state={RANDOM_STRING}
+      ```
+
+      Here's an explaination for each query parameter:
+            | Parameter            | Meaning                                                                                                                                                                                                                                |
+      |----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+      | `response_type=code` | This tells the authorization server that the application is initiating the authorization code flow.                                                                                                                                  |
+      | `client_id`          | The public identifier for your application. This will be the same client id that you retrieved in step #2.                                                                       |
+      | `redirect_uri`       | Tells Zapier's authorization server where to send the user back to after they approve the request. This should be the redirect URI that you configured in step #1.                           |
+      | `scope`              | One or more space-separated strings indicating which permissions your application is requesting. Information on specific scopes required is included within the API reference for each endpoint. |
+      | `state`              | Your application generates a random string and includes it in the request. It should then check that the same value is returned after the user authorizes the app. This is used to prevent CSRF attacks.                             |
+
+      A full example would be:
+      ``` js
+      https://api.zapier.com/v2/authorize
+        ?response_type=code
+        &client_id=5672067294567789354752
+        &redirect_uri=https%3A%2F%2Fyour-app.com%2Fcallback
+        &scope=zap%20zap:write%20authentication
+        &response_mode=query
+        &state=tney4952
+      ```
+
+      When the user visits this URL, Zapier's authorization server will present them with a prompt asking if they would like to authorize your application's request.
+      <Frame>
+        ![OAuth prompt example](https://cdn.zappy.app/a58205b77ec7e6aa52226354af296125.png)
+      </Frame>
+    </Step>
+    <Step title="Receive a Redirect at your Redirect URI">
+      If the user approves the above request, then Zapier's authorization server will redirect the browser back to the `redirect_uri` that you specified and configured earlier. Two query string parameters, `code` and `state` will also be included.
+
+      For example, the browser would be redirected to:
+      ``` js
+      https://your-app.com/redirect
+      ?code=dfJ2KuL0vKLRCwQIOL5NDGKQ&H9mlc
+      &state=tney4952
+      ```
+            | Parameter | Meaning                                                                                                                                                                                                                                                                                                    |
+      |-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+      | `code`    | This value is the **authorization code** generated by Zapier's authorization server. In the next step, you'll exchange this code for an access token. Keep in mind that authorization codes are only valid for 2 minutes, and you'll need to do the exchange within that window of time to avoid errors. |
+      | `state`   | This value should match the state query parameter that you used in step 2. Your application should verify that these values match.                                                                                                                                                                       |
+    </Step>
+    <Step title="Exchange authorization code for an access token">
+      The final step is to exchange the **authorization code** that you just recieved for an **access token** that can be used to make authorized requests to the Zapier Workflow API. You make the exchange with a `POST` request to Zapier's token endpoint `https://zapier.com/oauth/token/`.
+
+      Below is an example of a request that can be used to do the exchange.
+
+      <CodeGroup>
+      ```sh cURL
+      curl -v -u {CLIENT_ID}:{CLIENT_SECRET} \
+      -H "Content-Type: multipart/form-data" \
+      -F grant_type=authorization_code \
+      -F code={AUTHORIZATION_CODE} \
+      -F redirect_uri="{REDIRECT_URI}" \
+      https://zapier.com/oauth/token/
+      ```
+      ``` python Python
+      import requests
+
+      data = 'grant_type=authorization_code&code={AUTHORIZATION_CODE}&redirect_uri={REDIRECT_URI}'
+
+      response = requests.post('https://zapier.com/oauth/token/', headers=headers, data=data, auth=('{CLIENT_ID}', '{CLIENT_SECRET}'))
+      ```
+      ``` js Javascript
+      fetch('https://zapier.com/oauth/token/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': 'Basic ' + btoa('{CLIENT_ID}:{CLIENT_SECRET}')
+        },
+        body: 'grant_type=authorization_code&code={AUTHORIZATION_CODE}&redirect_uri={REDIRECT_URI}'
+      });
+      ```
+      ``` php PHP
+      <?php
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, 'https://zapier.com/oauth/token/');
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+      curl_setopt($ch, CURLOPT_HTTPHEADER, [
+          'Content-Type: multipart/form-data',
+      ]);
+      curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+      curl_setopt($ch, CURLOPT_USERPWD, '{CLIENT_ID}:{CLIENT_SECRET}');
+      curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=authorization_code&code={AUTHORIZATION_CODE}&redirect_uri={REDIRECT_URI}');
+
+      $response = curl_exec($ch);
+
+      curl_close($ch);
+      ```
+      </CodeGroup>
+
+          | Parameter            | Meaning                                                                                                                                                                                              |
+      |----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+      | `CLIENT_ID`          | This will be the same client id that you retrieved in step #2.                                                                                 |
+      | `CLIENT_SECRET`      | This is a secret known only to your application and the authorization server. It will be the same client secret that you retrieved in step #2. |
+      | `AUTHORIZATION_CODE` | This is the authorization code you received in the above step #5.                                                                                       |
+      | `REDIRECT_URI`       | This should be the redirect URI that you configured in step #1.                                                                                            |
+
+    Note that, in addition to client id and secret being passed as a Basic Authentication header as above, they can be
+    passed as part of the body, using the keys `client_id` and `client_secret`.
+
+      You'll recieve a response that looks like this:
+      ```js
+      HTTP/1.1 200 OK
+      Content-Type: multipart/form-data
+      Cache-Control: no-store
+      Pragma: no-cache
+
+      {
+        "access_token": "jk8s9dGJK39JKD93jkd03JD",
+        "expires_in": 36000,
+        "token_type": "Bearer",
+        "scope": "zap zap:write authentication",
+        "refresh_token": "9D9oz2ZzaouT12LpvklQwNBf6s4vva"
+      }
+      ```
+      <Check>This response contains the `access_token` that you'll use to make API request on the user's behalf, as well as a refresh token.</Check>
+      <Warning>
+      Both tokens should be stored securely, to protect your users' privacy.
+
+      The refresh token in particularly important, since it would allow a nefarious entity to generate access tokens indefinitely:
+
+      - The refresh token **MAY NOT** be stored in localStorage
+      - The refresh token **MAY NOT** be stored in sessionStorage
+      - The refresh token **MAY NOT** be stored in indexedDB
+      - The refresh token **MAY NOT** be stored in a regular cookie
+      - The refresh token **MAY** be stored in a Secure; HTTPOnly cookie
+      - The refresh token **MAY** be stored in a server side database, only accessible to the current user
+      </Warning>
+    </Step>
+    <Step title="Using the access token">
+    The access token should be passed with requests as an `Authorization` header. For example:
+    ```
+    Authorization: Bearer jk8s9dGJK39JKD93jkd03JD
+    ```
+    </Step>
+    <Step title="Refreshing the access token">
+      All access tokens will expire after 10 hours (the number of seconds in `expires_in`), for security purposes. After that point, any request using that access token will return a 401 status code. To proceed, the refresh token should be exchanged for a new access token _and_ a new refresh token. This will not require any interaction by the user.
+
+      Below is an example request that can be used:
+      <CodeGroup>
+      ```sh cURL
+      curl -v -u {CLIENT_ID}:{CLIENT_SECRET} \
+      -H "Content-Type: multipart/form-data" \
+      -d "grant_type=refresh_token&refresh_token={REFRESH_TOKEN}" \
+      https://zapier.com/oauth/token/
+      ```
+      ``` python Python
+      import requests
+
+      data = 'grant_type=refresh_token&refresh_token={REFRESH_TOKEN}'
+
+      response = requests.post('https://zapier.com/oauth/token/', headers=headers, data=data, auth=('{CLIENT_ID}', '{CLIENT_SECRET}'))
+      ```
+      ``` js Javascript
+      fetch('https://zapier.com/oauth/token/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': 'Basic ' + btoa('{CLIENT_ID}:{CLIENT_SECRET}')
+        },
+        body: 'grant_type=refresh_token&refresh_token={REFRESH_TOKEN}'
+      });
+      ```
+      ``` php PHP
+      <?php
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, 'https://zapier.com/oauth/token/');
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+      curl_setopt($ch, CURLOPT_HTTPHEADER, [
+          'Content-Type: multipart/form-data',
+      ]);
+      curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+      curl_setopt($ch, CURLOPT_USERPWD, '{CLIENT_ID}:{CLIENT_SECRET}');
+      curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=refresh_token&refresh_token={REFRESH_TOKEN}');
+
+      $response = curl_exec($ch);
+
+      curl_close($ch);
+      ```
+      </CodeGroup>
+
+      | Parameter | Meaning |
+      |-----------|---------|
+      | `CLIENT_ID` | This will be the same client id that you retrieved earlier.|
+      | `CLIENT_SECRET` | This is a secret known only to your application and the authorization server. It will be the same client secret that you retrieved earlier. |
+      | `REFRESH_TOKEN` | This is the refresh token code you received with the access token. |
+
+      You'll receive a response that looks like this:
+      ```js
+      HTTP/1.1 200 OK
+      Content-Type: multipart/form-data
+      Cache-Control: no-store
+      Pragma: no-cache
+      {
+        "access_token": "NEfSRKpUjVd3Nj9yyaXKs15BrM7SVA",
+        "expires_in": 36000,
+        "token_type": "Bearer",
+        "scope": "zap zap:write authentication",
+        "refresh_token": "zzdumGAW2TmayeKjzu0z9oHJiziKdn"
+      }
+      ```
+
+      Note that you will receive a _new_ refresh token - the old refresh token can no longer be used again, and so the new refresh token should be stored securely for future use. Refresh tokens don't have an expiration date - they only expire when they are used to get a new access token.
+    </Step>
+</Steps>
+
+### Retrieving your client id
+
+The previous version of the Workflow API (the PartnerAPI) supports passing the `client_id` to make an authenticated request.
+
+<Steps>
+  <Step title="Get your client id">
+  You can find your client id in the [Zapier Developer Platform](https://developer.zapier.com/) under `Embed` → `Settings` → `Credentials`
+    <Frame>
+      ![Client ID and Secret](https://cdn.zappy.app/cb3660c17a3d26b36f438ab80c0860d5.png)
+    </Frame>
+    <Warning>
+      Your application's **Client ID** and **Client Secret** are only available after you've published your app as a [public integration in Zapier's App Directory](https://platform.zapier.com/quickstart/private-vs-public-integrations).
+    </Warning>
+    <Info>
+      Regenerating your client secret will invalidate any previous secret.
+    </Info>
+  </Step>
+  <Step title="Pass the client id as a query parameter">
+    From there, simply pass your `client_id` as a query param to any V1 endpoints that require it. 
+    ``` js Example for Zap-templates
+        https://api.zapier.com/v1/zap-templates?client_id={YOUR_CLIENT_ID}
+    ```
+  </Step>
+</Steps>

@@ -1,0 +1,48 @@
+---
+title: Adding an Authentication to your app
+description: Reduce friction when adding an authentication to your own app. 
+---
+
+[Adding a missing authentication](/partner-solutions/workflow-api/Selecting-an-Authentication#when-no-authentications-exist) for 3rd party apps can be straightforward, but if it's an authentication to your app it can result in sub-optimal UX. 
+
+> *"If an end user is logged into my app already, why do I need to do the oauth flow for my own app? Why can't I skip it?"*
+
+### Adding an authentication to your own app
+
+<Steps>
+  <Step title="Confirm your app's `authentication_fields`">
+    When you created your app on Zapier's Developer Platform, a required step was to [define the fields required for authentication](https://platform.zapier.com/build/auth). Depending on your authentication scheme the `authentication_fields` below will differ.
+  </Step>
+  <Step title="Form & send your request">
+     Leveraging the [Create Authentication](/partner-solutions/api-reference/authentications/create-authentication) endpoint, supply your app's required `authentication_fields` in the request.
+     <CodeGroup>
+        ``` js Example with Basic Authentication
+            // POST /authentications
+            "data": {
+                "app": "{MY_APP_ID}",
+                "title": "{AUTHENTICATION_NAME}",
+                "authentication_fields": {
+                    "username": "{MY_USERS_USERNAME}",
+                    "password": "{MY_USERS_PASSWORD}"
+                }
+            }
+        ```
+
+        ``` js Example with API Key Authentication
+            // POST /authentications
+            "data": {
+                "app": "{MY_APP_ID}",
+                "title": "{AUTHENTICATION_NAME}",
+                "authentication_fields": {
+                    "api_key": "{MY_USERS_API_KEY}",
+                }
+            }
+        ```
+    </CodeGroup>
+    Be sure to supply whatever `authentication_fields` are required by your apps' authentication scheme.
+     <Tip>Pick an authentication name that'll be recognizeable to a user should they find it outside of this flow, such as "Carter's LinkedIn Authentication", or "Micah's Slack Authentication"</Tip>
+  </Step>
+  <Step title="Leverage the new authentication in subsequent workflow steps ✨">
+    A successful response from this request will include an `id`, which can be used in subsequent steps.
+  </Step>
+</Steps>

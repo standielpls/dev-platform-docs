@@ -1,0 +1,36 @@
+---
+title: 'Retrieving Apps on Zapier'
+description: Listing apps available on Zapier is a simple way to show users all of what's possible on Zapier
+---
+
+### Prerequisites
+
+- Your app needs to be published as a [public integration](https://platform.zapier.com/quickstart/private-vs-public-integrations) in Zapier’s App Directory.
+
+
+### Example Implementation 
+
+<Frame caption="Jotform uses the /apps endpoint to power their own app directory by intertwining the thousands of public integrations on Zapier’s directory with their native integrations.">
+  <video
+  controls
+  className="w-full aspect-video"
+  src="https://cdn.zappy.app/a77eb4b1861eb1ad5b04c3975d16ad02.mp4"
+></video>
+</Frame>
+
+## Fetching a list of Apps available on Zapier
+
+<Steps>
+    <Step title="Authenticate with Zapier">
+        Following the [authentication guide](/partner-solutions/api-reference/authentication), receive a token from the Zapier Workflow API.
+    </Step>
+    <Step title="Create your request, and filter as needed">
+        Leveraging the [`/apps` endpoint](/partner-solutions/api-reference/apps/get-apps-[v2]), filter the list of apps to meet your needs, available query params include:
+        - `category` - could be useful for listing popular CRMs for example.
+        - `query` - a string by which to seach for for apps.
+        - `ids` - filter the list to specific apps, by their associated identifier. 
+    </Step>
+    <Step title="Integrate with your product">
+        Shape the apps returned to match the look and feel of your product, showcasing the additional apps available ✨
+    </Step>
+</Steps>

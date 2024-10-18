@@ -1,0 +1,51 @@
+---
+title: Responses
+description: Responses for the API follow the <a href="https://jsonapi.org/format/#fetching-resources-responses-200" target="_blank">JSON API spec</a> for fetching resources.
+---
+
+A successful response will always have a data key, which will be an array of objects depending on the request.
+
+```json
+{
+  "data": [
+    {
+      "id": "00000000-0000-c000-8000-000000012345",
+      "type": "zap",
+      "links": {
+        "html_editor": "https://zapier.com/webintent/edit-zap/00000000-0000-c000-8000-000000012345"
+      },
+      "steps": [
+        {
+          "action": "uag:1f188536-6dd0-4172-8414-2b90914ddee9",
+          "inputs": {
+            "deal_stage": "CLOSED_WON"
+          },
+          "authentication": "b3eYnwl"
+        },
+        {
+          "action": "uag:1f188536-6dd0-4172-8414-2b90914ddaa7",
+          "inputs": {
+            "full_name": "{{customer__full_name}}"
+          },
+          "authentication": "BRn9rRg"
+        }
+      ],
+      "title": "My Zap",
+      "is_enabled": false,
+      "updated_at": "2019-08-24T14:15:22Z",
+      "last_successful_run_date": "2019-08-24T14:15:22Z"
+    }
+  ],
+  "meta": {
+    "count": 133,
+    "limit": 10,
+    "offset": 10
+  },
+  "links": {
+    "next": "https://api.zapier.com/v2/zaps?offset=20&limit=10",
+    "prev": "https://api.zapier.com/v2/zaps?offset=0&limit=10"
+  }
+}
+```
+
+Every response should also include a `links` key that provides information for pagination and a `meta` key that provides information about the response.

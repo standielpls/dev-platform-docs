@@ -1,0 +1,109 @@
+---
+title: Testing a Step
+description: Step testing allows for the validation of a configured step, executing any `READ` or `WRITE` actions.
+---
+
+After supplying the required inputs for a given action, it can be helpful to validate the configuration by testing the action, in a similar way the main editor at zapier.com requires step testing. While not required via this API, it can be helpful to test actions;
+- When there are common configuration challenges specific to your use case.
+- To reduce the chance of user error when creating workflows.
+
+<Steps>
+  <Step title="Supply all the necessary inputs for a given action">
+    Following the steps to [Build a Zap](/partner-solutions/workflow-api/Building-a-Zap), retrieve all necessary inputs and authentications.
+  </Step>
+  <Step title="Execute the test">
+    Leveraging the [/test](/partner-solutions/api-reference/actions/step-test) endpoint, make a request supplying all of the necessary `inputs` along with an `authentication` - or `null` if none is required.
+    
+    For example for an authenticated action with id `core:wJ3PxHpNArZ8MqvloW3L1ZyMDQ4nJ`, we might make the following request:
+
+    <CodeGroup>
+
+    ```js Request
+    //POST /actions/core:wJ3PxHpNArZ8MqvloW3L1ZyMDQ4nJ/test
+    "data": {
+		"authentication": "KrG4mmZs",
+		"inputs" : {
+			"channel": "G45J5309P",
+			"text": ":rotating_light: THIS IS A TEST :rotating_light:",
+			"as_bot": "yes",
+			"username": "Step Test",
+			"icon": ":robot:"
+		}
+	}
+    ```
+
+    ```js Successful Test Response
+    {
+	"links": {
+		"next": null,
+		"prev": null
+	},
+	"meta": {
+		"count": 1,
+		"limit": null,
+		"offset": null
+	},
+    //Note: the data returned along with it's schema is unique to the action being performed. 
+	"data": [
+		{
+			"channel": "G45J5309P",
+			"ts": "1704292753.233659",
+			"message": {
+				"type": "message",
+				"subtype": "bot_message",
+				"text": ":rotating_light: THIS IS A TEST :rotating_light:",
+				"ts": "1704292753.233659",
+				"username": "Step Test",
+				"icons": {
+					"emoji": ":robot:"
+				}
+            }
+            ...
+        }
+    ]
+    }
+    ```
+	```js Successful Test Response (no results)
+	// Note: Tests that are configured correctly but return 0 results are returned with a 200 OK status code.
+    {
+	"links": {
+		"next": null,
+		"prev": null
+	},
+	"meta": {
+		"count": 0,
+		"limit": null,
+		"offset": null
+	}, 
+	"data": []
+    }
+    ```
+    ```js Failed Test Response
+    {
+	"errors": [
+		{
+			"status": 400,
+			"code": "test_failed",
+			"title": "ActionTestError",
+			"detail": "Error during execution: Error from Slack: channel_not_found",
+			"source": null,
+			"meta": {
+				"source": "ZAPIER",
+				"full_details": {
+					"message": "Error during execution: Error from Slack: channel_not_found",
+					"code": "test_failed"
+				}
+			}
+		}
+	]
+    }
+    ```
+    </CodeGroup>
+
+    <Warning>Note that in the event of a successful test, the `data` object returned is directly from the 3rd party app, and therefore has no defined schema. </Warning>
+
+  </Step>
+  <Step title="Clean up any created resources as part of the test">
+    If possible, clean up any created resources as part of a successful test. Remember the test executes the action, so these assets could cause confusion for users should they discover them after a successful test.
+  </Step>
+</Steps>
