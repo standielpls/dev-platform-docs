@@ -11,11 +11,11 @@ You may find some documents on the Zapier site duplicate or outdated. The most u
 
 Our code is updated frequently. To see a full list of changes, look no further than [the CHANGELOG](https://github.com/zapier/zapier-platform/blob/main/CHANGELOG.md).
 
-This doc describes the latest CLI version (**15.14.0**), as of this writing. If you're using an older version of the CLI, you may want to check out these historical releases:
+This doc describes the latest CLI version (**15.17.0**), as of this writing. If you're using an older version of the CLI, you may want to check out these historical releases:
 
-*   CLI Docs: [14.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-cli@14.1.2/packages/cli/README.md), [13.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-cli@13.0.0/packages/cli/README.md)
-*   CLI Reference: [14.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-cli@14.1.2/packages/cli/docs/cli.md), [13.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-cli@13.0.0/packages/cli/docs/cli.md)
-*   Schema Docs: [14.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-schema@14.1.2/packages/schema/docs/build/schema.md), [13.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-schema@13.0.0/packages/schema/docs/build/schema.md)
+- CLI Docs: [14.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-cli@14.1.2/packages/cli/README.md), [13.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-cli@13.0.0/packages/cli/README.md)
+- CLI Reference: [14.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-cli@14.1.2/packages/cli/docs/cli.md), [13.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-cli@13.0.0/packages/cli/docs/cli.md)
+- Schema Docs: [14.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-schema@14.1.2/packages/schema/docs/build/schema.md), [13.x](https://github.com/zapier/zapier-platform/blob/zapier-platform-schema@13.0.0/packages/schema/docs/build/schema.md)
 
 ## Table of Contents
 
@@ -983,7 +983,7 @@ When using a function, this "hoisting" of data to the top level is skipped, and 
 
 ### Domain and subdomain validation
 
-When adding a subdomain input field, commonly used in OAuth implementations, additional validation is strongly recommended to prevent a potential security vulnerability. If not taken into account, an attacker could utilize a maliciously constructed subdomain field (like `attacker-domain.com/`) in order to redirect OAuth connection requests to that attacker-controlled domain (because `attacker-domain.com/.your-domain.com` resolves to the attacker's domain instead of the expected one). 
+When adding a subdomain input field, commonly used in OAuth implementations, additional validation is strongly recommended to prevent a potential security vulnerability. If not taken into account, an attacker could utilize a maliciously constructed subdomain field (like `attacker-domain.com/`) in order to redirect OAuth connection requests to that attacker-controlled domain (because `attacker-domain.com/.your-domain.com` resolves to the attacker’s domain instead of the expected one). 
 
 This vulnerability presents itself when:
 
@@ -991,13 +991,13 @@ This vulnerability presents itself when:
 - User is able to input a domain or subdomain when authenticating within Zapier
 - Integration stores sensitive authentication details (in environment variables, for example) which are used as part of the authentication process
 
-Taking the following steps prevents the potential for an attacker to access your integration's sensitive authentication information, such as the OAuth client ID or secret.
+Taking the following steps prevents the potential for an attacker to access your integration’s sensitive authentication information, such as the OAuth client ID or secret.
 
 1. If your integration allows for the user to provide a domain, validate the input against an allow-list of trusted domains.
 
 2. If your integration allows for the user to provide a subdomain, add conditional validation for the subdomain string whenever you include the value in your OAuth HTTP requests. This change will prevent potential exploitation of the subdomain vulnerability.
 
-  - If you're using OAuth-based authentications, update the `getAccessToken` and optional `refreshAccessToken` configuration methods. If the integration uses [shorthand HTTP requests](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#shorthand-http-requests), switching to [manual HTTP requests](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#manual-http-requests) will allow you to perform this manual subdomain validation.
+  - If you’re using OAuth-based authentications, update the `getAccessToken` and optional `refreshAccessToken` configuration methods. If the integration uses [shorthand HTTP requests](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#shorthand-http-requests), switching to [manual HTTP requests](https://github.com/zapier/zapier-platform/blob/main/packages/cli/README.md#manual-http-requests) will allow you to perform this manual subdomain validation.
   
   Example code for handling subdomain validation:
 
@@ -1561,8 +1561,6 @@ const App = {
 
 ```
 
-> Note: Even if a trigger to power a dynamic dropdown is hidden for direct use, you still need to define the input fields, and whether these are required. In the above example, when the Worksheet trigger defines a required `spreadsheet_id` field, products such as the editor will use this in two ways. Firstly, the worksheet field will be disabled until the spreadsheet field has been set. Secondly, when the user changes the spreadsheet field, the worksheet field gets cleared.
-
 The [Google Sheets](https://zapier.com/apps/google-sheets/integrations#triggers-and-actions) integration is an example of this pattern.
 
 If you want your trigger to perform specific scripting for a dynamic dropdown you will need to make use of `bundle.meta.isFillingDynamicDropdown`. This can be useful if need to make use of [pagination](#whats-the-deal-with-pagination-when-is-it-used-and-how-does-it-work) in the dynamic dropdown to load more options.
@@ -1671,7 +1669,7 @@ If you don't define a trigger for the `dynamic` property, the search connector w
 
 ### Computed Fields
 
-In OAuth and Session Auth, Zapier automatically stores every value from an integration's auth API response i.e. that's `getAccessToken` and `refreshAccessToken` for OAuth and `getSessionKey` for session auth.
+In OAuth and Session Auth, Zapier automatically stores every value from an integration’s auth API response i.e. that’s `getAccessToken` and `refreshAccessToken` for OAuth and `getSessionKey` for session auth.
 
 You can return additional fields in these responses, on top of the expected `access_token` or `refresh_token` for OAuth and `sessionKey` for Session auth. They will be saved in `bundle.authData`. You can reference these fields in any subsequent API call as needed.
 
@@ -2696,8 +2694,6 @@ For developers using v9.x and below, it's your responsibility to throw an except
 
 This behavior has changed periodically across major versions, which changes how/when you have to worry about handling errors. Here's a diagram to illustrate that:
 
-{/* https://excalidraw.com/#json=stm4O1SLW3ko4FCX9rvsI,6NgRCAK81Cc8M3MuXhNDNA */}
-
 ![](https://cdn.zappy.app/e835d9beca1b6489a065d51a381613f3.png)
 
 Ensure you're handling errors correctly for your platform version. The latest released version is **15.17.0**.
@@ -3157,7 +3153,7 @@ const yourAfterResponse = (resp) => {
   return resp;
 };
 ```
-Instead of a user's Zap erroring and halting, the request will be repeatedly retried at the specified time.
+Instead of a user’s Zap erroring and halting, the request will be repeatedly retried at the specified time.
 
 For throttled requests that occur during processing of a webhook trigger's perform, before results are produced; there is a max retry delay of 300 seconds and a default delay of 60 seconds if none is specified. For webhook processing only, if a request during the retry attempt is also throttled, it will not be re-attempted again.
 
@@ -3575,7 +3571,7 @@ zapier push
 
 There are a lot of details left out - check out the full example app [here](https://github.com/zapier/zapier-platform/tree/main/example-apps/babel).
 
-> We recommend using `zapier init .`  to create an app - you'll be presented with a list of currently available example templates to start with.
+> We recommend using `zapier init .`  to create an app - you’ll be presented with a list of currently available example templates to start with.
 
 ## FAQs
 
@@ -3931,7 +3927,6 @@ Broadly speaking, all releases will continue to work indefinitely. While you nev
 
 For more info about which Node versions are supported, see [the faq](#how-do-i-manually-set-the-nodejs-version-to-run-my-app-with).
 
-{/* TODO: if we decouple releases, change this */}
 The most recently released version of `cli` and `core` is **15.17.0**. You can see the versions you're working with by running `zapier -v`.
 
 To update `cli`, run `npm install -g zapier-platform-cli`.
@@ -3940,10 +3935,12 @@ To update the version of `core` your app depends on, set the `zapier-platform-co
 
 For maximum compatibility, keep the versions of `cli` and `core` in sync.
 
+## Get Help!
+
+You can get help by either emailing `partners@zapier.com` or by [joining our developer community here](https://community.zapier.com/developer-discussion-13).
+
+---
+
 ## Developing on the CLI
 
 See [CONTRIBUTING.md](https://github.com/zapier/zapier-platform/blob/main/CONTRIBUTING.md).
-
-- - -
-
-_Need help? [Tell us about your problem](https://developer.zapier.com/contact) and we'll connect you with the right resource or contact support._
