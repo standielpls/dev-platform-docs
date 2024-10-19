@@ -33,6 +33,11 @@
       "icon": "newspaper",
       "url": "https://zapier.com/blog/"
     }
+    {
+      "name": "Contact Us",
+      "icon": "email",
+      "url": "https://developer.zapier.com/contact"
+    }
   ],
   "topbarLinks": [
     {
