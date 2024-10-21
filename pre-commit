@@ -1,0 +1,158 @@
+#!/usr/bin/env node
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const node_path_1 = require("node:path");
+const node_fs_1 = require("node:fs");
+const promises_1 = require("node:fs/promises");
+const node_stream_1 = require("node:stream");
+const promises_2 = require("node:stream/promises");
+const node_child_process_1 = require("node:child_process");
+const node_util_1 = require("node:util");
+const tempFile = `${crypto.randomUUID()}.yml`; // This is 'global' so cleanup can non-awkwardly access it
+const run = (cmd) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield (0, node_util_1.promisify)(node_child_process_1.exec)(cmd);
+    if (result.stderr)
+        console.error(result.stderr);
+    result.stdout = result.stdout.trim();
+    return result;
+});
+const checkExecutingLocation = () => {
+    if (!(0, node_path_1.resolve)(process.argv[1]).includes(".git/hooks")) {
+        console.error("Consider making this a proper pre-commit hook by 'cp'-ing it into .git/hooks/!");
+    }
+};
+const determineGitRepoPath = () => __awaiter(void 0, void 0, void 0, function* () { return run("git rev-parse --show-toplevel"); });
+const isString = (obj) => typeof obj === "string" || obj instanceof String;
+const loadMintConfig = () => __awaiter(void 0, void 0, void 0, function* () {
+    const gitRootLocation = yield determineGitRepoPath();
+    const currentMintConfig = yield (0, promises_1.readFile)((0, node_path_1.resolve)(gitRootLocation.stdout, "mint.json"), { encoding: "utf8" });
+    const mintJson = JSON.parse(currentMintConfig);
+    if (!isMintlifyNav(mintJson === null || mintJson === void 0 ? void 0 : mintJson.navigation)) {
+        throw new Error("The 'navigation' config in the mint.json appears to be malformed");
+    }
+    if (!isString(mintJson === null || mintJson === void 0 ? void 0 : mintJson.openapi)) {
+        throw new Error("The 'openapi' config in the mint.json appears to be malformed");
+    }
+    return mintJson;
+});
+const downloadOpenAPISchema = () => __awaiter(void 0, void 0, void 0, function* () {
+    const mintConfig = yield loadMintConfig();
+    const schema = yield fetch(mintConfig.openapi);
+    if (!schema.body) {
+        throw Error("Failed to fetch schema (received empty response body)");
+    }
+    const fileStream = (0, node_fs_1.createWriteStream)(tempFile, { flags: "wx+" });
+    yield (0, promises_2.finished)(node_stream_1.Readable.fromWeb(schema.body).pipe(fileStream));
+    return tempFile;
+});
+const generateMintlifySchema = () => __awaiter(void 0, void 0, void 0, function* () {
+    const gitRootLocation = yield determineGitRepoPath();
+    const schemaLocation = yield downloadOpenAPISchema();
+    const autogenFolder = "partner-solutions/api-reference/endpoints";
+    yield (0, promises_1.rm)((0, node_path_1.resolve)(gitRootLocation.stdout, autogenFolder), {
+        recursive: true,
+        force: true,
+    });
+    // This does a `cd` because Mintlify seems to take the full path when generating the suggested navigation, which is non-portable as it'll be machine-specific
+    const schemaGeneration = yield run(`cd ${gitRootLocation.stdout} && npx @mintlify/scraping openapi-file ${schemaLocation} -o ${autogenFolder}`);
+    return schemaGeneration;
+});
+const mintlifyNavigationToMap = (navigation) => {
+    return new Map(navigation.map(({ group, pages }) => [group, pages]));
+};
+const isMintlifyNav = (obj) => {
+    return (Array.isArray(obj) &&
+        obj.every((element) => isString(element) ||
+            (isString(element === null || element === void 0 ? void 0 : element.group) &&
+                Array.isArray(element === null || element === void 0 ? void 0 : element.pages) &&
+                element.pages.every((page) => isString(page) || isMintlifyNav([page])) &&
+                element.pages.length > 0)));
+};
+const processNewNavigation = () => __awaiter(void 0, void 0, void 0, function* () {
+    const output = yield generateMintlifySchema();
+    let newNavigation = "";
+    let inJson = false;
+    for (const line of output.stdout.split("\n")) {
+        if (inJson) {
+            newNavigation += line;
+        }
+        inJson = line == "navigation object suggestion:" || inJson;
+    }
+    const nav = JSON.parse(newNavigation);
+    if (!isMintlifyNav(nav)) {
+        throw new Error(`${JSON.stringify(nav)} is invalid; check the Mintlify schema generation output: ${output.stdout}`);
+    }
+    return mintlifyNavigationToMap(nav);
+});
+const extractRoutes = (nav) => nav
+    .flatMap(({ pages }) => pages.map((page) => (isString(page) ? page : extractRoutes([page]))))
+    .flat();
+const isNavigationConfigValid = (nav) => __awaiter(void 0, void 0, void 0, function* () {
+    const gitRootLocation = yield determineGitRepoPath();
+    const invalid = extractRoutes(nav).filter((route) => !(0, node_fs_1.existsSync)((0, node_path_1.resolve)(gitRootLocation.stdout, `${route}.mdx`)));
+    if (invalid.length != 0) {
+        throw new Error(`Invalid route configurations exist in the navigation: ${JSON.stringify(invalid)}`);
+    }
+});
+const filterIgnoredRoutes = ({ nav, routes, }) => nav.map(({ group, pages }) => ({
+    group,
+    pages: pages
+        .filter((page) => !isString(page) || !routes.some((route) => page.endsWith(route)))
+        .map((page) => isString(page) ? page : filterIgnoredRoutes({ nav: [page], routes })[0]),
+}));
+const updateMintlifyConfig = (_a) => __awaiter(void 0, [_a], void 0, function* ({ ignore }) {
+    const gitRootLocation = yield determineGitRepoPath();
+    const mintConfig = yield loadMintConfig();
+    const generatedNav = yield processNewNavigation();
+    const newNav = new Map();
+    for (const [group, pages] of mintlifyNavigationToMap(mintConfig.navigation)) {
+        const routes = generatedNav.get(group);
+        if (routes != null) {
+            newNav.set(group, Array.from(new Set(pages.concat(routes))));
+        }
+        else {
+            newNav.set(group, pages);
+        }
+    }
+    const nav = [];
+    for (const [group, pages] of newNav) {
+        nav.push({ group, pages });
+    }
+    mintConfig.navigation = filterIgnoredRoutes({ nav, routes: ignore });
+    yield (0, promises_1.writeFile)((0, node_path_1.resolve)(gitRootLocation.stdout, "mint.json"), JSON.stringify(mintConfig, null, 4));
+    yield isNavigationConfigValid(mintConfig.navigation);
+});
+const checkForBrokenLinks = () => __awaiter(void 0, void 0, void 0, function* () { return run("npx mintlify broken-links"); });
+(() => __awaiter(void 0, void 0, void 0, function* () {
+    checkExecutingLocation();
+    const gitRootLocation = yield determineGitRepoPath();
+    const ignoredEndpoints = yield (0, promises_1.readFile)((0, node_path_1.resolve)(gitRootLocation.stdout, "ignore-endpoints"), { encoding: "utf8" });
+    yield updateMintlifyConfig({
+        ignore: ignoredEndpoints.split("\n").filter(Boolean),
+    });
+    const brokenLinks = yield checkForBrokenLinks();
+    console.log(brokenLinks.stdout.trim());
+    yield (0, promises_1.rm)(tempFile);
+}))().catch((e) => {
+    if ("stderr" in e) {
+        console.error(String(e.stderr).trim());
+    }
+    if ("stdout" in e) {
+        console.error(String(e.stdout).trim());
+    }
+    else {
+        console.error(e);
+    }
+    if ((0, node_fs_1.existsSync)(tempFile))
+        (0, node_fs_1.rmSync)(tempFile);
+    process.exit(1);
+});

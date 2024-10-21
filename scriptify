@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+echo "#!/usr/bin/env node" | cat - pre-commit.js >pre-commit
+rm pre-commit.js
+chmod +x pre-commit
