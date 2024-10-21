@@ -77,7 +77,7 @@
     },
     {
       "group": "",
-      "pages": ["platform/home", "ai-actions/home"]
+      "pages": ["platform/home"]
     },
     {
       "group": "Quick start",
