@@ -64,7 +64,6 @@
     {
       "name": "Partner Solutions",
       "url": "partner-solutions/",
-      "openapi": "https://api.zapier.com/schema"
     },
     {
       "name": "Zapier AI Actions",
