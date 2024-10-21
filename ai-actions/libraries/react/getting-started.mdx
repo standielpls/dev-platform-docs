@@ -1,0 +1,75 @@
+---
+title: Getting started
+---
+
+<Note>
+### **The `@zapier/ai-actions-react` package is still in development!**
+
+If you want to check it out, please [contact us](https://nla.zapier.app/_z/embed/page/clh5sdteo0001ml0pdz8a2aqr?&)
+
+</Note>
+
+The `@zapier/ai-actions-react` library provides utilities to make it easy to interact with AI Actions from a React application.
+
+## Installation
+
+To install the library, run:
+
+```bash
+# npm
+npm install @zapier/ai-actions @zapier/ai-actions-react
+
+# pnpm
+pnpm add @zapier/ai-actions @zapier/ai-actions-react
+
+# yarn
+yarn add @zapier/ai-actions @zapier/ai-actions-react
+```
+
+## Quick start
+
+[Get your API Key here](https://actions.zapier.com/credentials/)
+
+Render the `AiActionsProvider` at the root of your application, or around any components that need to interact with AI Actions.
+
+You can pass the API key as a prop to the provider component, or you can get an OAuth token. See the [Authentication guide](/guides/libraries/nodejs/authentication) for more information.
+
+```tsx
+import { AiActionsProvider } from "@zapier/ai-actions-react";
+
+export const MyAiActionsProvider = ({ children }) => {
+  return (
+    <AiActionsProvider
+      auth={{
+        apiKey: "YOUR_API_KEY",
+
+        // or, if you have an OAuth token...
+        // token: "YOUR_ACCESS_TOKEN"
+      }}
+    >
+      {children}
+    </AiActionsProvider>
+  );
+};
+```
+
+<Warning>
+  If you're using a framework like Next.js, the `AiActionsProvider` and the
+  components rendered as children of it need to be rendered client-side.
+
+This can be done by putting `"use client";` at the top of the file that uses `AiActionsProvider`.
+
+</Warning>
+
+Then, you can use the `ActionList` component to list the actions that are available to the user:
+
+```tsx
+import { AiAction } from "@zapier/ai-actions";
+import { ActionList } from "@zapier/ai-actions-react";
+
+export const AiActionList = () => {
+  // When the user clicks on an action in the list, the `onActionSelected` callback will be called.
+  // This can be used to open a modal to edit the action, or to execute it using the `AiActions` client.
+  return <ActionList onActionSelected={(action) => console.log(action)} />;
+};
+```

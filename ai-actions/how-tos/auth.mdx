@@ -1,0 +1,207 @@
+---
+title: Authentication
+openapi: get /api/v2/auth/check/
+---
+
+# Introduction
+
+There are two methods that can be used to authenticate with `@zapier/ai-actions`:
+
+- [API Key](#api-key): If you plan on only using the AI Actions client to interact with AI Actions on your behalf
+- [OAuth](#oauth): If you plan on creating an OAuth app to allow users to interact with AI Actions on their behalf
+
+<Tip>
+  If you plan on using the interactive playground available in this
+  documentation, then an API key must be user.
+</Tip>
+
+## API Key
+
+Follow the steps below to create your API key:
+
+1. [Log in](https://actions.zapier.com/custom/start/) or [sign up](https://zapier.com/sign-up) to Zapier.
+2. [Connect](https://actions.zapier.com/custom/actions/) your Zapier account to the `custom` integration app.
+3. Your API key can be retrieved from the [Credentials page](https://actions.zapier.com/credentials/).
+
+<Warning>
+**Treat your API key like a password.**
+
+It can be used to run your AI Actions.
+
+For example: if you set up a "Gmail: Find email" action, anyone with your API key can read all your email.
+
+</Warning>
+
+## OAuth
+
+### Creating an OAuth app
+
+<Card
+  title="Click here to create an OAuth app"
+  icon="alien-8bit"
+  href="https://actions.zapier.com/providers/add"
+>
+  Click here to create a new OAuth app to use for authenticating with AI
+  Actions.
+  <Warning>
+    In order to work with the `@zapier/ai-actions` API client, **your app must
+    have "Public Client" checked.**
+  </Warning>
+</Card>
+
+### Authenticating with OAuth
+
+<Tip>
+If you're using JavaScript/TypeScript, you can use the `@zapier/ai-actions` library to handle authentication for you!
+
+[See the `@zapier/ai-actions` documentation here](/guides/libraries/nodejs/authentication#getting-an-oauth-token)
+
+</Tip>
+
+### Getting a token
+
+Your OAuth client can be used with the [PKCE flow](https://www.oauth.com/playground/authorization-code-with-pkce.html) to authenticate with AI Actions using a `Bearer` token.
+
+To begin this process, you first need to generate a code verifier and a code challenge.
+
+Here is some sample code in TypeScript to do this:
+
+```ts
+/*
+ * https://nodejs.org/api/crypto.html#cryptogetrandomvaluestypedarray
+ *
+ * Store the verifier securely, as it will be needed later
+ *
+ * @returns Verifier to use when getting a token
+ */
+const generateVerifier = () => {
+  const array = new Uint32Array(28);
+  crypto.getRandomValues(array);
+
+  return Array.from(array, (item) => `0${item.toString(16)}`.slice(-2)).join(
+    ""
+  );
+};
+
+/** Base64 URL encode a buffer */
+const base64URLEncode = (buffer: ArrayBuffer) => {
+  const uint8Array = new Uint8Array(buffer);
+  const base64String = btoa(String.fromCharCode(...uint8Array));
+  return base64String
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+};
+
+/**
+ * @param verifier Verifier from `generateVerifier`
+ * @returns Base64 URL encoded SHA-256 hash of the verifier
+ */
+const generateCodeChallenge = async (verifier: string) => {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(verifier);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  return base64URLEncode(hashBuffer);
+};
+```
+
+<Warning>
+  Make sure to store the verifier securely! It will be needed when returning to
+  your site after authenticating with AI Actions
+</Warning>
+
+You can then send the user to AI Actions to see your OAuth consent screen:
+
+```
+https://actions.zapier.com/oauth/authorize?
+  client_id=YOUR_CLIENT_ID&
+  redirect_uri=YOUR_REDIRECT_URI&
+  scope=openid%20nla%3Aexposed_actions%3Aexecute&
+  response_type=code&
+  code_challenge=YOUR_CODE_CHALLENGE&
+  code_challenge_method=S256
+```
+
+After the user has authorized your app, they will be redirected to the `redirect_uri` you provided with a `code` query parameter.
+
+You can then exchange this code for a token, using the `verifier` that you generated previously:
+
+```sh
+curl -X POST "https://actions.zapier.com/oauth/token/" \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     --data-urlencode "client_id=YOUR_CLIENT_ID" \
+     --data-urlencode "grant_type=authorization_code" \
+     --data-urlencode "code_verifier=YOUR_VERIFIER" \
+     --data-urlencode "redirect_uri=YOUR_REDIRECT_URI" \
+     --data-urlencode "code=YOUR_CODE"
+```
+
+This will return the following JSON:
+
+```ts
+interface OAuthAccessToken {
+  /** JWT with user info */
+  id_token: string;
+
+  /** Token that can be used with the `Authorization: Bearer ...` header */
+  access_token: string;
+
+  /** Token that can be used to get a new access token */
+  refresh_token: string;
+
+  /** Number of seconds until the token expires */
+  expires_in: number;
+
+  token_type: "Bearer";
+  scope: "openid nla:exposed_actions:execute";
+}
+```
+
+The `access_token` can then be used to make API calls to AI Actions:
+
+```sh
+curl -X GET "https://actions.zapier.com/api/v2/auth/check" -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+### Quick account creation
+
+Since your users may not already have a Zapier account, we offer a quick account creation flow that allows users to create a Zapier account and connect their account to your app in one step.
+
+To use this flow, first generate the `/oauth/authorize` URL as outlined above.
+
+Then, get the account creation URL for your OAuth client:
+
+```sh
+https://actions.zapier.com/api/v2/auth/login-link/?
+  redirect_uri=OAUTH_AUTHORIZE_URL&
+  sign_up_first_name=USER_FIRST_NAME&
+  sign_up_last_name=USER_LAST_NAME&
+  sign_up_email=USER_EMAIL
+```
+
+This will return the following JSON:
+
+```ts
+{
+  "login_link": "https://zapier.com/....."
+}
+```
+
+When you send a user to the provided `login_link`, they will go through a quick Zapier account creation flow. If the provided email address is already associated with a Zapier account, they will be asked to log in.
+Users will receive a follow-up email from Zapier to confirm their email address and to let them set a password for the account.
+
+The user will then see the AI Actions OAuth consent screen and be redirected back to your `redirect_uri` with a `code` query parameter, which can be exchanged for an access token as outlined above.
+
+### Refreshing tokens
+
+After `expires_in` seconds, the `access_token` will expire. To get a new token, you can use the `refresh_token` that was returned when you got the original token:
+
+```sh
+curl -X POST "https://actions.zapier.com/oauth/token/" \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     --data-urlencode "client_id=YOUR_CLIENT_ID" \
+     --data-urlencode "grant_type=refresh_token" \
+     --data-urlencode "refresh_token=YOUR_REFRESH_TOKEN"
+```
+
+This will return a new OAuth token that can be used in an `Authorization: Bearer ...` header.

@@ -1,0 +1,83 @@
+---
+title: Getting started
+---
+
+<Note>
+### **The `@zapier/ai-actions` package is still in development!**
+
+If you want to check it out, please [contact us](https://nla.zapier.app/_z/embed/page/clh5sdteo0001ml0pdz8a2aqr?&)
+
+</Note>
+
+The `@zapier/ai-actions` library makes it easy to interact with AI Actions from the client or the server.
+
+The library includes an API client, Typescript types, and utilities to make authentication easy.
+
+## Installation
+
+To install the library, run:
+
+```bash
+# npm
+npm install @zapier/ai-actions
+
+# pnpm
+pnpm add @zapier/ai-actions
+
+# yarn
+yarn add @zapier/ai-actions
+```
+
+## Quick start
+
+[Get your API Key here](https://actions.zapier.com/credentials/)
+
+Create a new `AiActions` client with your API key:
+
+```ts
+import { AiActions } from "@zapier/ai-actions";
+
+const aiActionsClient = new AiActions({
+  auth: {
+    apiKey: "sk-YOUR_API_KEY",
+  },
+});
+```
+
+Use the client:
+
+```ts
+const actionList = await aiActionsClient.getActionList();
+
+actionList.results.forEach((action) => {
+  console.log(action.id, action.description);
+});
+```
+
+## Next steps
+
+<CardGroup cols={2}>
+<Card title="Authentication" icon="key-skeleton" href="/guides/libraries/nodejs/authentication">
+Set up OAuth to allow users to interact with AI Actions on their behalf
+</Card>
+
+<Card
+  title="Usage examples"
+  icon="sparkles"
+  href="/guides/libraries/nodejs/usage"
+>
+  Check out some examples of how to use the library
+</Card>
+
+<Card
+  title="Use with Next.js"
+  icon="circle-n"
+  href="/guides/libraries/nodejs/nextjs-reccommendation"
+>
+  Set up the library with Next.js
+</Card>
+
+<Card title="React Components" icon="react" href="/guides/libraries/react/getting-started">
+See how to use the React component library
+</Card>
+</CardGroup>

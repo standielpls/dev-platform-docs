@@ -1,0 +1,53 @@
+---
+title: AiActionsProvider
+---
+
+All `@zapier/ai-actions-react` components **must** be rendered underneath an `AiActionsProvider`.
+
+## Props
+
+### `auth`
+
+The `auth` prop is used to handle authenticating with AI Actions.
+
+It takes an object that can have one of two properties:
+
+- `apiKey`: A string containing your API key.
+- `token`: A string containing your OAuth token.
+
+See the [Authentication guide](/guides/libraries/nodejs/authentication) for more information on how to get an API key or an OAuth token.
+
+<Tip>
+  If you plan on using the AI Actions components to allow users to create and
+  manage their own actions, then you will have to use the OAuth `token`
+  authentication method.
+</Tip>
+
+## Usage
+
+<Warning>
+  If you're using a framework like Next.js, the `AiActionsProvider` and the
+  components rendered as children of it need to be rendered client-side.
+
+This can be done by putting `"use client";` at the top of the file that uses `AiActionsProvider`.
+
+</Warning>
+
+```tsx
+import { AiActionsProvider } from "@zapier/ai-actions-react";
+
+export const MyAiActionsProvider = ({ children }) => {
+  return (
+    <AiActionsProvider
+      auth={{
+        apiKey: "YOUR_API_KEY",
+
+        // or, if you have an OAuth token...
+        // token: "YOUR_ACCESS_TOKEN"
+      }}
+    >
+      {children}
+    </AiActionsProvider>
+  );
+};
+```

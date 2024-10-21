@@ -1,0 +1,62 @@
+---
+title: Get prefill choices
+openapi: post /api/v2/apps/{app}/choices/{prefill}/
+---
+
+If a need that comes back from the [Get Action Details](/api-reference/actions/get-action-details) endpoint has a `prefill` key, then this endpoint can be used to get the choices for that prefill.
+
+## Dependent needs
+
+If a need has any values in its `depends_on` array, the values for each of the needs in `depends_on` _must_ be included in the `params` in the body of the `POST` to get prefill choices.
+
+As an example, the `action_needs` list for the `add_row` action for the `GoogleSheetsV2API` app from [Get action details and needs](/guides/how-tos/action-info/action-details) includes a `spreadsheet` and a `worksheet` need:
+
+```json
+{
+  "action_needs": [
+    {
+      "key": "spreadsheet",
+      "label": "Spreadsheet",
+      "prefill": "spreadsheet.id.title",
+      "depends_on": []
+    },
+    {
+      "key": "worksheet",
+      "label": "Worksheet",
+      "prefill": "worksheet.id.title",
+      "depends_on": ["spreadsheet"]
+    }
+  ]
+}
+```
+
+This means that, in order to get the `worksheet.id.title` prefill choices, you need to include a `spreadsheet` value in the request to this endpoint:
+
+```json
+{
+  "params": { "spreadsheet": "SOME_SPREADHSEET_ID" }
+}
+```
+
+`SOME_SPREADHSEET_ID` would have come from a call to get prefill choices for the `spreadsheet.id.title` value.
+
+## Caching
+
+By default, responses from this endpoint for a given `app`, `prefill`, `params`, and user will be cached for 24 hours.
+
+When this endpoint is first hit, a background job is started that will paginate through all of the available choices.
+
+While this background job is running, the results from this endpoint will return with `"is_loading": true`.
+
+If `is_loading` is `true`, then the endpoint should be polled every ~1 second until `is_loading` is `false`, at which point all of the available results are returned.
+
+The time that the cache was last updated is returned with `last_refresh_seconds_ago`.
+
+To force a refresh of the cache, the `force_refresh` query parameter can be set to `true`.
+
+<Warning>
+`force_refresh` should only be used when the choices are expected to have changed, and should only be used with a single request.
+
+Repeated reqeusts with `force_refresh` set to `true` will cause results to continuously load.
+
+</Warning>

@@ -1,0 +1,91 @@
+---
+title: ActionList
+---
+
+The `ActionList` component can be used to list all of the current [stored actions](/guides/how-tos/stored/intro) that are available for a user.
+
+If you are using an API key for authentication, then the stored actions listed will be only for that API Key.
+
+If you are using OAuth for authentication, then the stored actions listed will only be the actions that a user has set up for your OAuth provider.
+
+## Props
+
+### `onActionSelected`
+
+This is called when the user clicks on an action in the list. It is passed the `AiAction` object that was clicked.
+
+See the [List stored actions](/guides/how-tos/stored/list-actions) documentation for more information about what this object contains.
+
+## Usage
+
+<Warning>
+  Make sure that this component is rendered unerneath an
+  [`AiActionsProvider`](/guides/libraries/react/ai-actions-provider)!
+</Warning>
+
+See [EditAction and CreateAction](/guides/libraries/react/edit-action) for a more complete example of usage.
+
+```tsx ai-action-list.tsx
+import { AiAction } from "@zapier/ai-actions";
+import { ActionList } from "@zapier/ai-actions-react";
+
+export const AiActionList = () => {
+  return <ActionList onActionSelected={(action) => console.log(action)} />;
+};
+```
+
+## Example
+
+On the left is the `<ActionList />` component. Click on an action to see the details on the right.
+
+<iframe
+  style={{
+    width: "100%",
+    height: "500px",
+    background: "white",
+    borderRadius: "4px",
+  }}
+  src="/config/embed/v1/docs-examples/action-list"
+/>
+
+```tsx action-list-example.tsx
+import { AiAction } from "@zapier/ai-actions";
+import { ActionList, AiActionsProvider } from "@zapier/ai-actions-react";
+import { FunctionComponent, useState } from "react";
+import ReactJson from "react-json-view";
+
+interface ActionListExampleProps {
+  apiKey: string;
+}
+
+export const ActionListExample: FunctionComponent<ActionListExampleProps> = ({
+  apiKey,
+}) => {
+  const [selectedAction, setSelectedAction] = useState<AiAction | null>(null);
+
+  return (
+    <div className="flex justify-between h-full">
+      <div className="flex-1 w-0 max-h-full overflow-auto pl-2">
+        <AiActionsProvider
+          auth={{
+            apiKey,
+          }}
+        >
+          <ActionList
+            onActionSelected={(action) => {
+              setSelectedAction(action);
+            }}
+          />
+        </AiActionsProvider>
+      </div>
+      <div className="flex-1 max-h-full overflow-auto">
+        {selectedAction ? (
+          <ReactJson src={selectedAction} />
+        ) : (
+          "Select an action to see its details"
+        )}
+      </div>
+    </div>
+  );
+};
+```

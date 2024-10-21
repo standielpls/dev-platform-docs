@@ -1,0 +1,191 @@
+---
+title: Authentication
+---
+
+# Introduction
+
+There are two methods that can be used to authenticate with `@zapier/ai-actions`:
+
+- [API Key](#api-key): If you plan on only using the AI Actions client to interact with AI Actions on your behalf
+- [OAuth](#oauth): If you plan on creating an OAuth app to allow users to interact with AI Actions on their behalf
+
+## API Key
+
+Your API key can be retrieved from the [Credentials page](https://actions.zapier.com/credentials/).
+
+<Warning>
+**Treat your API key like a password.**
+
+It can be used to run your AI Actions.
+
+For example: if you set up a "Gmail: Find email" action, anyone with your API key can read all your email.
+
+</Warning>
+
+Create an `AiActions` client with the API key:
+
+```ts
+import { AiActions } from "@zapier/ai-actions";
+
+const client = new AiActions({
+  auth: {
+    apiKey: "YOUR_API_KEY",
+  },
+});
+```
+
+## OAuth
+
+### Creating an OAuth app
+
+<Card
+  title="Click here to create an OAuth app"
+  icon="alien-8bit"
+  href="https://actions.zapier.com/providers/add"
+>
+  Click here to create a new OAuth app to use for authenticating with AI
+  Actions.
+  <Tip>
+    In order to work with the API client, **your app must have "Public Client"
+    checked.**
+  </Tip>
+</Card>
+
+### Getting an OAuth token
+
+#### Creating the `AiActionsAuth` object
+
+`@zapier/ai-actions` provides a helper class to handle the auth process.
+
+This is done with the `AiActionsAuth` class:
+
+```ts
+import { AiActionsAuth } from "@zapier/ai-actions";
+
+const aiActionsAuth = new AiActionsAuth({
+  clientId: "YOU_APP_CLIENT_ID",
+  redirectUri: "YOUR_APP_REDIRECT_URI",
+});
+```
+
+#### Storing the code verifier securely
+
+`@zapier/ai-actions` uses the [OAuth 2.0 PKCE flow](https://www.oauth.com/playground/authorization-code-with-pkce.html) to facilitate the OAuth process. As part of this, a "code verifier" is generated.
+
+<Warning>
+  By default, `AiActionsAuth` will store the verifier in the browser's
+  `localStorage`.
+
+**This is not recommended for production use** since it can be easily accessed
+by malicious scripts, and it will not work server-side.
+
+</Warning>
+
+To facilitate storing the code verifier securely, the constructor for `AiActionsAuth` has options that can be used.
+
+```ts
+import { AiActionsAuth } from "@zapier/ai-actions";
+
+const aiActionsAuth = new AiActionsAuth({
+  clientId: "YOU_APP_CLIENT_ID",
+  redirectUri: "YOUR_APP_REDIRECT_URI",
+  async storeVerifier(verifier) {
+    // store the verifier somewhere secure for your user (i.e. database or KV store)
+  },
+  async getVerifier(): Promise<string> {
+    // this function MUST return the verifier stored for the user by `storeVerifier`
+    // each verifier can only be used once, and it must be consistend throughout the OAuth flow
+  },
+});
+```
+
+#### Generating the authorization OR quick account creation URL
+
+Once you have an `AiActionsAuth` object, you can use it to generate the authorization URL:
+
+```tsx
+const authUrl = await aiActionsAuth.generateAuthUrl();
+
+// ...
+
+<a href={authUrl}>Authenticate with AI Actions</a>;
+```
+
+This URL can be used to redirect the user to the authorization page. Once the user has authorized your app, they will be redirected to the `redirectUri` you provided.
+
+---
+
+You can also generate a **quick account creation** URL. This will ensure that the user has a Zapier account before authorizing your app.
+
+If they do not have a Zapier account, one will be created for them. If they already have a Zapier account, they will be asked to log in on zapier.com.
+
+```tsx
+const quickAccountCreationUrl = await aiActionsAuth.generateCreateAccountUrl(
+  "Firstname",
+  "Lastname",
+  "user@example.com"
+);
+
+// ...
+
+<a href={quickAccountCreationUrl}>Authenticate with AI Actions</a>;
+```
+
+After going through this flow, they will end up back on the `redirectUri` that you provided.
+
+#### Getting an access token
+
+After authorizing your app, the user will be redirected to the `redirectUri` you provided along with a `code` query parameter.
+
+This `code` can now be used to get an access token
+
+```ts
+import { AiActions } from "@zapier/ai-actions";
+
+// `code` will be in the query params; get it however you like (most likely server-side)
+const urlParams = new URLSearchParams(window.location.search);
+const code = urlParams.get("code");
+
+// this access token can now be used to generate an AiActions client
+const oauthToken = await aiActionsAuth.getToken(code);
+
+const aiActionsClient = new AiActions({
+  auth: {
+    token: oauthToken.access_token,
+  },
+});
+
+try {
+  // this will pass if auth succeeds, or throw an error if it fails
+  await aiActionsClient.checkAuth();
+} catch (e) {
+  console.error("Error checking AI Actions auth", e);
+}
+```
+
+#### Refreshing the access token
+
+Access tokens expire after a certain amount of time. To refresh the token, you can use the `refreshToken` method along with the `refresh_token`:
+
+```ts
+import {
+  OAuthAccessToken,
+  refreshOAuthToken,
+  tokenNeedsRefresh,
+} from "@zapier/ai-actions";
+
+// get the stored token for the current user; `getAiActionsToken` is a placeholder for your own function
+const oauthToken: OAuthAccessToken = await getAiActionsToken();
+
+if (tokenNeedsRefresh(oauthToken)) {
+  const refreshed = await refreshOAuthToken({
+    clientId: "YOUR_CLIENT_ID",
+    refreshToken: oauthToken.refresh_token,
+  });
+
+  if (refreshed) {
+    // `setAiActionsToken` is a placeholder for your own function
+    await setAiActionsToken(refreshed);
+  }
+}
+```

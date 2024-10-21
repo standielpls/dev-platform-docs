@@ -1,0 +1,137 @@
+---
+title: Usage examples
+---
+
+# Introduction
+
+The AI Actions API client can be used to interact with any of the API endpoints that AI Actions supports.
+
+Below are a few examples of common uses for the client.
+
+# Creating a client
+
+See the [authentication guide](/guides/libraries/nodejs/authentication) for more information on how to authenticate.
+
+```ts
+import { AiActions } from "@zapier/ai-actions";
+
+const aiActionsClient = new AiActions({
+  auth: {
+    apiKey: "YOUR-API-KEY",
+    // or...
+    token: "OAUTH-TOKEN",
+  },
+});
+```
+
+# Checking a user's authentication
+
+This is useful if you want to check if a user's AI Actions OAuth token is valid.
+
+```ts
+try {
+  await aiActionsClient.checkAuth();
+} catch (error) {
+  console.error("User is not authenticated", error);
+}
+```
+
+# Error handling
+
+The `@zapier/ai-actions` package exports an `AiActionsHttpError` type that can be used to get JSON from errors.
+
+```ts
+import { AiActionsHttpError } from "@zapier/ai-actions";
+
+try {
+  await aiActionsClient
+    .executeAction
+    // ...
+    ();
+} catch (error) {
+  if (error instanceof AiActionsHttpError) {
+    const parsedError = await error.response.json();
+    console.error("Error executing action", parsedError);
+  }
+}
+```
+
+# Listing a user's actions
+
+Actions can be created or edited either on the [AI Actions website](https://actions.zapier.com/providers/) or using the [`@zapier/ai-actions-react` library](/guides/libraries/react/getting-started)
+
+```ts
+const actionList = await aiActionsClient.getActionList();
+
+actionList?.results.forEach((action) => {
+  // Each action has an ID that can be used to execute it, and it includes information about how the user
+  // has set it up, such as the description and the app it's associated with.
+  console.log(action.id, action.description); // "01EXAMPLE_ID Gmail: Find Email"
+});
+```
+
+# Executig an action
+
+See the [Run a stored action guide](/guides/how-tos/stored/run-stored-action) for more information on the available parameters.
+
+```ts
+const result = await aiActionsClient.executeAction(
+  {
+    ai_action_id: "YOUR_ACTION_ID",
+  },
+  {
+    instructions: "Create a row with the following data....",
+    params: {
+      spreadsheet: {
+        mode: "guess",
+
+        // AI Actions will figure out the proper ID to use based on the hint,
+        // that way you don't need to worry about knowing IDs!
+        value: "My Spreadsheet",
+      },
+    },
+    preview_only: false,
+  }
+);
+
+console.log(result?.resolved_params, result?.full_results);
+```
+
+# Search for Zapier apps and actions
+
+```ts
+const appSearch = await aiActionsClient.searchApps({ query: "Google Sheets" });
+
+appSearch?.results.forEach(async ({ name, app }) => {
+  console.log(name);
+
+  const actionSearch = await aiActionsClient.searchActions({
+    app,
+
+    //  omit `query` to get all actions for the app
+    query: "add spreadsheet row",
+  });
+});
+```
+
+# Give feedback on an action run
+
+If an execution doesn't work properly, you can provide feedback on it to help us improve the AI.
+
+```ts
+const result = await aiActionsClient.executeAction({
+  // ...
+});
+
+if (result) {
+  await aiActionsClient.rateExecution({
+    execution_log_id: result.execution_log_id,
+
+    // -1: Negative feedback
+    // 0: Neutral feedback
+    // 1: Positive feedback
+    rating: -1,
+    feedback: "It didn't work for me!",
+  });
+}
+```

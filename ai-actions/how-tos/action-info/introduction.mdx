@@ -1,0 +1,63 @@
+---
+title: Introduction
+---
+
+When using AI Actions, you will first have to build up information about the action that you want to run.
+
+## When do I need to gather action information?
+
+See [Stored vs. Stateless Actions](/guides/how-tos/stateless-vs-stored) for more information.
+
+You do **not** need to gather this information if:
+
+- You're running a **stored action** that is configured in the AI Actions UI
+
+You **do** need to gather this information if:
+
+- You're running a **stateless action**
+- You're setting up a new stored action using the stored action management API
+
+## Gathering action information
+
+<Steps>
+    <Step stepNumber={1} title="Find the app you want to use" titleSize="h3">
+        Each action lives under an app, for example Google Sheets or Slack.
+
+        You first need to choose which app you will want to use to run an action.
+
+        See [Find an app](/guides/how-tos/action-info/find-app) for more details.
+    </Step>
+    <Step stepNumber={2} title="Find the action you want to run" titleSize="h3">
+        Once you know the app you want to use, you can choose which action you want to run for that app.
+
+        See [Find an action](/guides/how-tos/action-info/find-action) for more details.
+    </Step>
+    <Step stepNumber={3} title="Find the user's auth" titleSize="h3">
+        Every app has authentications that are configured in Zapier for each user.
+
+        To run an action, you need to know which Zapier account and app authentication that you want to run the action with.
+
+        See [Choose authentication](/guides/how-tos/action-info/choose-auth) for more details.
+    </Step>
+    <Step stepNumber={4} title="Get action details and prefill choices" titleSize="h3">
+        Each action has a number of "needs" that can be used to decide what values to run the action with.
+
+        See [Get action details and needs](/guides/how-tos/action-info/action-details) for more details.
+
+        Some of these needs are have a `prefill` key, which means that they provide a list of values that can be chosen from.
+
+        See [Get prefill choices](/guides/how-tos/action-info/prefill-choices) for more details.
+
+        <Tip>
+        **You don't have to get a value for every need!**
+
+        When running an action, you can have the AI guess values based on instructions.
+        </Tip>
+    </Step>
+    <Step stepNumber={5} title="Run or save the action" titleSize="h3">
+        Once you have all of the details you need, you can either run the action as a stateless action, or save the details for later.
+
+        See [Stored vs Stateless Actions](/guides/how-tos/stateless-vs-stored) for more information.
+    </Step>
+
+</Steps>

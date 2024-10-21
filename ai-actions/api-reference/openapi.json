@@ -1,0 +1,3841 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Zapier AI Actions API V2",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "paths": {
+    "/api/v2/health/": {
+      "get": {
+        "operationId": "api_meta_app_health_check",
+        "summary": "App Health Check",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Check that the app is up and running.",
+        "tags": ["meta"],
+        "security": [
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "SessionAuth": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/auth/check/": {
+      "get": {
+        "operationId": "api_meta_check_user_auth",
+        "summary": "Check User Auth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Test that the API and auth are working.",
+        "tags": ["meta"],
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/auth/accounts/": {
+      "get": {
+        "operationId": "api_meta_get_account_list",
+        "summary": "Get Account List",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResults_AccountInfo_"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get a list of Zapier accounts for the current user.",
+        "tags": ["meta"],
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/auth/login-link/": {
+      "get": {
+        "operationId": "api_meta_get_user_login_link",
+        "summary": "Get User Login Link",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sign_up_first_name",
+            "schema": {
+              "description": "The first name of the user.",
+              "title": "Sign Up First Name",
+              "type": "string"
+            },
+            "required": true,
+            "description": "The first name of the user."
+          },
+          {
+            "in": "query",
+            "name": "sign_up_last_name",
+            "schema": {
+              "description": "The last name of the user.",
+              "title": "Sign Up Last Name",
+              "type": "string"
+            },
+            "required": true,
+            "description": "The last name of the user."
+          },
+          {
+            "in": "query",
+            "name": "sign_up_email",
+            "schema": {
+              "description": "The email of the user. If an account for this email already exists, the user will instead be asked to login.",
+              "title": "Sign Up Email",
+              "type": "string"
+            },
+            "required": true,
+            "description": "The email of the user. If an account for this email already exists, the user will instead be asked to login."
+          },
+          {
+            "in": "query",
+            "name": "redirect_to",
+            "schema": {
+              "default": "/config/login-success",
+              "description": "The AI Actions URL to redirect the user to after login. If you have an OAuth client, you can use this to redirect to the consent screen for your OAuth application.",
+              "title": "Redirect To",
+              "type": "string"
+            },
+            "required": false,
+            "description": "The AI Actions URL to redirect the user to after login. If you have an OAuth client, you can use this to redirect to the consent screen for your OAuth application."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "This will create a link that can be used for \"quick account creation\" for a user.\n\nWhen going to this link, if the provided email already has a Zapier account, the user will be asked to log in.\nIf the email does not have a Zapier account, the user will be asked to create an account with the provided email and name.\n\nUpon creating an account or logging in, the user will be taken to the `redirect_to` URL.\n\nA suggested flow for this is:\n- Check if you have an AI Actions OAuth token for a user\n- If you do not, send the user to a page on your site for initiating PKCE OAuth flow, storing the `code_verifier` for them securely.\n- Use this endpoint, with a `redirect_to` of `https://actions.zapier.com/oauth/authorize/` with the following query parameters:\n    - client_id: Your AI Actions OAuth client ID\n    - scope: `openid nla:exposed_actions:execute`\n    - response_type: `code`\n    - redirect_uri: The URL on your site that will handle the OAuth callback, must be in the list of allowed redirect URIs for your AI Actions OAuth client.\n    - code_challenge: The SHA256 hash of the `code_verifier` from the previous step.\n    - code_challenge_method: `S256`\n\nThe user will get a Zapier account, be brought to AI Actions where they will see the OAuth consent screen, and then will be brought back to your site\nwith an OAuth `code` that can be used with `https://actions.zapier.com/oauth/token/` with the following data in the body with `Content-Type: application/x-www-form-urlencoded`:\n    - client_id: Your AI Actions OAuth client ID\n    - grant_type: `authorization_code`\n    - code_verifier: The verifier stored for your user when generating the login URL\n    - redirect_uri: The same URL you used for the `redirect_uri` in the previous step.\n    - code: The code in the query parameters of the URL that the user was redirected to.",
+        "tags": ["meta"],
+        "security": [
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "SessionAuth": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/shrink-result/": {
+      "post": {
+        "operationId": "api_meta_shrink_result",
+        "summary": "Shrink Result",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "app",
+            "schema": {
+              "description": "App to use when shrinking values. Providing an app, action, and action type will help with improving the accuracy of the shrinking.",
+              "title": "App",
+              "type": "string"
+            },
+            "required": false,
+            "description": "App to use when shrinking values. Providing an app, action, and action type will help with improving the accuracy of the shrinking."
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "schema": {
+              "description": "Action to use when shrinking values. Must be provided if `app` is provided.",
+              "title": "Action",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Action to use when shrinking values. Must be provided if `app` is provided."
+          },
+          {
+            "in": "query",
+            "name": "action_type",
+            "schema": {
+              "description": "Type of action to use when shrinking values. Must be provided if `action` is provided.",
+              "title": "Action Type",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Type of action to use when shrinking values. Must be provided if `action` is provided."
+          },
+          {
+            "in": "query",
+            "name": "keep",
+            "schema": {
+              "description": "A comma-separate list of field names to keep around. Fields in this list will never be shrunken and will remain as-is in the response.",
+              "title": "Keep",
+              "type": "string"
+            },
+            "required": false,
+            "description": "A comma-separate list of field names to keep around. Fields in this list will never be shrunken and will remain as-is in the response."
+          },
+          {
+            "in": "query",
+            "name": "token_budget",
+            "schema": {
+              "default": 1000,
+              "description": "Maximum number of [tokens](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them) to include in the response.",
+              "title": "Token Budget",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Maximum number of [tokens](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them) to include in the response."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShrinkResultResult"
+                }
+              }
+            }
+          }
+        },
+        "description": "**WARNING: This endpoint is not officially supported, and is subject to be changed or removed at any time.**\n\nShrinks the given result payload to git into a specified token budget.\n\nThis tries its best to keep around more important values and truncate less important ones.\n\nThe intent of this endpoint is that after executing an AI Action, you can pass the result into this to get a smaller result that can be passed in to LLMs without hitting the token limit.",
+        "tags": ["meta"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResultToShrink"
+                  }
+                ],
+                "default": {
+                  "result": {},
+                  "result_field_labels": {}
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/apps/search/": {
+      "get": {
+        "operationId": "api_search_search_apps",
+        "summary": "Search Apps",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "title": "Query",
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResults_AppSchema_"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["actions"],
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/apps/{app}/actions/": {
+      "get": {
+        "operationId": "api_search_search_actions",
+        "summary": "Search Actions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "app",
+            "schema": {
+              "description": "The application to list actions for.",
+              "title": "App",
+              "type": "string"
+            },
+            "required": true,
+            "description": "The application to list actions for."
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Query for actions to search for. If this is not provided, all actions for the `app` will be returned.",
+              "title": "Query"
+            },
+            "required": false,
+            "description": "Query for actions to search for. If this is not provided, all actions for the `app` will be returned."
+          },
+          {
+            "in": "query",
+            "name": "filter_action_type",
+            "schema": {
+              "default": ["write", "search"],
+              "description": "\nFilter actions by type. This should be a comma-separated list of action types.\n                                    \nThis can be:\n- `write`: Actions that have side effects (such as sending an email or updating a spreadsheet)\n- `search`: Actions that return results (such as searching for a contact or getting a list of emails)\n",
+              "items": {
+                "enum": ["read", "write", "search"],
+                "title": "ActionType",
+                "type": "string"
+              },
+              "title": "Filter Action Type",
+              "type": "array",
+              "uniqueItems": true
+            },
+            "required": false,
+            "description": "\nFilter actions by type. This should be a comma-separated list of action types.\n                                    \nThis can be:\n- `write`: Actions that have side effects (such as sending an email or updating a spreadsheet)\n- `search`: Actions that return results (such as searching for a contact or getting a list of emails)\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResults_ActionSchema_"
+                }
+              }
+            }
+          }
+        },
+        "description": "Search for Zapier actions by app, ordered by relevancy.",
+        "tags": ["actions"],
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/apps/{app}/": {
+      "get": {
+        "operationId": "api_actions_get_app_details",
+        "summary": "Get App Details",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "app",
+            "schema": {
+              "description": "The app to get details for.",
+              "title": "App",
+              "type": "string"
+            },
+            "required": true,
+            "description": "The app to get details for."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResults_AppDetailsSchema_"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["actions"],
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/apps/{app}/auths/": {
+      "get": {
+        "operationId": "api_actions_list_authentications_for_app",
+        "summary": "List Authentications For App",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "app",
+            "schema": {
+              "description": "The app to get authentications for.",
+              "title": "App",
+              "type": "string"
+            },
+            "required": true,
+            "description": "The app to get authentications for."
+          },
+          {
+            "in": "query",
+            "name": "account_id",
+            "schema": {
+              "description": "The Zapier account ID to get authentications for.",
+              "title": "Account Id",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "The Zapier account ID to get authentications for."
+          },
+          {
+            "in": "query",
+            "name": "only_owned",
+            "schema": {
+              "default": false,
+              "description": "\nIf this is `true`, only authentications that are owned by the authenticated user will be returned.\n                             \nIf this is `false`, then authentications that are shared with the user will also be returned.\n",
+              "title": "Only Owned",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "\nIf this is `true`, only authentications that are owned by the authenticated user will be returned.\n                             \nIf this is `false`, then authentications that are shared with the user will also be returned.\n"
+          },
+          {
+            "in": "query",
+            "name": "force_refresh",
+            "schema": {
+              "default": false,
+              "description": "\nThe list of authentications is cached for 24 hours.\n                                \nIf `force_refresh` is set to `true`, the cache will be refreshed. This should only be used when the list of authentications has changed.\n                                \nBest practice is to offer a \"Refresh\" button to users that sets this to `true` for one request.\n",
+              "title": "Force Refresh",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "\nThe list of authentications is cached for 24 hours.\n                                \nIf `force_refresh` is set to `true`, the cache will be refreshed. This should only be used when the list of authentications has changed.\n                                \nBest practice is to offer a \"Refresh\" button to users that sets this to `true` for one request.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAuthenticationsForAppResultSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get list of Zapier authentications associated with the requesting user and account.",
+        "tags": ["actions"],
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/apps/{app}/actions/{action}/": {
+      "post": {
+        "operationId": "api_actions_get_action_details",
+        "summary": "Get Action Details",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "app",
+            "schema": {
+              "description": "The app that the action belongs to.",
+              "title": "App",
+              "type": "string"
+            },
+            "required": true,
+            "description": "The app that the action belongs to."
+          },
+          {
+            "in": "path",
+            "name": "action",
+            "schema": {
+              "description": "The action to get details for.",
+              "title": "Action",
+              "type": "string"
+            },
+            "required": true,
+            "description": "The action to get details for."
+          },
+          {
+            "in": "query",
+            "name": "action_type",
+            "schema": {
+              "allOf": [
+                {
+                  "enum": ["read", "write", "search"],
+                  "title": "ActionType",
+                  "type": "string"
+                }
+              ],
+              "default": "write",
+              "description": "The type of the action to get details for.\n                             \nThis can be:\n- `write`: Actions that have side effects (such as sending an email or updating a spreadsheet)\n- `search`: Actions that return results (such as searching for a contact or getting a list of emails)\n"
+            },
+            "required": false,
+            "description": "The type of the action to get details for.\n                             \nThis can be:\n- `write`: Actions that have side effects (such as sending an email or updating a spreadsheet)\n- `search`: Actions that return results (such as searching for a contact or getting a list of emails)\n"
+          },
+          {
+            "in": "query",
+            "name": "account_id",
+            "schema": {
+              "description": "\nThe Zapier account ID to use.\n\nAccount IDs available to the user can be listed using the [Get Account List](/docs/api-reference/meta/get-account-list) endpoint \n",
+              "title": "Account Id",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "\nThe Zapier account ID to use.\n\nAccount IDs available to the user can be listed using the [Get Account List](/docs/api-reference/meta/get-account-list) endpoint \n"
+          },
+          {
+            "in": "query",
+            "name": "authentication_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "\nID of the authentication to use for the app.\n\nAuthentications available to the user can be listed using the [List Authentications For App](/docs/api-reference/actions/list-authentications-for-app) endpoint.\n",
+              "title": "Authentication Id"
+            },
+            "required": false,
+            "description": "\nID of the authentication to use for the app.\n\nAuthentications available to the user can be listed using the [List Authentications For App](/docs/api-reference/actions/list-authentications-for-app) endpoint.\n"
+          },
+          {
+            "in": "query",
+            "name": "action_extra",
+            "schema": {
+              "default": ["action_needs"],
+              "description": "\nWhat kind of information to return with the action details.\n                                     \nList of:\n- `action_needs`: Include the needs of the action. These are what are provided when running the action.   \n- `action_gives`: Include the gives of the action. These are what the action returns when it runs.\n- `action_sample`: Include a sample of the action. **Note:** This will dramatically slow down the response from this endpoint. Only use it if you really need the sample.\n",
+              "items": {
+                "enum": ["action_needs", "action_gives", "action_sample"],
+                "title": "ActionExtra",
+                "type": "string"
+              },
+              "title": "Action Extra",
+              "type": "array",
+              "uniqueItems": true
+            },
+            "required": false,
+            "description": "\nWhat kind of information to return with the action details.\n                                     \nList of:\n- `action_needs`: Include the needs of the action. These are what are provided when running the action.   \n- `action_gives`: Include the gives of the action. These are what the action returns when it runs.\n- `action_sample`: Include a sample of the action. **Note:** This will dramatically slow down the response from this endpoint. Only use it if you really need the sample.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResults_ActionDetailsResultSchema_"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get details of a specific action, including its needs, gives, and a sample of the action.",
+        "tags": ["actions"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ActionDetailsBodySchema"
+                  }
+                ],
+                "default": {
+                  "params": {}
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/apps/{app}/choices/{prefill}/": {
+      "post": {
+        "operationId": "api_actions_get_prefill_choices",
+        "summary": "Get Prefill Choices",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "app",
+            "schema": {
+              "description": "The app that the prefill belongs to.",
+              "title": "App",
+              "type": "string"
+            },
+            "required": true,
+            "description": "The app that the prefill belongs to."
+          },
+          {
+            "in": "path",
+            "name": "prefill",
+            "schema": {
+              "description": "The prefill to get choices for.",
+              "title": "Prefill",
+              "type": "string"
+            },
+            "required": true,
+            "description": "The prefill to get choices for."
+          },
+          {
+            "in": "query",
+            "name": "authentication_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "\nID of the authentication to use for the app.\n\nAuthentications available to the user can be listed using the [List Authentications For App](/docs/api-reference/actions/list-authentications-for-app) endpoint.\n",
+              "title": "Authentication Id"
+            },
+            "required": false,
+            "description": "\nID of the authentication to use for the app.\n\nAuthentications available to the user can be listed using the [List Authentications For App](/docs/api-reference/actions/list-authentications-for-app) endpoint.\n"
+          },
+          {
+            "in": "query",
+            "name": "account_id",
+            "schema": {
+              "description": "\nThe Zapier account ID to use.\n\nAccount IDs available to the user can be listed using the [Get Account List](/docs/api-reference/meta/get-account-list) endpoint \n",
+              "title": "Account Id",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "\nThe Zapier account ID to use.\n\nAccount IDs available to the user can be listed using the [Get Account List](/docs/api-reference/meta/get-account-list) endpoint \n"
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional query to filter results by.",
+              "title": "Query"
+            },
+            "required": false,
+            "description": "Optional query to filter results by."
+          },
+          {
+            "in": "query",
+            "name": "force_refresh",
+            "schema": {
+              "default": false,
+              "description": "\nThe list of prefill options for each user/app/prefill combo is cached for 24 hours.\n                                \nIf `force_refresh` is set to `true`, the cache will be refreshed. This should only be used when the list of prefill options is known to have changed.\n                                \nBest practice is to offer a \"Refresh\" button to the user that sets this to `true` for one request.\n",
+              "title": "Force Refresh",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "\nThe list of prefill options for each user/app/prefill combo is cached for 24 hours.\n                                \nIf `force_refresh` is set to `true`, the cache will be refreshed. This should only be used when the list of prefill options is known to have changed.\n                                \nBest practice is to offer a \"Refresh\" button to the user that sets this to `true` for one request.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrefillChoicesResultsSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get prefill choices for an app's prefill.",
+        "tags": ["actions"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ActionDetailsParamsSchema"
+                  }
+                ],
+                "default": {
+                  "params": {}
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/execute/": {
+      "post": {
+        "operationId": "api_execute_execute_stateless_action",
+        "summary": "Execute Stateless Action",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "provider_id",
+            "schema": {
+              "description": "Provider ID for AI Actions. If you don't know what your provider ID is, [please contact support](https://nla.zapier.app/_z/embed/page/clh5sdteo0001ml0pdz8a2aqr?&)",
+              "title": "Provider Id",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Provider ID for AI Actions. If you don't know what your provider ID is, [please contact support](https://nla.zapier.app/_z/embed/page/clh5sdteo0001ml0pdz8a2aqr?&)"
+          },
+          {
+            "in": "query",
+            "name": "token_budget",
+            "schema": {
+              "default": 1000,
+              "description": "\nMaximum number of [tokens](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them) to use for each field.\n        \nWhen this limit is exceeded in the response from the execution, values will be truncated to fit inside of it.\n\nIf this is increased too much, running an action may fail if its results get outside of the context window of the LLM.\n",
+              "title": "Token Budget",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "\nMaximum number of [tokens](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them) to use for each field.\n        \nWhen this limit is exceeded in the response from the execution, values will be truncated to fit inside of it.\n\nIf this is increased too much, running an action may fail if its results get outside of the context window of the LLM.\n"
+          },
+          {
+            "in": "query",
+            "name": "preview_only",
+            "schema": {
+              "default": false,
+              "description": "\nIf this is true, then the action will not actually be executed and instead the resolved params will come back.\n",
+              "title": "Preview Only",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "\nIf this is true, then the action will not actually be executed and instead the resolved params will come back.\n"
+          },
+          {
+            "in": "query",
+            "name": "skip_param_guessing",
+            "schema": {
+              "default": false,
+              "description": "\nIf set to `True`, AI Actions will make a direct invocation call without attempting to guess params.\n\nWhen `skip_param_guessing` is `True`, all params must be set to either 'locked' or 'ignored' mode.\nOtherwise, an error will be raised.\n\nNote: `skip_param_guessing` is mutually exclusive with `preview_only`. When `skip_param_guessing` is `True`, `preview_only` must be `False`, and vice versa.\n",
+              "title": "Skip Param Guessing",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "\nIf set to `True`, AI Actions will make a direct invocation call without attempting to guess params.\n\nWhen `skip_param_guessing` is `True`, all params must be set to either 'locked' or 'ignored' mode.\nOtherwise, an error will be raised.\n\nNote: `skip_param_guessing` is mutually exclusive with `preview_only`. When `skip_param_guessing` is `True`, `preview_only` must be `False`, and vice versa.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecuteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Precondition Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["execution"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatelessExecuteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "SessionAuth": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/ai-actions/": {
+      "get": {
+        "operationId": "api_ai_actions_list_ai_actions",
+        "summary": "List AI Actions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExposedActionResponseSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "List all the current actions for the current user.",
+        "tags": ["ai-actions"],
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "api_ai_actions_create_ai_action",
+        "summary": "Create AI Action",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "account_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "\nThe Zapier account ID to use.\n\nAccount IDs available to the user can be listed using the [Get Account List](/docs/api-reference/meta/get-account-list) endpoint \n",
+              "title": "Account Id"
+            },
+            "required": false,
+            "description": "\nThe Zapier account ID to use.\n\nAccount IDs available to the user can be listed using the [Get Account List](/docs/api-reference/meta/get-account-list) endpoint \n"
+          },
+          {
+            "in": "query",
+            "name": "authentication_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "\nID of the authentication to use for the app.\n\nAuthentications available to the user can be listed using the [List Authentications For App](/docs/api-reference/actions/list-authentications-for-app) endpoint.\n",
+              "title": "Authentication Id"
+            },
+            "required": false,
+            "description": "\nID of the authentication to use for the app.\n\nAuthentications available to the user can be listed using the [List Authentications For App](/docs/api-reference/actions/list-authentications-for-app) endpoint.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiActionResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new AI Action that can be executed by the user later.",
+        "tags": ["ai-actions"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAiActionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/ai-actions/{ai_action_id}/execute/": {
+      "post": {
+        "operationId": "api_ai_actions_execute_ai_action",
+        "summary": "Execute AI Action",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ai_action_id",
+            "schema": {
+              "description": "The ID of the action to execute.",
+              "title": "Ai Action Id",
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the action to execute."
+          },
+          {
+            "in": "query",
+            "name": "preview_only",
+            "schema": {
+              "default": false,
+              "title": "Preview Only",
+              "type": "boolean"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecuteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Precondition Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["ai-actions", "execution"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecuteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/ai-actions/{ai_action_id}/preview/": {
+      "post": {
+        "operationId": "api_ai_actions_preview_ai_action",
+        "summary": "Preview AI Action",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ai_action_id",
+            "schema": {
+              "description": "The ID of the action to execute.",
+              "format": "uuid",
+              "title": "Ai Action Id",
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the action to execute."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecuteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Precondition Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["ai-actions", "execution"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecuteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/ai-actions/{ai_action_id}/": {
+      "get": {
+        "operationId": "api_ai_actions_get_ai_action",
+        "summary": "Get AI Action",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ai_action_id",
+            "schema": {
+              "title": "Ai Action Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiActionResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["ai-actions"],
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "api_ai_actions_update_ai_action",
+        "summary": "Update AI Action",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ai_action_id",
+            "schema": {
+              "description": "ID of the action to update.",
+              "title": "Ai Action Id",
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the action to update."
+          },
+          {
+            "in": "query",
+            "name": "account_id",
+            "schema": {
+              "description": "\nThe Zapier account ID to use.\n\nAccount IDs available to the user can be listed using the [Get Account List](/docs/api-reference/meta/get-account-list) endpoint \n",
+              "title": "Account Id",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "\nThe Zapier account ID to use.\n\nAccount IDs available to the user can be listed using the [Get Account List](/docs/api-reference/meta/get-account-list) endpoint \n"
+          },
+          {
+            "in": "query",
+            "name": "authentication_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "\nID of the authentication to use for the app.\n\nAuthentications available to the user can be listed using the [List Authentications For App](/docs/api-reference/actions/list-authentications-for-app) endpoint.\n",
+              "title": "Authentication Id"
+            },
+            "required": false,
+            "description": "\nID of the authentication to use for the app.\n\nAuthentications available to the user can be listed using the [List Authentications For App](/docs/api-reference/actions/list-authentications-for-app) endpoint.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiActionResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "Update an existing AI Action.",
+        "tags": ["ai-actions"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAiActionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "api_ai_actions_delete_ai_action",
+        "summary": "Delete AI Action",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ai_action_id",
+            "schema": {
+              "title": "Ai Action Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response",
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "description": "Delete an AI Action.\n\nReturns `true` if the action was deleted, `false` if it was not found.",
+        "tags": ["ai-actions"],
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/execute/log/{execution_log_id}/rate/": {
+      "post": {
+        "operationId": "api_execution_log_rate_execution_log",
+        "summary": "Rate Execution Log",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "execution_log_id",
+            "schema": {
+              "title": "Execution Log Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "rating",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Rating"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "feedback",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Feedback"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecuteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Precondition Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "Rate a specific execution log given feedback from the user.\n\nRating should either be `-1` (bad, thumbs down), `0` (netural, the default), or `1` (good, thumbs up).\n\nYou can also provide plain text feedback provided by the user. Supplied rating/feedback are patched onto execution log, so you can progressively call this endpoint.",
+        "tags": ["execution"],
+        "security": [
+          {
+            "MonolithUserJWTHeader": []
+          },
+          {
+            "AccessPointApiKeyHeader": []
+          },
+          {
+            "AccessPointApiKeyQuery": []
+          },
+          {
+            "AccessPointOAuth": []
+          },
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountInfo": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ID of the account",
+            "title": "Id"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The name of the account",
+            "title": "Name"
+          },
+          "logo_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "URL of a logo for the account",
+            "title": "Logo Url"
+          },
+          "owner": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountOwner"
+              }
+            ],
+            "description": "The owner of the account"
+          }
+        },
+        "required": ["id", "name", "logo_url", "owner"],
+        "title": "AccountInfo",
+        "type": "object"
+      },
+      "AccountOwner": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          }
+        },
+        "title": "AccountOwner",
+        "type": "object"
+      },
+      "GenericResults_AccountInfo_": {
+        "additionalProperties": true,
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/AccountInfo"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": ["results"],
+        "title": "GenericResults[AccountInfo]",
+        "type": "object"
+      },
+      "ShrinkResultResult": {
+        "properties": {
+          "shrunken_result": {
+            "title": "Shrunken Result",
+            "type": "object"
+          }
+        },
+        "required": ["shrunken_result"],
+        "title": "ShrinkResultResult",
+        "type": "object"
+      },
+      "ResultToShrink": {
+        "additionalProperties": true,
+        "properties": {
+          "result": {
+            "description": "`{key: value}` that is returned from an underlying API call.",
+            "title": "Result",
+            "type": "object"
+          },
+          "result_field_labels": {
+            "description": "`{key: field_label}` that is returned from an execution.",
+            "title": "Result Field Labels",
+            "type": "object"
+          }
+        },
+        "required": ["result", "result_field_labels"],
+        "title": "ResultToShrink",
+        "type": "object"
+      },
+      "AppSchema": {
+        "properties": {
+          "app": {
+            "description": "\nThe key for the app.\n\nThis is used to reference the app throughout AI Actions.                     \n",
+            "title": "App",
+            "type": "string"
+          },
+          "name": {
+            "description": "The name of the app.",
+            "title": "Name",
+            "type": "string"
+          },
+          "logo_url": {
+            "description": "URL of the logo for the app.",
+            "title": "Logo Url",
+            "type": "string"
+          },
+          "auth_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\nThe type of authentication that the app uses.\n                                  \nIf this is `null`, then it means that the app does not require authentication.\n",
+            "title": "Auth Type"
+          }
+        },
+        "required": ["app", "name", "logo_url", "auth_type"],
+        "title": "AppSchema",
+        "type": "object"
+      },
+      "GenericResults_AppSchema_": {
+        "additionalProperties": true,
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/AppSchema"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": ["results"],
+        "title": "GenericResults[AppSchema]",
+        "type": "object"
+      },
+      "ActionType": {
+        "enum": ["read", "write", "search"],
+        "title": "ActionType",
+        "type": "string"
+      },
+      "ActionSchema": {
+        "properties": {
+          "app": {
+            "description": "\nThe key for the app that this action belongs to.\n\nThis is used to reference the app throughout AI Actions.                     \n",
+            "title": "App",
+            "type": "string"
+          },
+          "action": {
+            "description": "\nThe key for the action itself.\n                        \nThis, along with `app` and `type`, is used to reference the action throughout AI Actions. \n",
+            "title": "Action",
+            "type": "string"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActionType"
+              }
+            ],
+            "description": "\nThe type of the action.\n                      \nThis can be:\n- `write`: Actions that have side effects (such as sending an email or updating a spreadsheet)\n- `search`: Actions that return results (such as searching for a contact or getting a list of emails)\n"
+          },
+          "display_name": {
+            "description": "The name of the action.",
+            "title": "Display Name",
+            "type": "string"
+          },
+          "description": {
+            "description": "The description of the action.",
+            "title": "Description",
+            "type": "string"
+          },
+          "search_relevancy_score": {
+            "description": "If a search query is provided this will be the relevancy that the action has to the query, between 0 and 1.",
+            "title": "Search Relevancy Score",
+            "type": "number"
+          },
+          "app_info": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AppSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Information about the app that this action belongs to."
+          },
+          "app_needs_auth": {
+            "description": "\nIf this is true, then an `authentication_id` must be provided when running this action.\n\nAuthentications available to the user can be listed using the [List Authentications For App](/docs/api-reference/actions/list-authentications-for-app) endpoint.\n",
+            "title": "App Needs Auth",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "app",
+          "action",
+          "type",
+          "display_name",
+          "description",
+          "search_relevancy_score",
+          "app_info",
+          "app_needs_auth"
+        ],
+        "title": "ActionSchema",
+        "type": "object"
+      },
+      "GenericResults_ActionSchema_": {
+        "additionalProperties": true,
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/ActionSchema"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": ["results"],
+        "title": "GenericResults[ActionSchema]",
+        "type": "object"
+      },
+      "ActionMetaHookT": {
+        "description": "If this exists, then it means that this action is a webhook.\n\nUsing the provided URL, you can send a POST request to it.",
+        "properties": {
+          "directions": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Directions"
+          },
+          "is_notification": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Notification"
+          },
+          "is_pollable": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Pollable"
+          },
+          "is_polling_notification": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Polling Notification"
+          },
+          "is_subscription": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Subscription"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          }
+        },
+        "title": "ActionMetaHookT",
+        "type": "object"
+      },
+      "ActionMetaT": {
+        "properties": {
+          "hook": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ActionMetaHookT"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "title": "ActionMetaT",
+        "type": "object"
+      },
+      "ActionT": {
+        "properties": {
+          "type": {
+            "title": "Type",
+            "type": "string"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "noun": {
+            "title": "Noun",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "is_important": {
+            "title": "Is Important",
+            "type": "boolean"
+          },
+          "is_hidden": {
+            "title": "Is Hidden",
+            "type": "boolean"
+          },
+          "needs": {
+            "items": {
+              "$ref": "#/components/schemas/NeedT"
+            },
+            "title": "Needs",
+            "type": "array"
+          },
+          "meta": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ActionMetaT"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "popularity": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Popularity"
+          },
+          "app_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "App Name"
+          }
+        },
+        "required": [
+          "type",
+          "key",
+          "name",
+          "noun",
+          "description",
+          "is_important",
+          "is_hidden"
+        ],
+        "title": "ActionT",
+        "type": "object"
+      },
+      "AppDetailT": {
+        "properties": {
+          "current_implementation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Implementation Id"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "slug": {
+            "title": "Slug",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "categories": {
+            "items": {
+              "$ref": "#/components/schemas/CategoryDetailT"
+            },
+            "title": "Categories",
+            "type": "array"
+          },
+          "age_in_days": {
+            "title": "Age In Days",
+            "type": "integer"
+          },
+          "app_profile_url": {
+            "title": "App Profile Url",
+            "type": "string"
+          },
+          "banner": {
+            "title": "Banner",
+            "type": "string"
+          },
+          "canonical_id": {
+            "title": "Canonical Id",
+            "type": "string"
+          },
+          "days_since_last_update": {
+            "title": "Days Since Last Update",
+            "type": "integer"
+          },
+          "external_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Url"
+          },
+          "hashtag": {
+            "title": "Hashtag",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "image": {
+            "title": "Image",
+            "type": "string"
+          },
+          "images": {
+            "$ref": "#/components/schemas/ImagesT"
+          },
+          "internal_id": {
+            "title": "Internal Id",
+            "type": "integer"
+          },
+          "is_beta": {
+            "title": "Is Beta",
+            "type": "boolean"
+          },
+          "is_built_in": {
+            "title": "Is Built In",
+            "type": "boolean"
+          },
+          "is_featured": {
+            "title": "Is Featured",
+            "type": "boolean"
+          },
+          "is_premium": {
+            "title": "Is Premium",
+            "type": "boolean"
+          },
+          "is_public": {
+            "title": "Is Public",
+            "type": "boolean"
+          },
+          "is_upcoming": {
+            "title": "Is Upcoming",
+            "type": "boolean"
+          },
+          "learn_more_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Learn More Url"
+          },
+          "popularity": {
+            "title": "Popularity",
+            "type": "integer"
+          },
+          "request_count": {
+            "title": "Request Count",
+            "type": "integer"
+          },
+          "zap_usage_count": {
+            "title": "Zap Usage Count",
+            "type": "integer"
+          },
+          "invite_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invite Url"
+          },
+          "primary_color": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Primary Color"
+          }
+        },
+        "required": [
+          "name",
+          "slug",
+          "description",
+          "age_in_days",
+          "app_profile_url",
+          "banner",
+          "canonical_id",
+          "days_since_last_update",
+          "hashtag",
+          "id",
+          "image",
+          "images",
+          "internal_id",
+          "is_beta",
+          "is_built_in",
+          "is_featured",
+          "is_premium",
+          "is_public",
+          "is_upcoming",
+          "popularity",
+          "request_count",
+          "zap_usage_count"
+        ],
+        "title": "AppDetailT",
+        "type": "object"
+      },
+      "AppDetailsSchema": {
+        "properties": {
+          "app_needs_auth": {
+            "description": "Whether or not this app requires auth when using actions with it.",
+            "title": "App Needs Auth",
+            "type": "boolean"
+          },
+          "implementation": {
+            "$ref": "#/components/schemas/ImplementationT"
+          },
+          "details": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AppDetailT"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": ["app_needs_auth", "implementation", "details"],
+        "title": "AppDetailsSchema",
+        "type": "object"
+      },
+      "AuthFieldT": {
+        "properties": {
+          "computed": {
+            "title": "Computed",
+            "type": "boolean"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "required": {
+            "title": "Required",
+            "type": "boolean"
+          },
+          "type": {
+            "enum": [
+              "int",
+              "integer",
+              "float",
+              "decimal",
+              "unicode",
+              "text",
+              "str",
+              "string",
+              "datetime",
+              "boolean",
+              "bool",
+              "file",
+              "copy",
+              "password",
+              "dict",
+              "code",
+              "filter",
+              "confirmation"
+            ],
+            "title": "Type",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "help_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Help Text"
+          }
+        },
+        "title": "AuthFieldT",
+        "type": "object"
+      },
+      "CategoryDetailT": {
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          }
+        },
+        "required": ["title", "description"],
+        "title": "CategoryDetailT",
+        "type": "object"
+      },
+      "ChoiceT": {
+        "properties": {
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "sample": {
+            "title": "Sample",
+            "type": "string"
+          }
+        },
+        "title": "ChoiceT",
+        "type": "object"
+      },
+      "GenericResults_AppDetailsSchema_": {
+        "additionalProperties": true,
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/AppDetailsSchema"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": ["results"],
+        "title": "GenericResults[AppDetailsSchema]",
+        "type": "object"
+      },
+      "ImagesT": {
+        "properties": {
+          "url_16_x16": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url 16 X16"
+          },
+          "url_32_x32": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url 32 X32"
+          },
+          "url_64_x64": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url 64 X64"
+          },
+          "url_128_x128": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url 128 X128"
+          }
+        },
+        "title": "ImagesT",
+        "type": "object"
+      },
+      "ImplementationT": {
+        "properties": {
+          "selected_api": {
+            "title": "Selected Api",
+            "type": "string"
+          },
+          "app_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "App Id"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Slug"
+          },
+          "actions": {
+            "items": {
+              "$ref": "#/components/schemas/ActionT"
+            },
+            "title": "Actions",
+            "type": "array"
+          },
+          "auth_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Auth Type"
+          },
+          "auth_fields": {
+            "items": {
+              "$ref": "#/components/schemas/AuthFieldT"
+            },
+            "title": "Auth Fields",
+            "type": "array"
+          },
+          "is_deprecated": {
+            "default": false,
+            "title": "Is Deprecated",
+            "type": "boolean"
+          },
+          "is_private_only": {
+            "default": false,
+            "title": "Is Private Only",
+            "type": "boolean"
+          },
+          "is_invite_only": {
+            "default": false,
+            "title": "Is Invite Only",
+            "type": "boolean"
+          },
+          "is_beta": {
+            "default": false,
+            "title": "Is Beta",
+            "type": "boolean"
+          },
+          "is_premium": {
+            "default": false,
+            "title": "Is Premium",
+            "type": "boolean"
+          },
+          "is_hidden": {
+            "default": false,
+            "title": "Is Hidden",
+            "type": "boolean"
+          }
+        },
+        "required": ["selected_api", "app_id", "name", "slug"],
+        "title": "ImplementationT",
+        "type": "object"
+      },
+      "NeedT": {
+        "properties": {
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "int",
+              "integer",
+              "float",
+              "decimal",
+              "unicode",
+              "text",
+              "str",
+              "string",
+              "datetime",
+              "boolean",
+              "bool",
+              "file",
+              "copy",
+              "password",
+              "dict",
+              "code",
+              "filter",
+              "confirmation"
+            ],
+            "title": "Type",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "required": {
+            "title": "Required",
+            "type": "boolean"
+          },
+          "prefill": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prefill"
+          },
+          "searchfill": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Searchfill"
+          },
+          "capabilities": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Capabilities",
+            "type": "array"
+          },
+          "custom_field": {
+            "title": "Custom Field",
+            "type": "boolean"
+          },
+          "depends_on": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Depends On",
+            "type": "array"
+          },
+          "from_search": {
+            "title": "From Search",
+            "type": "boolean"
+          },
+          "from_write": {
+            "title": "From Write",
+            "type": "boolean"
+          },
+          "input_format": {
+            "anyOf": [
+              {
+                "items": {},
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Format"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language"
+          },
+          "parent_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Key"
+          },
+          "send_in_json": {
+            "title": "Send In Json",
+            "type": "boolean"
+          },
+          "regex": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regex"
+          },
+          "alters_custom_fields": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alters Custom Fields"
+          },
+          "choices": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChoiceT"
+                },
+                "type": "array"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Choices"
+          },
+          "default": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default"
+          },
+          "help_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Help Text"
+          },
+          "placeholder": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Placeholder"
+          },
+          "default_guessable": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Guessable"
+          },
+          "list": {
+            "title": "List",
+            "type": "boolean"
+          },
+          "format": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Format"
+          }
+        },
+        "title": "NeedT",
+        "type": "object"
+      },
+      "AuthenticationGroupT": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Id"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "photo_url": {
+            "title": "Photo Url",
+            "type": "string"
+          },
+          "member_count": {
+            "title": "Member Count",
+            "type": "integer"
+          }
+        },
+        "title": "AuthenticationGroupT",
+        "type": "object"
+      },
+      "AuthenticationPermissionsT": {
+        "properties": {
+          "delete": {
+            "title": "Delete",
+            "type": "boolean"
+          },
+          "edit": {
+            "title": "Edit",
+            "type": "boolean"
+          },
+          "reconnect": {
+            "title": "Reconnect",
+            "type": "boolean"
+          },
+          "share": {
+            "title": "Share",
+            "type": "boolean"
+          },
+          "test": {
+            "title": "Test",
+            "type": "boolean"
+          },
+          "transfer": {
+            "title": "Transfer",
+            "type": "boolean"
+          },
+          "use": {
+            "title": "Use",
+            "type": "boolean"
+          }
+        },
+        "title": "AuthenticationPermissionsT",
+        "type": "object"
+      },
+      "AuthenticationT": {
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "groups": {
+            "items": {
+              "$ref": "#/components/schemas/AuthenticationGroupT"
+            },
+            "title": "Groups",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "account_id": {
+            "title": "Account Id",
+            "type": "integer"
+          },
+          "customuser_id": {
+            "title": "Customuser Id",
+            "type": "integer"
+          },
+          "lastchanged": {
+            "title": "Lastchanged",
+            "type": "string"
+          },
+          "is_invite_only": {
+            "title": "Is Invite Only",
+            "type": "boolean"
+          },
+          "is_private": {
+            "title": "Is Private",
+            "type": "boolean"
+          },
+          "is_stale": {
+            "title": "Is Stale",
+            "type": "boolean"
+          },
+          "members": {
+            "items": {},
+            "title": "Members",
+            "type": "array"
+          },
+          "selected_api": {
+            "title": "Selected Api",
+            "type": "string"
+          },
+          "shared_with_all": {
+            "title": "Shared With All",
+            "type": "boolean"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          },
+          "is_shared": {
+            "title": "Is Shared",
+            "type": "boolean"
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/AuthenticationPermissionsT"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          }
+        },
+        "required": [
+          "date",
+          "groups",
+          "id",
+          "account_id",
+          "customuser_id",
+          "lastchanged",
+          "is_invite_only",
+          "is_private",
+          "is_stale",
+          "members",
+          "selected_api",
+          "shared_with_all",
+          "title",
+          "url",
+          "is_shared",
+          "permissions",
+          "label"
+        ],
+        "title": "AuthenticationT",
+        "type": "object"
+      },
+      "ListAuthenticationsForAppResultSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "last_refresh_seconds_ago": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\nSeconds that have elapsed since the list of authentications for this user/app has been refreshed.\n                                                 \nTo refresh the list, use the `force_refresh` query parameter.\n",
+            "title": "Last Refresh Seconds Ago"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/AuthenticationT"
+            },
+            "title": "Results",
+            "type": "array"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Message about the result of the request, does not need to be shown to the user.",
+            "title": "Message"
+          }
+        },
+        "required": ["last_refresh_seconds_ago", "results"],
+        "title": "ListAuthenticationsForAppResultSchema",
+        "type": "object"
+      },
+      "ActionExtra": {
+        "enum": ["action_needs", "action_gives", "action_sample"],
+        "title": "ActionExtra",
+        "type": "string"
+      },
+      "ActionDetailsResultSchema": {
+        "properties": {
+          "action_has_custom_needs_probability": {
+            "description": "Probability this action has custom needs that vary from user to user (0.0 to 1.0). A score greater than 0.5 suggests it does.",
+            "title": "Action Has Custom Needs Probability",
+            "type": "number"
+          },
+          "action": {
+            "$ref": "#/components/schemas/ActionT"
+          },
+          "action_gives": {
+            "items": {
+              "$ref": "#/components/schemas/GivesT"
+            },
+            "title": "Action Gives",
+            "type": "array"
+          },
+          "action_needs": {
+            "items": {
+              "$ref": "#/components/schemas/NeedT"
+            },
+            "title": "Action Needs",
+            "type": "array"
+          },
+          "action_sample": {
+            "title": "Action Sample",
+            "type": "object"
+          }
+        },
+        "required": [
+          "action_has_custom_needs_probability",
+          "action",
+          "action_gives",
+          "action_needs",
+          "action_sample"
+        ],
+        "title": "ActionDetailsResultSchema",
+        "type": "object"
+      },
+      "GenericResults_ActionDetailsResultSchema_": {
+        "additionalProperties": true,
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/ActionDetailsResultSchema"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": ["results"],
+        "title": "GenericResults[ActionDetailsResultSchema]",
+        "type": "object"
+      },
+      "GivesT": {
+        "properties": {
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "score": {
+            "title": "Score",
+            "type": "number"
+          },
+          "subscore": {
+            "title": "Subscore",
+            "type": "number"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          },
+          "zap_meta_sample": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zap Meta Sample"
+          },
+          "custom_field": {
+            "default": false,
+            "title": "Custom Field",
+            "type": "boolean"
+          },
+          "important": {
+            "default": false,
+            "title": "Important",
+            "type": "boolean"
+          }
+        },
+        "required": ["key", "score", "subscore", "type"],
+        "title": "GivesT",
+        "type": "object"
+      },
+      "ActionDetailsBodySchema": {
+        "additionalProperties": true,
+        "properties": {
+          "params": {
+            "description": "A dictionary of key-value pairs, where the key is a `need` key and the value is a selected value for that need.",
+            "title": "Params",
+            "type": "object"
+          }
+        },
+        "required": ["params"],
+        "title": "ActionDetailsBodySchema",
+        "type": "object"
+      },
+      "PrefillChoicesResultsSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "is_loading": {
+            "description": "\nIf this is `true`, then it means that the list of prefill options is still being loaded.\n                             \nWhile this is `true`, the endpoint should be polled (in general every second) until it returns `false`.\n",
+            "title": "Is Loading",
+            "type": "boolean"
+          },
+          "last_refresh_seconds_ago": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\nSeconds that have elapsed since the list of options for this prefill has been refreshed.\n                                                 \nTo refresh the list, use the `force_refresh` query parameter.\n",
+            "title": "Last Refresh Seconds Ago"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/ChoiceT"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": ["is_loading", "last_refresh_seconds_ago", "results"],
+        "title": "PrefillChoicesResultsSchema",
+        "type": "object"
+      },
+      "ActionDetailsParamsSchema": {
+        "additionalProperties": true,
+        "properties": {
+          "params": {
+            "description": "A dictionary of key-value pairs, where the key is a `need` key and the value is a selected value for that need.",
+            "title": "Params",
+            "type": "object"
+          }
+        },
+        "required": ["params"],
+        "title": "ActionDetailsParamsSchema",
+        "type": "object"
+      },
+      "ExecuteResponse": {
+        "properties": {
+          "execution_log_id": {
+            "description": "\nID of the execution log.\n                                  \nThis can be used with the [Rate Execution Log](/docs/api-reference/execution/rate-execution-log) endpoint to give feedback on the execution.\n\nWe frequently monitor this feedback!\n",
+            "title": "Execution Log Id",
+            "type": "string"
+          },
+          "action_used": {
+            "description": "The name of the action that was executed.",
+            "title": "Action Used",
+            "type": "string"
+          },
+          "input_params": {
+            "description": "The parameters that were passed into the API.",
+            "title": "Input Params",
+            "type": "object"
+          },
+          "resolved_params": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\nThe resolved parameters for the action.\n\nIf `preview_only` is `true`, this will be the parameters that the AI would have used to run the action if it were not a preview.\nIf `preview_only` is `false`, these are the parameters that the AI used to run the action.\n",
+            "title": "Resolved Params"
+          },
+          "full_results": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\nResults of the action after it ran.\n\nThis will be an empty list if `preview_only` is `true`.\n        ",
+            "title": "Full Results"
+          },
+          "result_field_labels": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Human readable labels for some of the keys in the result.",
+            "title": "Result Field Labels"
+          },
+          "status": {
+            "default": "success",
+            "description": "\nThe status of the execution.\n\n- `success`: The action was executed successfully.\n- `error`: The action failed to execute, see `error` field.\n- `empty`: The action was not executed.\n- `preview`: The action was previewed.\n",
+            "enum": ["success", "error", "empty", "preview"],
+            "title": "Status",
+            "type": "string"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error message if the execution failed.",
+            "title": "Error"
+          }
+        },
+        "required": ["execution_log_id", "action_used", "input_params"],
+        "title": "ExecuteResponse",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "additionalProperties": true,
+        "properties": {
+          "error": {
+            "description": "Error message.",
+            "title": "Error",
+            "type": "string"
+          }
+        },
+        "required": ["error"],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "ConstraintMode": {
+        "enum": ["locked", "guess", "choose_from", "ignored"],
+        "title": "ConstraintMode",
+        "type": "string"
+      },
+      "ParamConstraint": {
+        "properties": {
+          "mode": {
+            "$ref": "#/components/schemas/ConstraintMode"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": ["mode"],
+        "title": "ParamConstraint",
+        "type": "object"
+      },
+      "StatelessExecuteRequest": {
+        "additionalProperties": true,
+        "properties": {
+          "instructions": {
+            "description": "\n`instructions` should be plain English instructions about how to run the action\n\nFor example, \"Send a message with a joke about pirates delivering pizza to the #general Slack channel\"\n        ",
+            "title": "Instructions",
+            "type": "string"
+          },
+          "params": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ParamConstraint"
+            },
+            "description": "\n`params` can be used to give AI Actions specific values, or hints for how to guess values.\n\nInside of the `params` object, each key should be the `key` of a specific need.\n\nInside of the value for each need, you can set a `mode` and a `value`.\n\n\n#### `\"mode\": \"locked\"`\n\nA `mode` of `locked` means that when running the action, AI Actions will use the **exact** value provided inside of `value`.\n\nThis is useful when the user has selected a specific value for a prefill, or has entered a specific value like a string.\n\nFor example, if you know ahead of time the _exact ID_ of a Slack channel that you want to send a message to and you're using the `SlackAPI`'s `channel_message` action:\n\n```json\n{\n    \"params\": {\n        \"channel\": {\n            \"mode\": \"locked\",\n            \"value\": \"CHANNEL_ID\"\n        }\n    }\n}\n```\n\n#### `\"mode\": \"guess\"`\n\nWhen using a `mode` of `guess`, AI Actions will use the `value` to try and figure out what to use for the need.\n\nThis is useful when you only have a text description of a need's value, but don't know its actual ID.\n\nFor example, if you provide the following for the `SlackAPI` API's `channel_message` action:\n\n```json\n{\n    \"params\": {\n        \"channel\": {\n            \"mode\": \"guess\",\n            \"value\": \"#general\"\n        }\n    }\n}\n```\n\nBehind the scenes, when AI Actions runs the action it will look through all of the available fields for the `channel` prefill (the same list you would get from the [Get Prefill Choices](/docs/guides/how-tos/action-info/prefill-choices) endpoint) and choose the one that best semantically matches the `value` provided.\n\n#### `\"mode\": \"choose_from\"`\n\nWhen using a `mode` of `choose_from`, the `value` must be a list of values to choose from.\n\nThe values must be an array of exact IDs from the [Get Prefill Choices](/docs/guides/how-tos/action-info/prefill-choices) endpoint.\n\nUsing an array of values is useful if the user wants to choose from i.e. a list of Slack channels that they want to send a message to based on the instructions.\n\nFor example,\n\n```json\n{\n    \"params\": {\n        \"channel\": {\n            \"mode\": \"guess\",\n            \"value\": [\"CHANNEL_ID\", \"ANOTHER_CHANNEL_ID\"]\n        }\n    }\n}\n```\n\nBehind the scenes, when AI Actions goes to run the action it will look up the label of the provided IDs and choose th one that makes the most sense based off of the provided instructions.\n",
+            "title": "Params",
+            "type": "object"
+          },
+          "app": {
+            "description": "\nThe app to use (i.e. `SlackAPI` or `GoogleSheetsV2API`).\n\nFrom the [Search Apps](/docs/api-reference/actions/search-apps) or [Search Actions](/docs/api-reference/actions/search-actions) endpoint.\n",
+            "title": "App",
+            "type": "string"
+          },
+          "action": {
+            "description": "\nThe action to run (i.e. `direct_message` or `add_row`).\n\nFrom the [App Details](/docs/api-reference/actions/get-app-details) or [Search Actions](/docs/api-reference/actions/search-actions) endpoint.\n",
+            "title": "Action",
+            "type": "string"
+          },
+          "action_type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActionType"
+              }
+            ],
+            "default": "write",
+            "description": "\nThe type of the action to run (most likely `write` or `search`).\n\nFrom the [App Details](/docs/api-reference/actions/get-app-details) or [Search Actions](/docs/api-reference/actions/search-actions) endpoint.\n"
+          },
+          "authentication_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\nThe authentication to use for the app.\n\nFrom the [List Authentications for App](/docs/api-reference/actions/list-authentications-for-app) endpoint.\n",
+            "title": "Authentication Id"
+          },
+          "account_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\nZapier account ID to use when running the action.\n\nSome Zapier users may have multiple accounts under the same Zapier user.\n        \nIf no `account_id` is provided here, then the account that they're currently logged into on Zapier.com will be the one that is used when running the action.",
+            "title": "Account Id"
+          }
+        },
+        "required": ["instructions", "app", "action"],
+        "title": "StatelessExecuteRequest",
+        "type": "object"
+      },
+      "AiActionMeta": {
+        "properties": {
+          "params": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ParamsValue"
+            },
+            "description": "\nDictionary of need to parameter metadata.\n\nKey should be the key for a `need` that is also in the `params` dictionary.\n",
+            "title": "Params",
+            "type": "object"
+          },
+          "app_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Label for the app that the action using.",
+            "title": "App Label"
+          },
+          "action_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Label for the action that will be run.",
+            "title": "Action Label"
+          },
+          "authentication_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Label for the authentication that will be used.",
+            "title": "Authentication Label"
+          },
+          "app_needs_auth": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether or not the app needs authentication to run.",
+            "title": "App Needs Auth"
+          }
+        },
+        "required": ["params"],
+        "title": "AiActionMeta",
+        "type": "object"
+      },
+      "AiActionNeed": {
+        "properties": {
+          "key": {
+            "description": "\nThe key of the need.\n                     \nThis is used as the key in objects such as `params` and `params_constraints`.\n",
+            "title": "Key",
+            "type": "string"
+          },
+          "type": {
+            "anyOf": [
+              {
+                "enum": [
+                  "int",
+                  "integer",
+                  "float",
+                  "decimal",
+                  "unicode",
+                  "text",
+                  "str",
+                  "string",
+                  "datetime",
+                  "boolean",
+                  "bool",
+                  "file",
+                  "copy",
+                  "password",
+                  "dict",
+                  "code",
+                  "filter",
+                  "confirmation"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The type of the need.",
+            "title": "Type"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Label for the need.",
+            "title": "Label"
+          },
+          "required": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether or not a value for this need is required in order to run the action.",
+            "title": "Required"
+          },
+          "prefill": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\nIf a need has a `prefill`, then that means its value should come from a list of available values.\n                         \nSee [Get prefill Choices](/guides/how-tos/action-info/prefill-choices) for information on how to get the available values for a need.\n",
+            "title": "Prefill"
+          },
+          "searchfill": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Searchfill"
+          },
+          "capabilities": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Capabilities"
+          },
+          "custom_field": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\nIf this is true, then it means that this need comes from a custom field.\n                               \nSee the [Custom fields section in Get action details and needs](/guides/how-tos/action-info/action-details#custom-fields) for more information on these needs.\n",
+            "title": "Custom Field"
+          },
+          "depends_on": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\nA list of the `key` of other needs that this need depends on.\n\nIf this exists, it means that the value of this need may change if one of the listed needs changes.\nSee the [Custom fields section in Get action details and needs](/guides/how-tos/action-info/action-details#custom-fields) for more information on these needs.\n",
+            "title": "Depends On"
+          },
+          "input_format": {
+            "anyOf": [
+              {
+                "items": {},
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Format"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language"
+          },
+          "parent_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Key"
+          },
+          "regex": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regex"
+          },
+          "alters_custom_fields": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alters Custom Fields"
+          },
+          "choices": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChoiceT"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\nIf this array exists, then it will be a static list of choices that the value of this need can be when it runs.\n",
+            "title": "Choices"
+          },
+          "default": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default"
+          },
+          "help_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\nAdditional information that is specific to this need. May include links to outside documentation.\n",
+            "title": "Help Text"
+          },
+          "placeholder": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Placeholder"
+          },
+          "format": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Format"
+          },
+          "list": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "List"
+          }
+        },
+        "required": [
+          "key",
+          "type",
+          "label",
+          "required",
+          "prefill",
+          "custom_field",
+          "depends_on",
+          "choices",
+          "help_text"
+        ],
+        "title": "AiActionNeed",
+        "type": "object"
+      },
+      "AiActionResponse": {
+        "properties": {
+          "id": {
+            "description": "The unique ID of the AI action.",
+            "title": "Id",
+            "type": "string"
+          },
+          "description": {
+            "description": "Description of the AI action.",
+            "title": "Description",
+            "type": "string"
+          },
+          "account_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Zapier account ID that will be used when running the action.",
+            "title": "Account Id"
+          },
+          "authentication_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ID of the authentication to use for the app when running the action.",
+            "title": "Authentication Id"
+          },
+          "app": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The app that the action is for.",
+            "title": "App"
+          },
+          "action": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The action that will be run.",
+            "title": "Action"
+          },
+          "action_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ActionType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The type of action that will be run."
+          },
+          "params": {
+            "description": "The parameters that will be used when running the action.",
+            "title": "Params",
+            "type": "object"
+          },
+          "meta": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AiActionMeta"
+              }
+            ],
+            "description": "Metadata about the AI action."
+          },
+          "needs": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AiActionNeed"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Needs"
+          }
+        },
+        "required": [
+          "id",
+          "description",
+          "account_id",
+          "authentication_id",
+          "app",
+          "action",
+          "action_type",
+          "params",
+          "meta"
+        ],
+        "title": "AiActionResponse",
+        "type": "object"
+      },
+      "ExposedActionResponseSchema": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/AiActionResponse"
+            },
+            "title": "Results",
+            "type": "array"
+          },
+          "configuration_link": {
+            "description": "URL to configure and expose more actions.",
+            "title": "Configuration Link",
+            "type": "string"
+          }
+        },
+        "required": ["results", "configuration_link"],
+        "title": "ExposedActionResponseSchema",
+        "type": "object"
+      },
+      "ParamsValue": {
+        "properties": {
+          "label": {
+            "description": "\nHuman-readable label for the need.\n                       \nFor example, if a specific spreadsheet was chosen, the `label` should be the name of the spreadsheet.\n",
+            "title": "Label",
+            "type": "string"
+          }
+        },
+        "required": ["label"],
+        "title": "ParamsValue",
+        "type": "object"
+      },
+      "CreateAiActionRequest": {
+        "properties": {
+          "app": {
+            "title": "App",
+            "type": "string"
+          },
+          "action": {
+            "title": "Action",
+            "type": "string"
+          },
+          "action_type": {
+            "$ref": "#/components/schemas/ActionType"
+          },
+          "params": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ]
+            },
+            "description": "\nDictionary of need to value or list of possible values.\n                                           \nIf this is a single string, then it will be used to guess the actual value of the need when running the action.\n\nIf this is a list of strings, it's expected that it will be IDs of possible values for the AI to choose from.\n\nNeeds that are omitted from this dictionary will be guessed by the AI at runtime based on instructions.\n",
+            "title": "Params",
+            "type": "object"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/AiActionMeta"
+          }
+        },
+        "required": ["app", "action", "action_type", "params", "meta"],
+        "title": "CreateAiActionRequest",
+        "type": "object"
+      },
+      "ExecuteRequest": {
+        "additionalProperties": true,
+        "description": "Specifies information about how to run an AI Action",
+        "properties": {
+          "instructions": {
+            "description": "\n`instructions` should be plain English instructions about how to run the action\n\nFor example, \"Send a message with a joke about pirates delivering pizza to the #general Slack channel\"\n        ",
+            "title": "Instructions",
+            "type": "string"
+          },
+          "params": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ParamConstraint"
+            },
+            "description": "\n`params` can be used to give AI Actions specific values, or hints for how to guess values.\n\nInside of the `params` object, each key should be the `key` of a specific need.\n\nInside of the value for each need, you can set a `mode` and a `value`.\n\n\n#### `\"mode\": \"locked\"`\n\nA `mode` of `locked` means that when running the action, AI Actions will use the **exact** value provided inside of `value`.\n\nThis is useful when the user has selected a specific value for a prefill, or has entered a specific value like a string.\n\nFor example, if you know ahead of time the _exact ID_ of a Slack channel that you want to send a message to and you're using the `SlackAPI`'s `channel_message` action:\n\n```json\n{\n    \"params\": {\n        \"channel\": {\n            \"mode\": \"locked\",\n            \"value\": \"CHANNEL_ID\"\n        }\n    }\n}\n```\n\n#### `\"mode\": \"guess\"`\n\nWhen using a `mode` of `guess`, AI Actions will use the `value` to try and figure out what to use for the need.\n\nThis is useful when you only have a text description of a need's value, but don't know its actual ID.\n\nFor example, if you provide the following for the `SlackAPI` API's `channel_message` action:\n\n```json\n{\n    \"params\": {\n        \"channel\": {\n            \"mode\": \"guess\",\n            \"value\": \"#general\"\n        }\n    }\n}\n```\n\nBehind the scenes, when AI Actions runs the action it will look through all of the available fields for the `channel` prefill (the same list you would get from the [Get Prefill Choices](/docs/guides/how-tos/action-info/prefill-choices) endpoint) and choose the one that best semantically matches the `value` provided.\n\n#### `\"mode\": \"choose_from\"`\n\nWhen using a `mode` of `choose_from`, the `value` must be a list of values to choose from.\n\nThe values must be an array of exact IDs from the [Get Prefill Choices](/docs/guides/how-tos/action-info/prefill-choices) endpoint.\n\nUsing an array of values is useful if the user wants to choose from i.e. a list of Slack channels that they want to send a message to based on the instructions.\n\nFor example,\n\n```json\n{\n    \"params\": {\n        \"channel\": {\n            \"mode\": \"guess\",\n            \"value\": [\"CHANNEL_ID\", \"ANOTHER_CHANNEL_ID\"]\n        }\n    }\n}\n```\n\nBehind the scenes, when AI Actions goes to run the action it will look up the label of the provided IDs and choose th one that makes the most sense based off of the provided instructions.\n",
+            "title": "Params",
+            "type": "object"
+          }
+        },
+        "required": ["instructions"],
+        "title": "ExecuteRequest",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "MonolithUserJWTHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      },
+      "AccessPointApiKeyHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
+      },
+      "AccessPointApiKeyQuery": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "api_key"
+      },
+      "AccessPointOAuth": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "/oauth/authorize/",
+            "tokenUrl": "/oauth/token/",
+            "scopes": {
+              "nla:exposed_actions:execute": "Run AI Actions",
+              "openid": "OpenID Connect scope"
+            }
+          }
+        }
+      },
+      "SessionAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "nlasession"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://actions.zapier.com"
+    }
+  ]
+}

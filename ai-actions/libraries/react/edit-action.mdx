@@ -1,0 +1,164 @@
+---
+title: EditAction and CreateAction
+---
+
+There are two separate components for managing a specific stored action with `@zapier/ai-actions-react`: `EditAction` and `CreateAction`.
+
+`CreateAction` should be used when you do not have an existing action that you want to edit, and `EditAction` should be used when you know the ID of the action you want to edit.
+
+## Props
+
+### `onActionSaved`
+
+This callback will be called with the updated action when the user clicks the "Save" button.
+
+See the [Get stored action](/guides/how-tos/stored/manage/get-action) documentation for more information about what the object contains.
+
+### `actionId`
+
+**Only for `EditAction`**
+
+This is the ID of the action that you want to edit. When the component renders, it will fetch the latest version of the action to edit from the API.
+
+### `onActionDeleted`
+
+**Only for `EditAction`**
+
+This callback wall be called with the ID of the action that was deleted when the user clicks the "Delete" button.
+
+## Usage
+
+<Warning>
+  Make sure that this component is rendered unerneath an
+  [`AiActionsProvider`](/guides/libraries/react/ai-actions-provider)!
+</Warning>
+
+<CodeGroup>
+```tsx create-action.tsx
+import { FunctionComponent } from 'react'
+import { AiAction } from "@zapier/ai-actions";
+import { CreateAction } from "@zapier/ai-actions-react";
+
+interface CreateAiActionsProps {
+onActionSaved: (action: AiAction) => void;
+}
+
+export const CreateAiAction: FunctionComponent<CreateAiActionsProps> = ({
+  onActionSaved,
+}) => {
+  return <CreateAction onActionSaved={onActionSaved} />;
+};
+```
+
+```tsx edit-action.tsx
+import { FunctionComponent } from "react";
+import { AiAction } from "@zapier/ai-actions";
+import { EditAction } from "@zapier/ai-actions-react";
+
+interface EditAiActionsProps {
+  actionId: string;
+  onActionSaved: (action: AiAction) => void;
+  onActionDeleted: (actionId: string) => void;
+}
+
+export const EditAiAction: FunctionComponent<EditAiActionsProps> = ({
+  actionId,
+  onActionSaved,
+  onActionDeleted,
+}) => {
+  return (
+    <EditAction
+      actionId={actionId}
+      onActionSaved={onActionSaved}
+      onActionDeleted={onActionDeleted}
+    />
+  );
+};
+```
+
+</CodeGroup>
+
+## Example
+
+This example uses the [`ActionList` component](/guides/libraries/react/action-list) to show a list of action and lets you select an action to edit. It also lets you create new actions.
+
+<iframe
+  style={{
+    width: "100%",
+    height: "750px",
+    background: "white",
+    borderRadius: "4px",
+  }}
+  src="/config/embed/v1/docs-examples/edit-action"
+/>
+
+```tsx edit-action-example.tsx
+import { AiAction } from "@zapier/ai-actions";
+import {
+  ActionList,
+  AiActionsProvider,
+  CreateAction,
+  EditAction,
+} from "@zapier/ai-actions-react";
+import { FunctionComponent, useState } from "react";
+
+export const EditActionExample: FunctionComponent<{ apiKey: string }> = ({
+  apiKey,
+}) => {
+  return (
+    <AiActionsProvider
+      auth={{
+        apiKey: apiKey ?? "",
+      }}
+    >
+      <div className="flex-1 w-full max-h-full overflow-auto pl-2">
+        <ActionEditor />
+      </div>
+    </AiActionsProvider>
+  );
+};
+
+export const ActionEditor: FunctionComponent = () => {
+  const [selectedAction, setSelectedAction] = useState<AiAction | null>(null);
+  const [createNewAction, setCreateNewAction] = useState<boolean>(false);
+
+  if (selectedAction) {
+    return (
+      <div>
+        <button onClick={() => setSelectedAction(null)}>
+          ↩ Back to action list
+        </button>
+        <EditAction
+          actionId={selectedAction.id}
+          onActionSaved={() => setSelectedAction(null)}
+          onActionDeleted={() => setSelectedAction(null)}
+        />
+      </div>
+    );
+  }
+
+  if (createNewAction) {
+    return (
+      <div>
+        <button onClick={() => setCreateNewAction(false)}>
+          ↩ Back to action list
+        </button>
+        <CreateAction onActionSaved={() => setCreateNewAction(false)} />
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <button onClick={() => setCreateNewAction(true)}>
+        Create new action
+      </button>
+      <ActionList
+        onActionSelected={(action) => {
+          setSelectedAction(action);
+        }}
+      />
+    </div>
+  );
+};
+```

@@ -1,0 +1,48 @@
+---
+title: Stored Vs. Stateless Actions
+---
+
+When using the AI Actions API, there are two ways that actions can be run: stored and stateless.
+
+## Stored Actions
+
+With stored actions, you let us handle storing all of the details about an action.
+
+You will only need to provide the user instructions and parameter hints when running the action.
+
+<Card
+  title="Click here to get started with stored actions!"
+  icon="rocket-launch"
+  href="/guides/how-tos/stored/intro"
+>
+  Stored actions are configured ahead of time, either using the AI Actions UI or
+  the provided management endpoints.
+  <br />
+  Only user instructions and parameter hints are needed when running them.
+</Card>
+
+<Card
+  title="Click here for the React library documentation!"
+  icon="react"
+  href="/guides/libraries/react/getting-started"
+>
+  A `@zapier/ai-actions-react` package is available to make it easy to interact
+  with stored actions from a React application.
+</Card>
+
+## Stateless Actions
+
+With stateless actions, you provide all of the necessary parameters at runtime.
+
+This means you will have to store action details yourself or generate the action every time you want to run it.
+
+<Card
+  title="Click here to get started with stateless actions!"
+  icon="rabbit-running"
+  href="/guides/how-tos/stateless/intro"
+>
+  Stateless actions are run by providing all the necessary parameters at
+  runtime.
+  <br />
+  This gives you greater control over how actions are run.
+</Card>

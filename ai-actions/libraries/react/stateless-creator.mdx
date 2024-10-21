@@ -1,0 +1,62 @@
+---
+title: StatelessActionCreator
+---
+
+The `StatelessActionCreator` component can be used to create a new stateless action that you can use to run a stateless action.
+
+## Props
+
+### `onActionGenerated`
+
+This callback will contain JSON that can be passed, along with instructions, to the [execute statless action](/guides/how-tos/stateless/run-stateless-action) endpoint.
+
+## Usage
+
+<Warning>
+  Make sure that this component is rendered unerneath an
+  [`AiActionsProvider`](/guides/libraries/react/ai-actions-provider)!
+</Warning>
+
+```tsx stateless-action-creator.tsx
+import { StatelessAction } from "@zapier/ai-actions";
+import { StatelessActionCreator } from "@zapier/ai-actions-react";
+
+export const StatelessActionCreatorExample = () => {
+  return (
+    <StatelessActionCreator
+      onActionGenerated={(action: StatelessAction) => console.log(action)}
+    />
+  );
+};
+```
+
+This JSON can then be used with [the Node.js client](/guides/libraries/nodejs/getting-started) to execute a stateless action:
+
+```ts execute-stateless-action.ts
+import { AiActions, StatelessAction } from "@zapier/ai-actions";
+
+const aiActionsClient = new AiActions({
+  auth: {
+    apiKey: "sk-YOUR_API_KEY",
+  },
+});
+
+const action: StatelessAction = {
+  // JSON from the StatelessActionCreator
+};
+
+action.instructions =
+  "Set the instructions you want to use when running the action";
+
+const result = await aiActionsClient.executeStatelessAction(action, {
+  // set this to `false` to actually run the action
+  // otherwise, you can check the parameters that AI Actions will guess
+  preview_only: true,
+});
+
+console.log(result);
+```
+
+## Example
+
+[See the "Stateless action creator/runner" tool for a full example](/guides/tools/stateless-action)

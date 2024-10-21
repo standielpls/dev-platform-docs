@@ -396,6 +396,148 @@
               ]
           }
       ]
+  },
+  {
+    "group": "Getting Started",
+    "pages": [
+      "ai-actions/getting-started/intro",
+      "ai-actions/getting-started/quickstart"
+    ]
+  },
+  {
+    "group": "How to",
+    "pages": [
+      "ai-actions/how-tos/auth",
+      "ai-actions/how-tos/account-list",
+
+      "ai-actions/how-tos/stateless-vs-stored",
+      {
+        "group": "Stored actions",
+        "pages": [
+          "ai-actions/how-tos/stored/intro",
+          "ai-actions/how-tos/stored/action-configuration",
+          "ai-actions/how-tos/stored/list-actions",
+          "ai-actions/how-tos/stored/run-stored-action",
+          {
+            "group": "Manage stored actions",
+            "pages": [
+              "ai-actions/how-tos/stored/manage/get-action",
+              "ai-actions/how-tos/stored/manage/create-action",
+              "ai-actions/how-tos/stored/manage/update-action",
+              "ai-actions/how-tos/stored/manage/delete-action"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Stateless actions",
+        "pages": [
+          "ai-actions/how-tos/stateless/intro",
+          "ai-actions/how-tos/stateless/run-stateless-action"
+        ]
+      },
+      {
+        "group": "Gathering action information",
+        "pages": [
+          "ai-actions/how-tos/action-info/introduction",
+          "ai-actions/how-tos/action-info/find-app",
+          "ai-actions/how-tos/action-info/find-action",
+          "ai-actions/how-tos/action-info/choose-auth",
+          "ai-actions/how-tos/action-info/action-details",
+          "ai-actions/how-tos/action-info/prefill-choices"
+        ]
+      }
+    ]
+  },
+  {
+    "group": "API Reference",
+    "pages": [
+      {
+        "group": "meta",
+        "pages": [
+          "ai-actions/api-reference/meta/app-health-check",
+          "ai-actions/api-reference/meta/check-user-auth",
+          "ai-actions/api-reference/meta/get-account-list"
+        ]
+      },
+      {
+        "group": "actions",
+        "pages": [
+          "ai-actions/api-reference/actions/search-apps",
+          "ai-actions/api-reference/actions/search-actions",
+          "ai-actions/api-reference/actions/get-app-details",
+          "ai-actions/api-reference/actions/list-authentications-for-app",
+          "ai-actions/api-reference/actions/get-action-details",
+          "ai-actions/api-reference/actions/get-prefill-choices"
+        ]
+      },
+      {
+        "group": "execution",
+        "pages": [
+          "ai-actions/api-reference/execution/execute-stateless-action",
+          "ai-actions/api-reference/execution/rate-execution-log"
+        ]
+      },
+      {
+        "group": "ai-actions",
+        "pages": [
+          "ai-actions/api-reference/ai-actions/list-ai-actions",
+          "ai-actions/api-reference/ai-actions/execute-ai-action",
+          "ai-actions/api-reference/ai-actions/preview-ai-action",
+          "ai-actions/api-reference/ai-actions/create-ai-action",
+          "ai-actions/api-reference/ai-actions/get-ai-action",
+          "ai-actions/api-reference/ai-actions/update-ai-action",
+          "ai-actions/api-reference/ai-actions/delete-ai-action"
+        ]
+      }
+    ]
+  },
+  {
+    "group": "Tools",
+    "pages": ["ai-actions/tools/stateless-action"]
+  },
+  {
+    "group": "Libraries",
+    "pages": [
+      {
+        "group": "TypeScript (Node.js, Deno)",
+        "icon": "node-js",
+        "pages": [
+          "ai-actions/libraries/nodejs/getting-started",
+          "ai-actions/libraries/nodejs/authentication",
+          "ai-actions/libraries/nodejs/usage",
+          "ai-actions/libraries/nodejs/nextjs-reccommendation"
+        ]
+      },
+      {
+        "group": "React Components",
+        "icon": "react",
+        "pages": [
+          "ai-actions/libraries/react/getting-started",
+          {
+            "group": "Components",
+            "pages": [
+              "ai-actions/libraries/react/ai-actions-provider",
+              "ai-actions/libraries/react/action-list",
+              "ai-actions/libraries/react/edit-action",
+              "ai-actions/libraries/react/stateless-creator"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "group": "Development Resources",
+    "pages": [
+      "ai-actions/developer-resources/openapi",
+      "ai-actions/developer-resources/keys",
+      "ai-actions/developer-resources/logs"
+    ]
+  },
+  {
+    "group": "Help",
+    "pages": ["ai-actions/help/community", "ai-actions/help/bug"]
   }
   ],
   "footerSocials": {

@@ -1,0 +1,27 @@
+---
+title: Stored actions introduction
+---
+
+Running a stored action involves setting up the action in the AI Actions UI and then running it by its ID.
+
+This is done in the following steps:
+
+<Steps>
+    <Step stepNumber={1} title="Set up the action" titleSize="h3">
+        Actions need to be configured by a user before they can be used.
+
+        There are two ways to set up stored actions:
+        1. Using the AI Actions website- see [Configure stored actions](/guides/how-tos/stored/action-configuration) for more details.
+        2. Using the AI Action management API provided under [Manage stored actions](/guides/how-tos/stored/manage/create-action).
+    </Step>
+    <Step stepNumber={2} title="Provide actions as tools to an LLM" titleSize="h3">
+        After actions are set up, they can be provided as tools to an LLM.
+
+        See [List stored Actions](/guides/how-tos/stored/list-actions) for more details.
+    </Step>
+    <Step stepNumber={3} title="Run the action" titleSize="h3">
+        The LLM can then decide which action it wants to run.
+
+        See [Run a stored action](/guides/how-tos/stored/run-stored-action) for more details.
+    </Step>
+</Steps>

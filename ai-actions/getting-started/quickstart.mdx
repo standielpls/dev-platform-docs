@@ -1,0 +1,98 @@
+---
+title: Quickstart
+description: Learn how to kick-start AI Actions by obtaining a partner key, setting up allowed actions, and executing an action through our API.
+---
+
+## Step 1: Get a Partner Key for Authentication
+
+Follow the steps below to create your API key:
+
+1. [Log in](https://actions.zapier.com/custom/start/) or [sign up](https://zapier.com/sign-up) to Zapier.
+2. [Connect](https://actions.zapier.com/custom/actions/) your Zapier account to the `custom` integration app.
+3. Your API key will be available on the [credentials page](https://actions.zapier.com/credentials/).
+
+Test that the API key is working:
+
+```bash
+curl -v \
+    -H "Content-Type: application/json" \
+    -H "x-api-key: <API_KEY>" \```
+    'https://actions.zapier.com/api/v2/check/'
+```
+
+## Step 2: Set Up Allowed Actions
+
+Now that you're authenticated, let's set up the actions you're allowed to execute.
+
+Actions can be configured by you at a specific URL or with our quick configuration popup.
+
+The setup URL is the same for everyone: `https://actions.zapier.com/<PROVIDER>/start/`.
+
+## Step 3: Execute an Action via the API
+
+With your partner key and actions set up, you're ready for action.
+
+To run an action, you need to execute a command like the one below, filling in the `instructions` and any optional hint parameters.
+<CodeGroup>
+
+        ```bash run_action1.sh
+curl -v \
+    -d '{"instructions": "grab the latest email from bryan helmig"}' \
+    -H "Content-Type: application/json" \
+    -X POST 'https://actions.zapier.com/api/v1/dynamic/exposed/01GTA3G1WD49GN1XXXXXXXXX/execute/'
+One more example, this time requesting a preview of the action:
+```
+
+```bash run_action2.sh
+curl -v \
+    -d '{"instructions": "send a short poem about automation and robots to slack", "Channel_Name": "#fun-zapier"}' \
+    -H "Content-Type: application/json" \
+    -X POST 'https://actions.zapier.com/api/v1/dynamic/exposed/01GTB1KMX72QTJEXXXXXXXXXX/execute/'
+Another example, this time an action to retrieve data:
+```
+
+    ```bash preview_action_run.sh
+curl -v \
+    -d '{"instructions": "say Hello World to #fun-zapier", "preview_only": true}' \
+    -H "Content-Type: application/json" \
+    -X POST 'https://actions.zapier.com/api/v1/dynamic/exposed/01GTB1KMX72QTJEXXXXXXXXXX/execute/'
+```
+</CodeGroup>
+
+<CodeGroup>
+
+  ```json error_response.json
+  {
+    "action_used": "Gmail: Send Email",
+    "result": null,
+    "status": "error",
+    "error": "Error from app: Required field 'subject' (subject) is missing. Required field 'Body' (body) is missing."
+  }
+    ```
+
+    ```json preview_response.json
+{
+  "action_used": "Slack: Send Channel Message",
+  "input_params": {
+    "Channel": "fun-zapier",
+    "Message_Text": "Hello World"
+  },
+  "review_url": "https://actions.zapier.com/execution/01GW2E2ZNE5W07D32E41HFT5GJ/?needs_confirmation=true",
+  "status": "preview",
+}
+```
+
+    ```json trimmed_response.json
+{
+  "result": {
+    "from__email": "mike@zapier.com",
+    "from__name": "Mike Knoop",
+    "subject": "Re: Getting setup",
+    "body_plain": "Hi Karla, thanks for following up. I can confirm I got access to everything! ... Thanks! Mike",
+    "cc__emails": "bryan@zapier.com, wade@zapier.com",
+    "to__email": "Karla"
+  }
+}
+```
+
+</CodeGroup>

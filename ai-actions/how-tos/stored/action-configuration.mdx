@@ -1,0 +1,20 @@
+---
+title: Configure stored actions in the AI Actions UI
+---
+
+<Note>
+_Planned improvements to stored actions_<br/>
+While stored actions can only currently be configured on the AI Actions domain, work is planned to provide APIs and components that allow you to embed action configuration in your own UI.
+</Note>
+
+Actions can be configured by you at a specific URL or with our quick configuration popup.
+
+The setup URL is the same for everyone: `https://actions.zapier.com/<PROVIDER>/start/`
+
+You'd typically include a button or link somewhere to open the setup window. Here's an example of how you might do that:
+
+
+```javascript
+var actions = window.open('https://actions.zapier.com/<PROVIDER>/start', 'actions', 'width=650,height=700');
+```
+

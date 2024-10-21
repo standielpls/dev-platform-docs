@@ -1,0 +1,235 @@
+---
+title: Next.js
+---
+
+This page details recommended ways to use the `@zapier/ai-actions` library with [Next.js](https://nextjs.org/).
+
+The examples here are using the [Next.js app router](https://nextjs.org/docs/app).
+
+For storage, these examples are using [Vercel KV](https://vercel.com/docs/storage/vercel-kv) but any other form of server-side storage can be used.
+
+It's assumed that your Next.js app also has authentication set up, using a library such as [NextAuth.js](https://next-auth.js.org/).
+
+# Set up environment variables
+
+After [generating your OAuth client](/guides/libraries/nodejs/authentication#getting-an-oauth-token), you can set your client ID and redirect URL inside of your `.env` file:
+
+```sh .env
+NEXT_PUBLIC_ZAPIER_AI_ACTIONS_OAUTH_CLIENT_ID=nla-YOUR_CLIENT_ID
+NEXT_PUBLIC_ZAPIER_AI_ACTIONS_OAUTH_REDIRECT_URI=https://example.com/ai-actions-auth-callback
+```
+
+The `NEXT_PUBLIC_` prefix ensures that they can be referenced client-side.
+
+# Handle authentication server-side
+
+Authentication with AI Actions can be handled fully server-side.
+
+```ts @/lib/ai-actions/server.ts
+import "server-only"; // make sure this code only ever runs on the server
+
+// using `@vercel/kv` as an example, but you can use any server-side storage
+import { kv } from "@vercel/kv";
+
+import {
+  AiActionsAuth,
+  OAuthAccessToken,
+  refreshOAuthToken,
+  tokenNeedsRefresh,
+} from "@zapier/ai-actions";
+
+/**
+ * @param email User's email
+ * @returns OAuth token to use for AI Actions API calls
+ */
+export async function getAiActionsToken(
+  email: string
+): Promise<OAuthAccessToken | null> {
+  // NOTE: You don't have to use email here; it can be any sort of user identifier
+  const token = await kv.hgetall<{ token: string }>(
+    `ai-actions-token:${email}`
+  );
+
+  if (!token?.token) {
+    return null;
+  }
+
+  const oauthToken = token.token as unknown as OAuthAccessToken;
+
+  if (tokenNeedsRefresh(oauthToken)) {
+    console.log(`Refreshing AI Actions token for ${email}`);
+    const refreshed = await refreshOAuthToken({
+      clientId: process.env.NEXT_PUBLIC_ZAPIER_AI_ACTIONS_OAUTH_CLIENT_ID!,
+      refreshToken: oauthToken.refresh_token,
+    });
+
+    if (refreshed) {
+      // see below; this just stores the token in the KV store
+      await setAiActionsToken(email, refreshed);
+      return refreshed;
+    }
+  }
+
+  // typescript thinks this is a string, but it's actually an object
+  return token.token as unknown as OAuthAccessToken;
+}
+
+/**
+ * @param email User's email
+ * @param token AI Actions OAuth token to set for the user
+ */
+export async function setAiActionsToken(
+  email: string,
+  token: OAuthAccessToken | null
+) {
+  await kv.hset(`ai-actions-token:${email}`, { token: JSON.stringify(token) });
+}
+
+/**
+ * @param session Current user's session
+ * @returns AI Actions auth object to use for OAuth
+ */
+export const getAiActionsAuth = (email: string) =>
+  new AiActionsAuth({
+    clientId: process.env.NEXT_PUBLIC_ZAPIER_AI_ACTIONS_OAUTH_CLIENT_ID!,
+    redirectUri: process.env.NEXT_PUBLIC_ZAPIER_AI_ACTIONS_OAUTH_REDIRECT_URI!,
+    async storeVerifier(verifier) {
+      await kv.hset(`ai-actions-verifier:${email}`, { verifier });
+    },
+    async getVerifier(): Promise<string> {
+      const key = `ai-actions-verifier:${email}`;
+      const verifier = await kv.hgetall<{ verifier: string }>(key);
+
+      // this can only be used once, so we delete it after getting it
+      await kv.hdel(key, "verifier");
+
+      return verifier?.verifier || "";
+    },
+  });
+```
+
+# Generating the authorization URL
+
+Here is an example of a button that will initiate authentication with AI Actions, using the server-side code from above.
+
+```tsx initiate-ai-actions-auth.tsx
+"use server";
+
+import { getAiActionsAuth } from "@/lib/ai-actions/server";
+import { auth } from "@/auth";
+import { Session } from "@/lib/types";
+import Link from "next/link";
+
+export const InitiateAiActionsAuth = async () => {
+  const session = (await auth()) as Session;
+  const aiActionsAuth = getAiActionsAuth(session.user.email);
+  const url = await aiActionsAuth.generateAuthUrl();
+
+  return (
+    <div className="w-full h-full flex flex-col items-center mt-6 gap-3">
+      <div>Please authenticate with AI Actions to proceed</div>
+      <Link href={url.toString()}>Authenticate with AI Actions</Link>
+    </div>
+  );
+};
+```
+
+# Getting and storing the access token
+
+To get the access token after the user has authenticated, a page needs to exist at `NEXT_PUBLIC_ZAPIER_AI_ACTIONS_OAUTH_REDIRECT_URI` that will handle the OAuth flow.
+
+```tsx @/app/NEXT_PUBLIC_ZAPIER_AI_ACTIONS_OAUTH_REDIRECT_URI/page.tsx
+import { auth } from "@/auth";
+import { Session } from "@/lib/types";
+import { getAiActionsAuth, setAiActionsToken } from "@/lib/ai-actions/server";
+import { redirect } from "next/navigation";
+
+/**
+ * The user will get redirected here after they login to Zapier/AI Actions.
+ *
+ * This will store the OAuth access token for the user.
+ */
+export default async function LoginSuccess({
+  searchParams,
+}: {
+  searchParams: { code: string };
+}) {
+  const { code } = searchParams;
+
+  const session = (await auth()) as Session;
+
+  const aiActionsAuth = getAiActionsAuth(session.user.email);
+  const response = await aiActionsAuth.getToken(code);
+
+  if (response) {
+    await setAiActionsToken(session.user.email, response);
+  } else {
+    console.error("Error getting AI Actions token", response);
+    return redirect("/error");
+  }
+
+  return redirect("/");
+}
+```
+
+# Using the access token to create an `AiActions` client
+
+Once the token is stored, it can be used to get an `AiActions` client that can be used to make API calls.
+
+It can also be passed to the `AiActionsProvider` if you're using the `@zapier/ai-actions-react` library.
+
+<Warning>
+  Make sure that the `refresh_token` for the OAuth token doesn't leave the
+  server
+</Warning>
+
+```tsx @/app/example-route/page.tsx
+import { AiActions } from "@zapier/ai-actions";
+import { Session } from "@/lib/types";
+import { getAiActionsToken, setAiActionsToken } from "@/lib/ai-actions/server";
+import { ExampleClientComponent } from "./example-component";
+
+export default async function ExamplePage() {
+  const session = (await auth()) as Session;
+
+  let aiActionsToken = session?.user
+    ? await getAiActionsToken(session.user.email)
+    : null;
+
+  if (aiActionsToken) {
+    const aiActionsClient = new AiActions({
+      auth: {
+        token: aiActionsToken.access_token,
+      },
+    });
+
+    try {
+      await aiActionsClient.checkAuth();
+    } catch (e) {
+      console.error("Error checking AI Actions auth", e);
+      aiActionsToken = null;
+      setAiActionsToken(session.user.email, null);
+    }
+  }
+
+  return <ExampleComponent aiActionsToken={aiActionsToken.access_token} />;
+}
+```
+
+```tsx @/app/example-route/example-component.tsx
+"use client";
+
+import { AiActionsProvider, ActionList } from "@zapier/ai-actions-react";
+
+export const ExampleComponent = ({
+  aiActionsToken,
+}: {
+  aiActionsToken: string;
+}) => {
+  return (
+    <AiActionsProvider token={aiActionsToken}>
+      <ActionList />
+    </AiActionsProvider>
+  );
+};
+```

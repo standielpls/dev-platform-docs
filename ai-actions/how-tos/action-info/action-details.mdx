@@ -1,0 +1,133 @@
+---
+title: Get action details and needs
+openapi: post /api/v2/apps/{app}/actions/{action}/
+---
+
+"Needs" are the values that need to be provided when the action is run. Needs that are not provided will be guessed by the AI when the action is run.
+
+"Gives" are the values that the action returns when it is run.
+
+"Sample" is a sample of what the action returns when it is run.
+
+When you [Run a stateless action](/guides/how-tos/stateless/run-stateless-action), "needs" are provided to the endpoint. For each need, you can either have AI guess a value for it or you can ask the user to provide a specific value.
+
+## Custom fields
+
+<Warning>
+The list of needs that this returns can change based on the `params` provided in the request body.
+
+As such, this endpoint may need to be hit multiple times as needs are chosen by the user.
+
+</Warning>
+
+This endpoint needs to be hit again whenever the selected value for a need changes and _any of the following_ are true:
+
+- The changed need has `alters_custom_fields` set to `true`
+- The changed need is in the `depends_on` array of another need
+- The changed need has `custom_field` set to `true`
+
+As an example, when using the `GoogleSheetsV2API` API with the `add_row` action, the first time you get the action you will get back these `action_needs`:
+
+```json
+{
+  "action_needs": [
+    {
+      "key": "spreadsheet",
+      "label": "Spreadsheet",
+      "prefill": "spreadsheet.id.title",
+      "custom_field": false,
+      "depends_on": [],
+      "alters_custom_fields": true
+    },
+    {
+      "key": "worksheet",
+      "label": "Worksheet",
+      "prefill": "worksheet.id.title",
+      "custom_field": false,
+      "depends_on": ["spreadsheet"],
+      "alters_custom_fields": true
+    }
+  ]
+}
+```
+
+In order to get the column names of the spreadsheet, you'll have to get the prefill choices. See [Get Prefill Choices](/guides/how-tos/action-info/prefill-choices) for more information.
+
+In this example scenario, after getting values for the `spreadsheet` and `worksheet` prefills, another call can be made to this endpoint.
+
+This time, in the body of the `POST`, we can include the selected values:
+
+```json
+{
+  "params": {
+    "spreadsheet": "SOME_SPREADSHEET_ID", // this is the ID of a spreadsheet in Google Sheets
+    "worksheet": "0" // the first worksheet in the spreadsheet
+  }
+}
+```
+
+Now, the action details will include the columns from the spreadsheet as custom fields:
+
+```json
+{
+  "action_details": [
+    // ... same results as above, in addition to...
+    {
+      "key": "COL$A",
+      "label": "My first column",
+      "prefill": null,
+      "custom_field": true,
+      "depends_on": [],
+      "alters_custom_fields": null
+    },
+    {
+      "key": "COL$B",
+      "label": "My second column",
+      "prefill": null,
+      "custom_field": true,
+      "depends_on": [],
+      "alters_custom_fields": null
+    },
+    {
+      "key": "COL$C",
+      "label": "My third column",
+      "prefill": null,
+      "custom_field": true,
+      "depends_on": [],
+      "alters_custom_fields": null
+    }
+  ]
+}
+```
+
+## Choices
+
+If the need has a `choices` array, then the value being chosen should come from that list.
+
+Often, you will see this with `boolean` fields.
+
+For example, the `SlackAPI` API's `direct_message` action contains the following need (irrelevant fields removed):
+
+```json
+{
+  "key": "as_bot",
+  "type": "boolean",
+  "label": "Send as a bot?",
+  "choices": [
+    {
+      "key": "no",
+      "label": "No"
+    },
+    {
+      "key": "yes",
+      "label": "Yes"
+    }
+  ],
+  "default": "yes",
+  "format": "SELECT"
+}
+```
+
+## Other field types
+
+See [Field definitions and types](https://platform.zapier.com/build/field-definitions) in the Zapier Platform documentation for details on the other types of fields that a need can have.
