@@ -18,7 +18,7 @@
   },
   "openapi": [
     "https://api.zapier.com/schema",
-    "./ai-actions/openapi.json"
+    "/ai-actions/openapi.json"
   ],
   "background": { "style": "windows" },
   "topbarCtaButton": {
@@ -63,7 +63,7 @@
     },
     {
       "name": "Partner Solutions",
-      "url": "partner-solutions/",
+      "url": "partner-solutions/"
     },
     {
       "name": "Zapier AI Actions",
