@@ -39,7 +39,7 @@
     },
     {
       "name": "Contact Us",
-      "icon": "contact",
+      "icon": "envelope",
       "url": "https://developer.zapier.com/contact"
     }
   ],
