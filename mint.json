@@ -16,9 +16,7 @@
       "to": "#FE6C2A"
     }
   },
-  "openapi": [
-    "./openapi.json"
-  ],
+  "openapi": ["./openapi.json"],
   "background": { "style": "windows" },
   "topbarCtaButton": {
     "name": "Sign Up",
