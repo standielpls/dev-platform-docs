@@ -1534,58 +1534,6 @@ const App = {
 };
 ```
 
-### Search-Powered Fields
-
-For fields that take id of another object to create a relationship between the two (EG: a project id for a ticket), you can specify the `search` property on the field to indicate that Zapier needs to prompt the user to setup a Search step to populate the value for this field. Similar to dynamic dropdowns, the value for this property is a dot-separated concatenation of a search's key and the field to use for the value.
-
-```js
-const App = {
-  // ...
-  resources: {
-    project: {
-      key: "project",
-      // ...
-      search: {
-        // ...
-        operation: {
-          perform: () => {
-            return [{ id: 123, name: "Project 1" }];
-          }, // called for project_id
-        },
-      },
-    },
-    issue: {
-      key: "issue",
-      // ...
-      create: {
-        // ...
-        operation: {
-          inputFields: [
-            {
-              key: "project_id",
-              required: true,
-              label: "Project",
-              dynamic: "projectList.id.name",
-              search: "projectSearch.id",
-            }, // calls project.search (requires a trigger in the "dynamic" property)
-            {
-              key: "title",
-              required: true,
-              label: "Title",
-              helpText: "What is the name of the issue?",
-            },
-          ],
-        },
-      },
-    },
-  },
-};
-```
-
-**NOTE:** This has to be combined with the `dynamic` property to give the user a guided experience when setting up a Zap.
-
-If you don't define a trigger for the `dynamic` property, the search connector won't show.
-
 ### Computed Fields
 
 In OAuth and Session Auth, Zapier automatically stores every value from an integration’s auth API response i.e. that’s `getAccessToken` and `refreshAccessToken` for OAuth and `getSessionKey` for session auth.
@@ -3689,29 +3637,6 @@ const asyncExample = async (z, bundle) => {
   return results;
 };
 ```
-
-### How do search-powered fields relate to dynamic dropdowns and why are they both required together?
-
-To understand search-powered fields, we have to have a good understanding of dynamic dropdowns.
-
-When users are selecting specific resources (for instance, a Google Sheet), it's important they're able to select the exact sheet they want. Instead of referencing the sheet by name (which may change), we match via `id` instead. Rather than directing the user copy and paste an id for every item they might encounter, there is the notion of a **dynamic dropdown**. A dropdown is a trigger that returns a list of resources. It can pull double duty and use its results to power another trigger, search, or action in the same integration. It provides a list of ids with labels that show the item's name:
-
-![](https://cdn.zappy.app/2d7eeda63ff34b70f1d1788de0117181.png)
-
-The field's value reaches your integration as an id. You define this connection with the `dynamic` property, which is a string: `trigger_key.id_key.label_key`. This approach works great if the user setting up the Zap always wants the Zap to use the same spreadsheet. They specify the id during setup and the Zap runs happily.
-
-**Search fields** take this connection a step further. Rather than set the spreadsheet id at setup, the user could precede the action with a search field to make the id dynamic. For instance, let's say you have a different spreadsheet for every day of the week. You could build the following zap:
-
-1. Some Trigger
-2. Calculate what day of the week it is today (Code)
-3. Find the spreadsheet that matches the day from Step 2
-4. Update the spreadsheet (with the id from step 3) with some data
-
-If the connection between steps 3 and 4 is a common one, you can indicate that in your field by specifying `search` as a `search_key.id_key`. When paired **with a dynamic dropdown**, this will add a button to the editor that will add the search step to the user's Zap and map the id field correctly.
-
-![](https://cdn.zappy.app/081e63141ff05c131dadb8ebbea727b0.png)
-
-This is paired most often with "update" actions, where a required parameter will be a resource id.
 
 <a id="paging"></a>
 ### What's the deal with pagination? When is it used and how does it work?
