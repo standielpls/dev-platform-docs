@@ -55,7 +55,7 @@
   "tabs": [
     {
       "name": "Home",
-      "url": "home"
+      "url": "/"
     },
     {
       "name": "Developer Platform",
