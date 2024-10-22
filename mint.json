@@ -155,7 +155,8 @@
             "platform/build/add-fields",
             "platform/build/dynamic-field",
             "platform/build/line-items",
-            "platform/build/dynamic-dropdowns"
+            "platform/build/dynamic-dropdowns",
+            "platform/build/search-powered-fields"
           ]
         },
         {
