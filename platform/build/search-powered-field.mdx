@@ -1,0 +1,45 @@
+---
+title: 'Search-Powered Field'
+description: 'Make it easier for users to search for the value to use for a Dynamic Dropdown at run-time.'
+---
+
+<Note>This feature needs to be combined with [Dynamic Dropdowns](./dynamic-dropdowns).</Note>
+
+# Why use this
+This feature makes it easier for users to handle the following scenario in a workflow that has multiple steps:
+
+- The value for the input field depends on an output field from an earlier step.
+- The value of that output field cannot be used directly.
+- They need an additional search step that takes the output they *cannot* use directly, and translate it into something they *can*.
+
+**Example:** Let's say the input field takes the ID of a lead. The user could select a lead from the dynamic dropdown, but then the workflow would act on the same lead every time it runs. An earlier step returns the email address of the lead, but not their ID. The user will need to prepend a search-step that takes the email address and returns the ID.
+
+Users can do this themselves, but by using this feature, Zapier products can make this task easier.
+
+# How it works for the user
+
+In the Zap editor for example, dynamic dropdowns that use this feature will display a 
+button next to the dynamic dropdown. When the user clicks the button, the right search step is automatically prepended, and correct output field mapped into the dynamic dropdown.
+
+![](https://cdn.zappy.app/c6bd53c4bf3efe9870493dc7c3c2dafc.gif)
+
+# How to configure it
+
+<Warning>This feature is only available in the Platform CLI.</Warning>
+
+In the definition of the input field, configure `search` with a value of `<searchActionKey>.<outputFieldKey>`.
+
+- Replace `<searchActionKey>` with the `key` of the search action that should prepeded to the user's workflow.
+- Replace `<outputFieldKey>` with the `key` of the output field from that search action that should be mapped as value for the input field.
+
+Here's an example:
+
+```js
+{
+    key: 'project_id',
+    required: true,
+    label: 'Project',
+    dynamic: 'list_projects.id.name',
+    search: 'search_projects.id',
+}
+```
