@@ -149,15 +149,20 @@
           ]
         },
         {
-          "group": "Fields",
+          "group": "Input Fields",
           "pages": [
             "platform/build/field-definitions",
             "platform/build/add-fields",
             "platform/build/dynamic-field",
             "platform/build/line-items",
-            "platform/build/sample-data",
-            "platform/build/response-types",
             "platform/build/dynamic-dropdowns"
+          ]
+        },
+        {
+          "group": "Output Fields",
+          "pages": [
+            "platform/build/sample-data",
+            "platform/build/response-types"
           ]
         },
         {
